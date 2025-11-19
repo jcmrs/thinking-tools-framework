@@ -297,7 +297,6 @@ class TestToolExecutorExecuteByName:
         executor = ToolExecutor()
 
         # Mock the execute method to verify it's called
-        original_execute = executor.execute
         executor.execute = MagicMock(return_value="mocked_result")
 
         result = executor.execute_by_name("test_tool", mock_registry, {"key": "value"})

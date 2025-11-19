@@ -2,8 +2,6 @@
 
 from pathlib import Path
 
-import pytest
-
 from cogito.provisioning.project_template import (
     ProjectStructure,
     create_project_directories,
@@ -130,12 +128,12 @@ class TestGetFileLocations:
         assert len(locations) > 0
 
         # Check root file locations
-        assert any("pyproject_toml_j2" in k for k in locations.keys())
-        assert any("README_md_j2" in k for k in locations.keys())
+        assert any("pyproject_toml_j2" in k for k in locations)
+        assert any("README_md_j2" in k for k in locations)
 
         # Check config file locations
-        assert any("cogito_yml_j2" in k for k in locations.keys())
-        assert any("logging_yml_j2" in k for k in locations.keys())
+        assert any("cogito_yml_j2" in k for k in locations)
+        assert any("logging_yml_j2" in k for k in locations)
 
     def test_paths_are_absolute(self, tmp_path: Path) -> None:
         """Test that returned paths are properly constructed."""
@@ -156,7 +154,7 @@ class TestGetFileLocations:
         full_structure = get_canonical_structure(include_examples=True)
         minimal_structure = get_canonical_structure(include_examples=False)
 
-        full_locations = get_file_locations(project_root, full_structure)
+        get_file_locations(project_root, full_structure)
         minimal_locations = get_file_locations(project_root, minimal_structure)
 
         # Minimal should have same or fewer locations

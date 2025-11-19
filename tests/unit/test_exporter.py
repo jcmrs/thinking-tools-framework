@@ -1,11 +1,10 @@
 """Unit tests for ProcessMemoryExporter."""
 
-from pathlib import Path
-from tempfile import TemporaryDirectory
-
 import json
-import yaml
+from pathlib import Path
+
 import pytest
+import yaml
 
 from cogito.provisioning.exporter import ProcessMemoryExporter
 from cogito.storage.process_memory import ProcessMemoryStore
@@ -54,7 +53,9 @@ def test_export_to_markdown_basic(temp_memory_store: ProcessMemoryStore) -> None
     assert "A test decision summary" in markdown
 
 
-def test_export_to_markdown_with_file(temp_memory_store: ProcessMemoryStore, tmp_path: Path) -> None:
+def test_export_to_markdown_with_file(
+    temp_memory_store: ProcessMemoryStore, tmp_path: Path
+) -> None:
     """Test markdown export to file."""
     exporter = ProcessMemoryExporter(temp_memory_store)
     output_file = tmp_path / "export.md"

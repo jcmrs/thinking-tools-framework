@@ -8,7 +8,7 @@ and security constraints.
 import pytest
 from jinja2.exceptions import TemplateSyntaxError
 
-from cogito.processing import TemplateRenderError, TemplateRenderer
+from cogito.processing import TemplateRenderer, TemplateRenderError
 
 
 class TestTemplateRendererBasics:

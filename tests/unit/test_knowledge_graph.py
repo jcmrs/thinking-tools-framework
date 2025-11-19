@@ -1,7 +1,6 @@
 """Unit tests for KnowledgeGraph class."""
 
 from pathlib import Path
-from typing import Any
 
 import pytest
 

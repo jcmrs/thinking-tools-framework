@@ -181,7 +181,10 @@ class TestCLIIntegrationInfo:
                     )
 
                     assert result.exit_code == 0
-                    assert tool_name in result.output.lower() or "parameters" in result.output.lower()
+                    assert (
+                        tool_name in result.output.lower()
+                        or "parameters" in result.output.lower()
+                    )
                     return  # Test passed
 
         pytest.skip("No tools found in examples directory")
@@ -399,6 +402,9 @@ class TestCLIIntegrationEndToEnd:
             if category_dir.is_dir():
                 for tool_file in category_dir.glob(f"{tool_name}.y*ml"):
                     validate_result = cli_runner.invoke(cli, ["validate", str(tool_file)])
+                    if validate_result.exit_code != 0:
+                        print(f"\nValidation failed for {tool_file}")
+                        print(f"Output: {validate_result.output}")
                     assert validate_result.exit_code == 0
 
 

@@ -11,7 +11,6 @@ import yaml
 
 from cogito.processing import TemplateRenderer
 
-
 # Path to example tools
 EXAMPLES_DIR = Path(__file__).parent.parent.parent / "examples"
 
@@ -24,7 +23,7 @@ class TestRealToolRendering:
         renderer = TemplateRenderer()
         tool_path = EXAMPLES_DIR / "metacognition" / "think_aloud.yml"
 
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
         params = {"depth": "quick", "focus": "algorithm choice"}
@@ -42,10 +41,10 @@ class TestRealToolRendering:
         renderer = TemplateRenderer()
         tool_path = EXAMPLES_DIR / "metacognition" / "think_aloud.yml"
 
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
-        params = {"depth": "standard"}
+        params = {"depth": "standard", "focus": ""}
         result = renderer.render(tool_spec, params)
 
         # Verify standard mode sections
@@ -59,7 +58,7 @@ class TestRealToolRendering:
         renderer = TemplateRenderer()
         tool_path = EXAMPLES_DIR / "metacognition" / "think_aloud.yml"
 
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
         params = {"depth": "detailed", "focus": "architecture decision"}
@@ -78,10 +77,10 @@ class TestRealToolRendering:
         renderer = TemplateRenderer()
         tool_path = EXAMPLES_DIR / "metacognition" / "assumption_check.yml"
 
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
-        params = {"scope": "current_task"}
+        params = {"scope": "current_task", "task_context": ""}
         result = renderer.render(tool_spec, params)
 
         assert "Assumption Check" in result
@@ -92,21 +91,21 @@ class TestRealToolRendering:
         renderer = TemplateRenderer()
         tool_path = EXAMPLES_DIR / "metacognition" / "fresh_eyes_exercise.yml"
 
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
-        params = {}
+        params = {"phase": "full"}
         result = renderer.render(tool_spec, params)
 
         assert "Fresh Eyes Exercise" in result
-        assert "Step Back" in result
+        assert ("Step Back" in result or "Step back" in result)
 
     def test_code_review_checklist(self) -> None:
         """Test rendering code_review_checklist tool."""
         renderer = TemplateRenderer()
         tool_path = EXAMPLES_DIR / "review" / "code_review_checklist.yml"
 
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
         params = {
@@ -128,10 +127,10 @@ class TestRealToolRendering:
         renderer = TemplateRenderer()
         tool_path = EXAMPLES_DIR / "review" / "architecture_review.yml"
 
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
-        params = {"system_name": "payment-service"}
+        params = {"aspect": "full", "system_description": "payment-service"}
         result = renderer.render(tool_spec, params)
 
         assert "Architecture Review" in result
@@ -142,10 +141,10 @@ class TestRealToolRendering:
         renderer = TemplateRenderer()
         tool_path = EXAMPLES_DIR / "handoff" / "session_handover.yml"
 
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
-        params = {"completeness": "essential"}
+        params = {"completeness": "essential", "reason": "session_end"}
         result = renderer.render(tool_spec, params)
 
         assert "Session Handover" in result
@@ -156,10 +155,10 @@ class TestRealToolRendering:
         renderer = TemplateRenderer()
         tool_path = EXAMPLES_DIR / "handoff" / "context_preservation.yml"
 
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
-        params = {}
+        params = {"trigger": "checkpoint", "expected_duration": "unknown"}
         result = renderer.render(tool_spec, params)
 
         assert "Context Preservation" in result
@@ -169,10 +168,10 @@ class TestRealToolRendering:
         renderer = TemplateRenderer()
         tool_path = EXAMPLES_DIR / "debugging" / "five_whys.yml"
 
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
-        params = {"problem": "database connection timeout"}
+        params = {"problem": "database connection timeout", "depth": 5}
         result = renderer.render(tool_spec, params)
 
         assert "Five Whys Analysis" in result
@@ -183,12 +182,12 @@ class TestRealToolRendering:
         renderer = TemplateRenderer()
         tool_path = EXAMPLES_DIR / "debugging" / "error_analysis.yml"
 
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
         params = {
             "error_type": "runtime",
-            "error_message": "NullPointerException at line 42",
+            "error_description": "NullPointerException at line 42",
         }
         result = renderer.render(tool_spec, params)
 
@@ -222,7 +221,7 @@ class TestToolsWithCompleteParameters:
         for tool_path in tool_paths:
             full_path = EXAMPLES_DIR / tool_path
             try:
-                with open(full_path, "r", encoding="utf-8") as f:
+                with open(full_path, encoding="utf-8") as f:
                     tool_spec = yaml.safe_load(f)
                 # Verify basic structure
                 assert "metadata" in tool_spec

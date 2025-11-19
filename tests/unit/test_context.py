@@ -81,7 +81,11 @@ def test_generate_context_with_max_entries(temp_memory_store: ProcessMemoryStore
     assert "Showing top 1" in context
 
     # Should only have one entry in primary section
-    primary_section = context.split("## Related Entries")[0] if "## Related Entries" in context else context
+    primary_section = (
+        context.split("## Related Entries")[0]
+        if "## Related Entries" in context
+        else context
+    )
     assert primary_section.count("###") == 1  # Only one entry heading
 
 

@@ -4,7 +4,6 @@ Tests ToolRegistry and ToolExecutor with all 9 production thinking tools.
 """
 
 from pathlib import Path
-from typing import Any
 
 import pytest
 import yaml
@@ -20,12 +19,12 @@ class TestToolRegistryWithRealTools:
     """Test ToolRegistry with production thinking tools."""
 
     def test_discover_all_example_tools(self) -> None:
-        """Test that registry discovers all 9 example tools."""
+        """Test that registry discovers all 14 example tools."""
         registry = ToolRegistry(tool_dirs=[EXAMPLES_DIR])
         count = registry.discover_tools()
 
-        # Should find 9 tools
-        assert count == 9
+        # Should find 14 tools (9 original + 5 from Priority 3)
+        assert count == 14
 
         # Verify specific tools are found
         tools = registry.list_tools()
@@ -91,7 +90,7 @@ class TestToolRegistryWithRealTools:
         """Test hot-reloading a real tool after modification."""
         # Copy think_aloud to temp directory
         original_file = EXAMPLES_DIR / "metacognition" / "think_aloud.yml"
-        with open(original_file, "r", encoding="utf-8") as f:
+        with open(original_file, encoding="utf-8") as f:
             original_spec = yaml.safe_load(f)
 
         temp_file = tmp_path / "think_aloud.yml"
@@ -277,7 +276,7 @@ class TestEndToEndWorkflow:
         registry = ToolRegistry(tool_dirs=[EXAMPLES_DIR])
         discovered_count = registry.discover_tools()
 
-        assert discovered_count == 9
+        assert discovered_count == 14
 
         # Step 2: Verify tools are discoverable
         tools = registry.list_tools()

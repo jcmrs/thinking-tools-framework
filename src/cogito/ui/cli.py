@@ -228,7 +228,7 @@ def validate(tool_file: Path) -> None:
         # Load YAML file
         import yaml
 
-        with tool_file.open() as f:
+        with tool_file.open(encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
         # Validate against schema
@@ -314,7 +314,7 @@ def memory(
         raise click.ClickException(str(e)) from e
 
 
-@cli.group()
+@cli.group(name="provisioning")
 def memory_group() -> None:
     """Process memory provisioning commands."""
     pass

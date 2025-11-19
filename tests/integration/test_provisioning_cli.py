@@ -1,13 +1,13 @@
 """Integration tests for provisioning CLI commands."""
 
-from pathlib import Path
 import json
+from pathlib import Path
 
 import pytest
 from click.testing import CliRunner
 
-from cogito.ui.cli import cli
 from cogito.storage.process_memory import ProcessMemoryStore
+from cogito.ui.cli import cli
 
 
 @pytest.fixture
@@ -43,7 +43,7 @@ def test_memory_export_markdown_command(sample_memory_file: Path, tmp_path: Path
     result = runner.invoke(
         cli,
         [
-            "memory",
+            "provisioning",
             "export",
             "markdown",
             "--memory-file",
@@ -70,7 +70,7 @@ def test_memory_export_json_command(sample_memory_file: Path, tmp_path: Path) ->
     result = runner.invoke(
         cli,
         [
-            "memory",
+            "provisioning",
             "export",
             "json",
             "--memory-file",
@@ -97,7 +97,7 @@ def test_memory_export_yaml_command(sample_memory_file: Path, tmp_path: Path) ->
     result = runner.invoke(
         cli,
         [
-            "memory",
+            "provisioning",
             "export",
             "yaml",
             "--memory-file",
@@ -121,7 +121,7 @@ def test_memory_export_to_stdout(sample_memory_file: Path) -> None:
 
     result = runner.invoke(
         cli,
-        ["memory", "export", "markdown", "--memory-file", str(sample_memory_file)],
+        ["provisioning", "export", "markdown", "--memory-file", str(sample_memory_file)],
     )
 
     assert result.exit_code == 0
@@ -136,7 +136,7 @@ def test_memory_export_with_category_filter(sample_memory_file: Path) -> None:
     result = runner.invoke(
         cli,
         [
-            "memory",
+            "provisioning",
             "export",
             "markdown",
             "--memory-file",
@@ -171,7 +171,7 @@ def test_memory_import_json_command(tmp_path: Path) -> None:
     runner = CliRunner()
     result = runner.invoke(
         cli,
-        ["memory", "import", str(import_file), "--memory-file", str(memory_file)],
+        ["provisioning", "import", str(import_file), "--memory-file", str(memory_file)],
     )
 
     assert result.exit_code == 0
@@ -205,7 +205,7 @@ def test_memory_import_with_format_specification(tmp_path: Path) -> None:
     result = runner.invoke(
         cli,
         [
-            "memory",
+            "provisioning",
             "import",
             str(import_file),
             "--format",
@@ -238,7 +238,7 @@ def test_memory_import_validate_only(tmp_path: Path) -> None:
     result = runner.invoke(
         cli,
         [
-            "memory",
+            "provisioning",
             "import",
             str(import_file),
             "--validate-only",
@@ -271,7 +271,7 @@ def test_memory_import_with_errors(tmp_path: Path) -> None:
     runner = CliRunner()
     result = runner.invoke(
         cli,
-        ["memory", "import", str(import_file), "--memory-file", str(memory_file)],
+        ["provisioning", "import", str(import_file), "--memory-file", str(memory_file)],
     )
 
     # Should fail with validation errors
@@ -287,7 +287,7 @@ def test_memory_handover_command(sample_memory_file: Path, tmp_path: Path) -> No
     result = runner.invoke(
         cli,
         [
-            "memory",
+            "provisioning",
             "handover",
             "--memory-file",
             str(sample_memory_file),
@@ -311,7 +311,7 @@ def test_memory_handover_to_stdout(sample_memory_file: Path) -> None:
 
     result = runner.invoke(
         cli,
-        ["memory", "handover", "--memory-file", str(sample_memory_file)],
+        ["provisioning", "handover", "--memory-file", str(sample_memory_file)],
     )
 
     assert result.exit_code == 0
@@ -324,7 +324,7 @@ def test_memory_context_command(sample_memory_file: Path) -> None:
 
     result = runner.invoke(
         cli,
-        ["memory", "context", "cli", "--memory-file", str(sample_memory_file)],
+        ["provisioning", "context", "cli", "--memory-file", str(sample_memory_file)],
     )
 
     assert result.exit_code == 0
@@ -339,7 +339,7 @@ def test_memory_context_with_max_entries(sample_memory_file: Path) -> None:
     result = runner.invoke(
         cli,
         [
-            "memory",
+            "provisioning",
             "context",
             "cli",
             "--max-entries",
@@ -360,7 +360,7 @@ def test_memory_context_no_related(sample_memory_file: Path) -> None:
     result = runner.invoke(
         cli,
         [
-            "memory",
+            "provisioning",
             "context",
             "cli",
             "--no-related",
@@ -392,7 +392,15 @@ def test_cli_end_to_end_workflow(tmp_path: Path) -> None:
     export_file = tmp_path / "export.json"
     result = runner.invoke(
         cli,
-        ["memory", "export", "json", "--memory-file", str(source_memory), "--output", str(export_file)],
+        [
+            "provisioning",
+            "export",
+            "json",
+            "--memory-file",
+            str(source_memory),
+            "--output",
+            str(export_file),
+        ],
     )
     assert result.exit_code == 0
 
@@ -400,7 +408,7 @@ def test_cli_end_to_end_workflow(tmp_path: Path) -> None:
     dest_memory = tmp_path / "destination.jsonl"
     result = runner.invoke(
         cli,
-        ["memory", "import", str(export_file), "--memory-file", str(dest_memory)],
+        ["provisioning", "import", str(export_file), "--memory-file", str(dest_memory)],
     )
     assert result.exit_code == 0
 

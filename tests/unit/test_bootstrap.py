@@ -2,8 +2,6 @@
 
 from pathlib import Path
 
-import pytest
-
 from cogito.provisioning.bootstrap import ProjectBootstrapper
 
 
@@ -80,7 +78,6 @@ class TestProjectBootstrapper:
         assert result["success"] is True
         assert result["examples_copied"] == 0
 
-        project_root = Path(result["project_root"])
         # Examples directory may exist but should be empty or minimal
         # (depending on whether README is created)
 

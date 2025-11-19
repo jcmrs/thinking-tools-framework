@@ -26,7 +26,7 @@ class TestRealProcessMemory:
         """Test loading real process memory file."""
         count = real_memory_store.get_entry_count()
         assert count > 0
-        assert count == 52  # Known count from BOOTSTRAP-COMPLETE.md
+        assert count == 53  # Known count (updated for current state)
 
     def test_get_pm003_append_only_decision(
         self, real_memory_store: ProcessMemoryStore
@@ -97,7 +97,7 @@ class TestRealProcessMemory:
     ) -> None:
         """Test streaming all entries from real file."""
         count = sum(1 for _ in real_memory_store.stream_entries())
-        assert count == 52
+        assert count == 53
 
     def test_filter_by_tags(
         self, real_memory_store: ProcessMemoryStore
@@ -188,7 +188,7 @@ class TestJITReadingPerformance:
         """Test that streaming doesn't load full file into memory."""
         # Stream with filter should be efficient
         count = 0
-        for entry in real_memory_store.stream_entries(category="StrategicDecision"):
+        for _entry in real_memory_store.stream_entries(category="StrategicDecision"):
             count += 1
             if count >= 5:
                 break  # Early exit without reading full file

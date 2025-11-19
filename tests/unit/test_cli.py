@@ -4,7 +4,6 @@ import json
 from pathlib import Path
 from unittest.mock import MagicMock, Mock, patch
 
-import click
 import pytest
 from click.testing import CliRunner
 
@@ -441,6 +440,9 @@ class TestCLIMemory:
 
         result = cli_runner.invoke(cli, ["memory", "--memory-file", str(memory_file)])
 
+        if result.exit_code != 0:
+            print(f"\nCLI Output: {result.output}")
+            print(f"Exception: {result.exception}")
         assert result.exit_code == 0
         assert "PM-001" in result.output
         assert "Test Entry" in result.output

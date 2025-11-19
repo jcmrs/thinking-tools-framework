@@ -2,7 +2,6 @@
 
 from pathlib import Path
 
-import pytest
 import yaml
 
 from cogito.processing.renderer import TemplateRenderer
@@ -23,7 +22,7 @@ class TestParameterValidatorWithRealTools:
         renderer = TemplateRenderer()
 
         tool_path = EXAMPLES_DIR / "metacognition" / "think_aloud.yml"
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
         # Validate with no parameters - should apply defaults
@@ -45,7 +44,7 @@ class TestParameterValidatorWithRealTools:
         renderer = TemplateRenderer()
 
         tool_path = EXAMPLES_DIR / "metacognition" / "think_aloud.yml"
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
         # Validate with custom parameters
@@ -65,7 +64,7 @@ class TestParameterValidatorWithRealTools:
         validator = ParameterValidator()
 
         tool_path = EXAMPLES_DIR / "metacognition" / "assumption_check.yml"
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
         # Should apply defaults
@@ -79,7 +78,7 @@ class TestParameterValidatorWithRealTools:
         validator = ParameterValidator()
 
         tool_path = EXAMPLES_DIR / "debugging" / "error_analysis.yml"
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
         # Test with explicit parameters (actual parameter is error_description, not error_message)
@@ -97,7 +96,7 @@ class TestParameterValidatorWithRealTools:
         validator = ParameterValidator()
 
         tool_path = EXAMPLES_DIR / "handoff" / "session_handover.yml"
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
         # Should apply completeness default
@@ -127,7 +126,7 @@ class TestSchemaValidatorWithRealTools:
         ]
 
         for tool_file in tool_files:
-            with open(tool_file, "r", encoding="utf-8") as f:
+            with open(tool_file, encoding="utf-8") as f:
                 tool_spec = yaml.safe_load(f)
 
             result = validator.validate_tool_spec(tool_spec)
@@ -143,7 +142,7 @@ class TestSchemaValidatorWithRealTools:
         validator = SchemaValidator()
 
         tool_path = EXAMPLES_DIR / "metacognition" / "think_aloud.yml"
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
         result = validator.validate_tool_spec(tool_spec)
@@ -159,7 +158,7 @@ class TestSchemaValidatorWithRealTools:
         validator = SchemaValidator()
 
         tool_path = EXAMPLES_DIR / "review" / "code_review_checklist.yml"
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
         result = validator.validate_tool_spec(tool_spec)
@@ -172,7 +171,7 @@ class TestSchemaValidatorWithRealTools:
         validator = SchemaValidator()
 
         tool_path = EXAMPLES_DIR / "debugging" / "error_analysis.yml"
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
         result = validator.validate_tool_spec(tool_spec)
@@ -192,7 +191,7 @@ class TestIntegrationParameterValidationAndRendering:
         renderer = TemplateRenderer()
 
         tool_path = EXAMPLES_DIR / "metacognition" / "think_aloud.yml"
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
         # User provides minimal params
@@ -214,7 +213,7 @@ class TestIntegrationParameterValidationAndRendering:
         renderer = TemplateRenderer()
 
         tool_path = EXAMPLES_DIR / "metacognition" / "think_aloud.yml"
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
         # User provides no params - all should come from defaults
@@ -232,7 +231,7 @@ class TestIntegrationParameterValidationAndRendering:
         renderer = TemplateRenderer()
 
         tool_path = EXAMPLES_DIR / "debugging" / "error_analysis.yml"
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
         # Provide parameters (use correct parameter name: error_description)
@@ -254,7 +253,7 @@ class TestIntegrationParameterValidationAndRendering:
         param_validator = ParameterValidator()
 
         tool_path = EXAMPLES_DIR / "metacognition" / "think_aloud.yml"
-        with open(tool_path, "r", encoding="utf-8") as f:
+        with open(tool_path, encoding="utf-8") as f:
             tool_spec = yaml.safe_load(f)
 
         # First validate the tool spec itself

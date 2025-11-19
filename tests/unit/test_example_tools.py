@@ -2,8 +2,6 @@
 
 from pathlib import Path
 
-import pytest
-
 from cogito.provisioning.example_tools import ExampleToolsSelector
 
 

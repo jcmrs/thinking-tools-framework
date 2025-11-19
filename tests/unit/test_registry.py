@@ -5,7 +5,7 @@ Tests auto-discovery, caching, category organization, and hot-reload.
 
 from pathlib import Path
 from typing import Any
-from unittest.mock import MagicMock, mock_open, patch
+from unittest.mock import MagicMock
 
 import pytest
 import yaml
@@ -512,8 +512,6 @@ class TestToolRegistryHotReload:
 
         # Mock validator to simulate validation failure
         registry._validator = MagicMock()
-        with open(tool_file, "r", encoding="utf-8") as f:
-            invalid_content = f.read()
 
         # Reload should fail but preserve old spec
         with pytest.raises(ToolLoadError):

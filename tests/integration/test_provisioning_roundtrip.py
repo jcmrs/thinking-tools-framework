@@ -1,7 +1,7 @@
 """Integration tests for provisioning system roundtrip scenarios."""
 
-from pathlib import Path
 import json
+from pathlib import Path
 
 import pytest
 
