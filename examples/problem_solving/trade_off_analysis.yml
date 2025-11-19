@@ -1,0 +1,136 @@
+version: "1.0"
+
+metadata:
+  name: "trade_off_analysis"
+  display_name: "Trade-Off Analysis"
+  description: "Systematic evaluation of options by comparing trade-offs across multiple dimensions"
+  category: "planning"
+  author: "Cogito Framework"
+  tags: ["planning", "decision-making", "evaluation", "comparison"]
+
+parameters:
+  type: "object"
+  properties:
+    decision:
+      type: "string"
+      description: "The decision or choice being analyzed"
+      default: ""
+    num_options:
+      type: "integer"
+      description: "Number of options to compare"
+      default: 3
+      minimum: 2
+      maximum: 5
+  required: ["decision"]
+
+template:
+  source: |
+    # Trade-Off Analysis: {{ decision }}
+
+    **Number of options:** {{ num_options }}
+
+    ---
+
+    ## Instructions
+
+    Trade-off analysis helps you make better decisions by systematically comparing options across multiple criteria.
+
+    **Process:**
+    1. List all viable options
+    2. Define evaluation criteria
+    3. Assess each option against each criterion  
+    4. Identify key trade-offs
+    5. Make informed choice
+
+    ---
+
+    ## Options
+
+    {% for i in range(num_options) %}
+    ### Option {{ i + 1 }}: [Name]
+
+    **Description:** [Brief description]
+
+    **Key characteristics:**
+    - [Characteristic 1]
+    - [Characteristic 2]
+
+    {% endfor %}
+
+    ---
+
+    ## Evaluation Criteria
+
+    | Criterion | Weight | Description |
+    |-----------|--------|-------------|
+    | [Criterion 1] | High/Med/Low | [Why this matters] |
+    | [Criterion 2] | High/Med/Low | [Why this matters] |
+    | [Criterion 3] | High/Med/Low | [Why this matters] |
+
+    ---
+
+    ## Comparison Matrix
+
+    | Criterion | {% for i in range(num_options) %}Option {{ i + 1 }} | {% endfor %}Notes |
+    |-----------|{% for i in range(num_options) %}----------|{% endfor %}-------|
+    | [Criterion 1] | {% for i in range(num_options) %}[Score] | {% endfor %}[Differences] |
+    | [Criterion 2] | {% for i in range(num_options) %}[Score] | {% endfor %}[Differences] |
+    | [Criterion 3] | {% for i in range(num_options) %}[Score] | {% endfor %}[Differences] |
+
+    ---
+
+    ## Key Trade-Offs
+
+    {% for i in range(num_options) %}
+    ### Option {{ i + 1 }} Trade-Offs
+
+    **What you gain:**
+    - [Benefit]: Significance
+
+    **What you give up:**
+    - [Cost/limitation]: Impact
+
+    **Net assessment:**
+    - [ ] Gains outweigh costs
+    - [ ] Costs outweigh gains
+    - [ ] Roughly balanced
+
+    {% endfor %}
+
+    ---
+
+    ## Recommendation
+
+    **Preferred option:** [Option X]
+
+    **Primary reasons:**
+    1. [Reason]
+    2. [Reason]
+
+    **Key trade-off accepted:** Giving up [X] to gain [Y]
+
+    **Confidence level:**
+    - [ ] High (>80%)
+    - [ ] Moderate (50-80%)
+    - [ ] Low (<50%)
+
+    ---
+
+    ## Summary
+
+    **Bottom line:** [One-sentence recommendation]
+
+    **Next step:** [Immediate action]
+
+examples:
+  - name: "Technology Choice"
+    description: "Comparing database options"
+    parameters:
+      decision: "Choose database for new application"
+      num_options: 3
+
+  - name: "Build vs Buy"
+    description: "Analyzing build versus purchase decision"
+    parameters:
+      decision: "Analytics platform"
+      num_options: 2

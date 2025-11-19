@@ -1,0 +1,229 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://cogito.dev/schemas/config-v1.0.json",
+  "title": "Cogito Configuration",
+  "description": "JSON Schema for Cogito configuration file (.cogito/config.yml)",
+  "type": "object",
+  "properties": {
+    "thinking_tools": {
+      "type": "object",
+      "properties": {
+        "discovery": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "directories": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": ["${COGITO_DIR}/thinking_tools"]
+            },
+            "file_pattern": {
+              "type": "string",
+              "default": "*.yml"
+            },
+            "recursive": {
+              "type": "boolean",
+              "default": true
+            },
+            "follow_symlinks": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "validation": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "strict_mode": {
+              "type": "boolean",
+              "default": true
+            },
+            "cache_valid_specs": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        },
+        "hot_reload": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "debounce_ms": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 500
+            }
+          }
+        }
+      }
+    },
+    "template_engine": {
+      "type": "object",
+      "properties": {
+        "security": {
+          "type": "object",
+          "properties": {
+            "blocked_tags": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["import", "from", "macro", "call", "include"]
+              },
+              "default": ["import", "from", "macro", "call", "include"]
+            },
+            "blocked_attributes": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": ["__class__", "__bases__", "__subclasses__", "__mro__", "__init__", "__globals__"]
+            },
+            "allowed_builtins": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": ["range", "len", "enumerate", "zip", "dict", "list", "set", "tuple", "str", "int", "float", "bool"]
+            },
+            "timeout_ms": {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 60000,
+              "default": 5000
+            },
+            "max_output_size_bytes": {
+              "type": "integer",
+              "minimum": 1024,
+              "maximum": 10485760,
+              "default": 1048576
+            }
+          }
+        }
+      }
+    },
+    "process_memory": {
+      "type": "object",
+      "properties": {
+        "log_path": {
+          "type": "string",
+          "default": "${COGITO_DIR}/process_memory.jsonl"
+        },
+        "backup_enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "capture": {
+          "type": "object",
+          "properties": {
+            "auto_capture": {
+              "type": "boolean",
+              "default": true
+            },
+            "validate_on_capture": {
+              "type": "boolean",
+              "default": true
+            },
+            "include_agent_id": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        }
+      }
+    },
+    "serena_integration": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["full", "generate_only", "mcp_only", "disabled"],
+          "default": "full"
+        },
+        "generation": {
+          "type": "object",
+          "properties": {
+            "output_dir": {
+              "type": "string",
+              "default": "${COGITO_DIR}/generated_tools"
+            },
+            "auto_format_code": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        },
+        "registration": {
+          "type": "object",
+          "properties": {
+            "auto_register": {
+              "type": "boolean",
+              "default": true
+            },
+            "namespace": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_]*$",
+              "default": "cogito"
+            }
+          }
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "properties": {
+        "audit": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "log_path": {
+              "type": "string",
+              "default": "${HOME}/.cogito/audit.jsonl"
+            },
+            "encryption": {
+              "type": "boolean",
+              "default": true
+            }
+          }
+        },
+        "filesystem": {
+          "type": "object",
+          "properties": {
+            "allowed_paths": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": ["${HOME}/.cogito", "${TEMP}/cogito-*"]
+            },
+            "blocked_paths": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "default": ["/etc", "/root", "${HOME}/.*"]
+            },
+            "follow_symlinks": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        }
+      }
+    }
+  }
+}

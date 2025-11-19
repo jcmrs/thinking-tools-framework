@@ -1,0 +1,376 @@
+version: "1.0"
+
+metadata:
+  name: "architecture_review"
+  display_name: "Architecture Review"
+  description: "System design evaluation focusing on scalability, maintainability, and Five Cornerstones alignment"
+  category: "review"
+  author: "Cogito Framework"
+  tags: ["review", "architecture", "design", "scalability", "five-cornerstones"]
+
+parameters:
+  type: "object"
+  properties:
+    aspect:
+      type: "string"
+      description: "Specific architectural aspect to focus on"
+      enum: ["full", "scalability", "security", "maintainability", "integration", "five_cornerstones"]
+      default: "full"
+    system_description:
+      type: "string"
+      description: "Brief description of the system or component being reviewed"
+      default: ""
+  required: []
+
+template:
+  source: |
+    # Architecture Review{% if aspect != 'full' %} - {{ aspect|upper }} Focus{% endif %}
+
+    {% if system_description %}
+    **System:** {{ system_description }}
+    {% endif %}
+
+    ## Overview
+
+    Architectural review evaluates system design at a higher level than code review. Focus on structure, boundaries, patterns, and long-term sustainability.
+
+    {% if aspect == 'full' or aspect == 'five_cornerstones' %}
+    ---
+
+    ## ✅ Five Cornerstones Alignment
+
+    ### 1. Configurability
+    **Assessment:** Does the architecture support runtime configuration?
+
+    - [ ] **Configuration hierarchy**: Project → User → Environment → Defaults?
+    - [ ] **No hardcoded behavior**: All behavior configurable without code changes?
+    - [ ] **Feature flags**: New features can be toggled without deployment?
+    - [ ] **Environment awareness**: Same codebase works across dev/staging/prod?
+    - [ ] **Schema validation**: Configuration validated at startup?
+
+    **Findings:**
+    - Strengths:
+    - Weaknesses:
+    - Recommendations:
+
+    ### 2. Modularity
+    **Assessment:** Are components well-separated with clear boundaries?
+
+    - [ ] **Layer separation**: Clear boundaries between layers (UI, Logic, Data)?
+    - [ ] **Protocol-based interfaces**: Components depend on contracts, not implementations?
+    - [ ] **Dependency injection**: Dependencies injected, not hardwired?
+    - [ ] **Single responsibility**: Each module has one reason to change?
+    - [ ] **Testable architecture**: Can test layers in isolation?
+
+    **Findings:**
+    - Strengths:
+    - Weaknesses:
+    - Recommendations:
+
+    ### 3. Extensibility
+    **Assessment:** Can the system grow without major rewrites?
+
+    - [ ] **Plugin architecture**: Clear extension points for new functionality?
+    - [ ] **Open/closed principle**: Can extend without modifying core?
+    - [ ] **Versioned contracts**: Interface evolution strategy defined?
+    - [ ] **Backward compatibility**: Breaking changes have migration path?
+    - [ ] **Discovery mechanisms**: New components auto-discovered?
+
+    **Findings:**
+    - Strengths:
+    - Weaknesses:
+    - Recommendations:
+
+    ### 4. Integration
+    **Assessment:** Does the system integrate well with others?
+
+    - [ ] **Standard protocols**: Uses REST, GraphQL, MCP, or other standards?
+    - [ ] **API contracts**: Well-defined, documented, stable interfaces?
+    - [ ] **Error propagation**: Errors include context and flow across boundaries?
+    - [ ] **Graceful degradation**: Handles missing dependencies appropriately?
+    - [ ] **Interoperability**: Works with diverse clients and services?
+
+    **Findings:**
+    - Strengths:
+    - Weaknesses:
+    - Recommendations:
+
+    ### 5. Automation
+    **Assessment:** Does the architecture minimize manual work?
+
+    - [ ] **Auto-discovery**: Components found automatically (no manual registration)?
+    - [ ] **Hot-reload**: Changes reflected without restart where appropriate?
+    - [ ] **Code generation**: Leverages generated code for contracts/schemas?
+    - [ ] **CI/CD compatible**: Designed for automated pipeline?
+    - [ ] **Self-validating**: Built-in validation and health checks?
+
+    **Findings:**
+    - Strengths:
+    - Weaknesses:
+    - Recommendations:
+
+    {% endif %}
+    {% if aspect == 'full' or aspect == 'scalability' %}
+    ---
+
+    ## 📈 Scalability Review
+
+    ### Horizontal Scaling
+    - [ ] **Stateless design**: Can add more instances without coordination?
+    - [ ] **Session management**: Sessions handled externally or replicated?
+    - [ ] **Shared state**: Minimal shared state, or uses distributed data store?
+    - [ ] **Load distribution**: Work distributed evenly across instances?
+
+    ### Vertical Scaling
+    - [ ] **Resource efficiency**: Scales well with more CPU/memory?
+    - [ ] **Parallelization**: Can leverage multiple cores?
+    - [ ] **Memory management**: Memory usage stays bounded under load?
+    - [ ] **Connection pooling**: Efficiently reuses connections/resources?
+
+    ### Data Scaling
+    - [ ] **Database strategy**: Sharding/partitioning strategy if needed?
+    - [ ] **Read/write separation**: Read replicas for read-heavy workloads?
+    - [ ] **Caching strategy**: Multi-tier caching (L1/L2/L3)?
+    - [ ] **Data lifecycle**: Archival/purging strategy for old data?
+
+    ### Performance Bottlenecks
+    - **Identified bottlenecks:**
+      1.
+      2.
+      3.
+
+    - **Mitigation strategies:**
+      1.
+      2.
+      3.
+
+    **Scalability Assessment:**
+    - Current capacity: [Estimated requests/sec, users, etc.]
+    - Growth projection: [Expected growth over 6/12/24 months]
+    - Scaling approach: [Horizontal / Vertical / Both]
+    - Confidence: [High / Medium / Low that system can scale]
+
+    {% endif %}
+    {% if aspect == 'full' or aspect == 'security' %}
+    ---
+
+    ## 🔒 Security Architecture Review
+
+    ### Defense in Depth
+    - [ ] **Multiple layers**: Security at multiple levels (network, app, data)?
+    - [ ] **Principle of least privilege**: Components have minimal necessary permissions?
+    - [ ] **Fail securely**: Failures default to secure state?
+    - [ ] **Security boundaries**: Trust boundaries clearly defined?
+
+    ### Authentication & Authorization
+    - [ ] **Authentication architecture**: Central auth service or distributed?
+    - [ ] **Authorization model**: RBAC, ABAC, or other model?
+    - [ ] **Token management**: Secure token generation, validation, revocation?
+    - [ ] **Session handling**: Secure session management strategy?
+
+    ### Data Protection
+    - [ ] **Encryption at rest**: Sensitive data encrypted in storage?
+    - [ ] **Encryption in transit**: TLS/HTTPS for all network communication?
+    - [ ] **Key management**: Secure key storage and rotation?
+    - [ ] **PII handling**: Strategy for personally identifiable information?
+
+    ### Security Monitoring
+    - [ ] **Audit logging**: Security events logged comprehensively?
+    - [ ] **Anomaly detection**: Unusual patterns detected and alerted?
+    - [ ] **Incident response**: Plan for security incident handling?
+    - [ ] **Vulnerability management**: Process for security updates?
+
+    **Security Risks:**
+    - High risk:
+    - Medium risk:
+    - Low risk:
+
+    **Security Recommendations:**
+    1.
+    2.
+    3.
+
+    {% endif %}
+    {% if aspect == 'full' or aspect == 'maintainability' %}
+    ---
+
+    ## 🔧 Maintainability Review
+
+    ### Code Organization
+    - [ ] **Logical structure**: Directory/package structure matches architecture?
+    - [ ] **Clear ownership**: Each module has clear owner/responsibility?
+    - [ ] **Consistent patterns**: Similar problems solved similarly?
+    - [ ] **Documentation**: Architecture documented and up-to-date?
+
+    ### Technical Debt
+    - [ ] **Debt tracking**: Technical debt identified and tracked?
+    - [ ] **Refactoring strategy**: Plan for paying down debt?
+    - [ ] **Code quality**: Consistent quality standards across codebase?
+    - [ ] **Test coverage**: Comprehensive test coverage maintained?
+
+    ### Operational Maintainability
+    - [ ] **Observability**: Logging, metrics, tracing instrumented?
+    - [ ] **Debuggability**: Easy to diagnose production issues?
+    - [ ] **Deployment**: Simple, automated deployment process?
+    - [ ] **Rollback**: Can quickly roll back problematic deployments?
+
+    ### Evolution Strategy
+    - [ ] **Breaking changes**: Strategy for handling breaking changes?
+    - [ ] **Deprecation**: Clear deprecation and removal process?
+    - [ ] **Migration**: Tools/docs for migrating to new versions?
+    - [ ] **Backward compatibility**: How far back is supported?
+
+    **Technical Debt Items:**
+    1. [Description] - Impact: High/Med/Low - Effort: High/Med/Low
+    2.
+    3.
+
+    **Maintainability Score:** [1-10]
+
+    **Key Maintainability Concerns:**
+    -
+
+    {% endif %}
+    {% if aspect == 'full' or aspect == 'integration' %}
+    ---
+
+    ## 🔌 Integration Review
+
+    ### External Dependencies
+    - [ ] **Dependency map**: All external dependencies documented?
+    - [ ] **Failure modes**: Handles dependency failures gracefully?
+    - [ ] **Circuit breakers**: Prevents cascading failures?
+    - [ ] **Timeouts**: Appropriate timeouts for all external calls?
+
+    ### API Design
+    - [ ] **RESTful design**: Follows REST principles (if REST API)?
+    - [ ] **Versioning**: API versioning strategy defined?
+    - [ ] **Documentation**: API fully documented (OpenAPI/Swagger)?
+    - [ ] **Backward compatibility**: Changes don't break existing clients?
+
+    ### Event-Driven Architecture (if applicable)
+    - [ ] **Event schema**: Events have well-defined schemas?
+    - [ ] **Event ordering**: Handles out-of-order events appropriately?
+    - [ ] **Idempotency**: Can safely replay events?
+    - [ ] **Dead letter queue**: Strategy for failed event processing?
+
+    ### Service Boundaries
+    - [ ] **Bounded contexts**: Clear boundaries between services/contexts?
+    - [ ] **Data ownership**: Each service owns its data?
+    - [ ] **Communication patterns**: Sync vs async appropriate?
+    - [ ] **Dependency direction**: Services depend on stable abstractions?
+
+    **Integration Points:**
+    | Service/System | Type | Criticality | Failure Impact |
+    |----------------|------|-------------|----------------|
+    |                |      |             |                |
+    |                |      |             |                |
+
+    **Integration Risks:**
+    1.
+    2.
+    3.
+
+    {% endif %}
+
+    ---
+
+    ## 🎯 Architecture Decision Assessment
+
+    ### Key Architectural Decisions
+
+    List the 5 most important architectural decisions in this system:
+
+    | # | Decision | Rationale | Trade-offs | Alternatives Considered |
+    |---|----------|-----------|------------|------------------------|
+    | 1 |  |  | ✅ ❌ |  |
+    | 2 |  |  | ✅ ❌ |  |
+    | 3 |  |  | ✅ ❌ |  |
+    | 4 |  |  | ✅ ❌ |  |
+    | 5 |  |  | ✅ ❌ |  |
+
+    ### Decisions to Revisit
+
+    Which architectural decisions should be reconsidered given current understanding?
+
+    1. [Decision]: Reasons to reconsider:
+    2.
+    3.
+
+    ---
+
+    ## 📊 Architecture Health Scorecard
+
+    Rate each dimension (1-10):
+
+    | Dimension | Score | Notes |
+    |-----------|-------|-------|
+    | Modularity |  /10 |  |
+    | Scalability |  /10 |  |
+    | Security |  /10 |  |
+    | Maintainability |  /10 |  |
+    | Extensibility |  /10 |  |
+    | Reliability |  /10 |  |
+    | Performance |  /10 |  |
+    | Operability |  /10 |  |
+
+    **Overall Architecture Health:** [Sum/80 = %]
+
+    ---
+
+    ## 🚨 Critical Findings
+
+    ### Architectural Risks (Red Flags)
+    Issues that could cause major problems:
+
+    1. **[Risk]**: [Description]
+       - Impact: [High/Critical]
+       - Likelihood: [High/Medium/Low]
+       - Mitigation: [Strategy]
+
+    2.
+
+    3.
+
+    ### Architectural Strengths (Highlights)
+    Aspects that are well-designed:
+
+    1. **[Strength]**: [Why this is good]
+
+    2.
+
+    3.
+
+    ---
+
+    ## 📋 Recommendations
+
+    ### Immediate Actions (Do Now)
+    1.
+    2.
+    3.
+
+    ### Short-term Improvements (Next Quarter)
+    1.
+    2.
+    3.
+
+    ### Long-term Evolution (6-12 Months)
+    1.
+    2.
+    3.
+
+    ### Architectural Patterns to Adopt
+    - Pattern: [Name] - For: [Use case] - Benefit: [Why]
+
+    ### Architectural Patterns to Avoid
+    - Pattern: [Name] - Why: [Reason to avoid]
+
+    ---
+
+    ## 🎓 Lessons Learned
+
+    - What architectural decision had the biggest positive impact?
+    - What decision would you make differently knowing what you know now?
+    - What aspect of the architecture should other projects emulate?
+    - What should be documented as an ADR (Architecture Decision Record)?

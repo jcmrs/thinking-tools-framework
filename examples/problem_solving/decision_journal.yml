@@ -1,0 +1,139 @@
+version: "1.0"
+
+metadata:
+  name: "decision_journal"
+  display_name: "Decision Journal"
+  description: "Document important decisions with rationale, alternatives, and expected outcomes for future learning"
+  category: "planning"
+  author: "Cogito Framework"
+  tags: ["planning", "decision-making", "documentation", "learning"]
+
+parameters:
+  type: "object"
+  properties:
+    decision:
+      type: "string"
+      description: "The decision being made"
+      default: ""
+    context:
+      type: "string"
+      description: "Brief context or background for the decision"
+      default: ""
+  required: ["decision"]
+
+template:
+  source: |
+    # Decision Journal Entry
+
+    **Decision:** {{ decision }}
+
+    {% if context %}
+    **Context:** {{ context }}
+    {% endif %}
+
+    **Date:** _Record date when making decision_
+
+    ---
+
+    ## Instructions
+
+    A decision journal helps you:
+    - Make better decisions by thinking them through systematically
+    - Learn from past decisions by reviewing what actually happened
+    - Identify patterns in your decision-making process
+    - Reduce hindsight bias by capturing your reasoning at the time
+
+    ---
+
+    ## Decision Details
+
+    ### What Decision Am I Making?
+
+    **Decision statement:**
+    {{ decision }}
+
+    **Decision type:**
+    - [ ] Strategic (long-term, high stakes)
+    - [ ] Tactical (medium-term, moderate stakes)
+    - [ ] Operational (short-term, day-to-day)
+
+    **Reversibility:**
+    - [ ] Easily reversible (low cost to change)
+    - [ ] Difficult to reverse (high cost to change)
+    - [ ] Irreversible (one-way door)
+
+    ### Alternatives Considered
+
+    **Option 1:** [Describe option]
+    - Pros:
+    - Cons:
+    - Key assumptions:
+
+    **Option 2:** [Describe option]
+    - Pros:
+    - Cons:
+    - Key assumptions:
+
+    **Option 3:** [Describe option]
+    - Pros:
+    - Cons:
+    - Key assumptions:
+
+    ---
+
+    ## My Reasoning
+
+    **Why I'm choosing this option:**
+
+    [Explain your primary reasons]
+
+    **Key trade-offs I'm accepting:**
+    - Giving up: [What this option sacrifices]
+    - Getting: [What this option provides]
+
+    **Confidence level:**
+    - [ ] Very confident (>80%)
+    - [ ] Confident (60-80%)
+    - [ ] Moderate (40-60%)
+    - [ ] Low (<40%)
+
+    ---
+
+    ## Expected Outcomes
+
+    **Success looks like:**
+    1. [Specific, measurable outcome]
+    2. [Specific, measurable outcome]
+    3. [Specific, measurable outcome]
+
+    **Risks to watch for:**
+    - [Risk]: Early warning signs, mitigation
+
+    **Review this decision on:** [Date]
+
+    ---
+
+    ## Review (Complete at review date)
+
+    **What actually happened:**
+
+    **What I got right:**
+
+    **What I got wrong:**
+
+    **What I learned:**
+
+    **Would I make the same decision again?** [Yes/No - Why?]
+
+examples:
+  - name: "Architecture Decision"
+    description: "Documenting a technical architecture choice"
+    parameters:
+      decision: "Adopt microservices architecture for new product platform"
+      context: "Currently running monolithic application, need to scale team independently"
+
+  - name: "Strategic Choice"
+    description: "Recording a product strategy decision"
+    parameters:
+      decision: "Build integration marketplace instead of custom integrations"
+      context: "Customers requesting 20+ integrations, can't build them all in-house"

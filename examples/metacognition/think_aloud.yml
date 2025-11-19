@@ -1,0 +1,201 @@
+version: "1.0"
+
+metadata:
+  name: "think_aloud"
+  display_name: "Think Aloud Protocol"
+  description: "Verbalize reasoning process explicitly to surface assumptions and logic gaps"
+  category: "metacognition"
+  author: "Cogito Framework"
+  tags: ["metacognition", "reasoning", "verbalization", "transparency"]
+
+parameters:
+  type: "object"
+  properties:
+    depth:
+      type: "string"
+      description: "Level of reasoning detail to articulate"
+      enum: ["quick", "standard", "detailed"]
+      default: "standard"
+    focus:
+      type: "string"
+      description: "Specific aspect to reason about (e.g., 'architecture decision', 'algorithm choice', 'error diagnosis')"
+      default: ""
+  required: []
+
+template:
+  source: |
+    # Think Aloud Protocol - {{ depth|upper }} Mode
+
+    {% if focus %}
+    **Focus Area:** {{ focus }}
+    {% endif %}
+
+    ## Instructions
+
+    Verbalize your reasoning process step-by-step. Don't edit or filter your thoughts - express them as they occur. This helps surface implicit assumptions, identify logic gaps, and make your reasoning transparent.
+
+    {% if depth == 'quick' %}
+    ## Quick Think Aloud (5 minutes)
+
+    1. **Current Understanding**: What do I currently understand about this situation?
+       - Key facts I'm relying on:
+       - What I'm certain about:
+       - What I'm uncertain about:
+
+    2. **Reasoning Path**: How am I approaching this?
+       - First, I'm thinking...
+       - Then, I need to...
+       - Because...
+
+    3. **Conclusion**: Where does this lead?
+       - Therefore, I believe...
+       - My confidence level: [high/medium/low]
+       - Key assumption I'm making:
+
+    {% elif depth == 'detailed' %}
+    ## Detailed Think Aloud (15-20 minutes)
+
+    ### 1. State Current Understanding
+    What do I currently know or believe about this situation?
+
+    - **Explicit knowledge**: Facts I've been told or observed directly
+    - **Inferred knowledge**: Conclusions I've drawn from available information
+    - **Assumptions**: Things I'm taking for granted (mark each as validated/unvalidated)
+    - **Unknowns**: Critical information I'm missing
+    - **Uncertainties**: Areas where I lack confidence
+
+    ### 2. Articulate Mental Model
+    What framework am I using to think about this?
+
+    - **Primary lens**: How am I conceptualizing this problem? (e.g., as a technical challenge, a communication issue, a process problem)
+    - **Analogies**: What does this remind me of? How is it similar/different?
+    - **Constraints I'm aware of**: What boundaries am I operating within?
+    - **Success criteria**: What would a good outcome look like?
+
+    ### 3. Walk Through Reasoning Steps
+    How am I getting from current state to conclusion?
+
+    - **Step 1**: I start by...
+      - Why this starting point?
+      - What alternatives did I consider?
+
+    - **Step 2**: Then I...
+      - What led me from step 1 to step 2?
+      - What am I assuming here?
+
+    - **Step 3**: Next I...
+      - How does this build on previous steps?
+      - What could go wrong here?
+
+    - **[Continue for all steps]**
+
+    ### 4. Identify Decision Points
+    Where did I make choices that could have gone differently?
+
+    - **Decision 1**: When I chose to [action], I could have instead [alternative]
+      - Why did I choose this path?
+      - What trade-offs am I accepting?
+
+    - **Decision 2**: [Continue for each major decision]
+
+    ### 5. Question Assumptions
+    What am I taking for granted that might not be true?
+
+    For each assumption identified above:
+    - **Assumption**: [State it clearly]
+    - **Validity**: How confident am I this is true? [0-100%]
+    - **Impact if wrong**: What happens if this assumption is incorrect?
+    - **Can validate**: Yes/No - If yes, how?
+
+    ### 6. Examine Biases
+    What might be influencing my thinking unconsciously?
+
+    - **Recency bias**: Am I over-weighting recent information?
+    - **Confirmation bias**: Am I seeking data that confirms my hypothesis?
+    - **Anchoring**: Did my initial impression overly influence me?
+    - **Availability bias**: Am I relying on easily recalled examples?
+    - **Expertise bias**: Am I assuming my domain knowledge applies here?
+
+    ### 7. Explore Alternatives
+    What other ways could I think about this?
+
+    - **Alternative perspective 1**: If I approached this as [different lens], I would...
+    - **Alternative perspective 2**: If I assumed [opposite assumption], then...
+    - **Devil's advocate**: What would someone arguing against my conclusion say?
+
+    ### 8. State Conclusion with Confidence
+
+    - **Conclusion**: Based on this reasoning, I believe...
+    - **Confidence level**: [high/medium/low] because...
+    - **Key dependencies**: This conclusion rests on...
+    - **Would change my mind if**: [What evidence would lead me to different conclusion]
+
+    ### 9. Identify Open Loops
+    What's left unresolved?
+
+    - **Questions to investigate**:
+    - **Assumptions to validate**:
+    - **Alternative explanations to explore**:
+    - **Information I need**:
+
+    {% else %}
+    ## Standard Think Aloud (10 minutes)
+
+    ### 1. State Current Understanding
+    What do I currently understand about this situation?
+
+    - Facts I'm relying on:
+    - What I'm certain about:
+    - What I'm uncertain about:
+    - Critical unknowns:
+
+    ### 2. Articulate Assumptions
+    What am I taking for granted?
+
+    - Assumption 1:
+    - Assumption 2:
+    - Assumption 3:
+    - [Mark each as: validated ✓ / unvalidated ? / critical ! ]
+
+    ### 3. Walk Through Reasoning
+    How am I getting from A to B?
+
+    - Starting point: I begin with...
+    - Step 1: First, I...
+    - Step 2: Then, I...
+    - Step 3: Next, I...
+    - Conclusion: Therefore, I...
+
+    ### 4. Identify Decision Points
+    Where did I make choices?
+
+    - When I chose to [X], I could have instead [Y]
+      - Why I chose X:
+      - Trade-offs:
+
+    ### 5. Question My Reasoning
+    What might I be getting wrong?
+
+    - Weakest point in my logic:
+    - Assumption most likely to be false:
+    - Alternative explanation:
+    - What would make me change my mind:
+
+    ### 6. State Conclusion
+
+    - **I believe**: [conclusion]
+    - **Confidence**: [high/medium/low]
+    - **Because**: [key reason]
+    - **Key dependency**: This relies on [critical assumption]
+
+    {% endif %}
+
+    ---
+
+    ## Meta-Reflection
+
+    After completing the think aloud:
+    - Did verbalizing reveal any surprises?
+    - Did I discover assumptions I wasn't aware of?
+    - Did my confidence level change during the exercise?
+    - What's the most important insight from this process?

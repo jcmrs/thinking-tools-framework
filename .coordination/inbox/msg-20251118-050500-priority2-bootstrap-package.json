@@ -1,0 +1,321 @@
+{
+  "message_id": "msg-20251118-050500-priority2-bootstrap-package",
+  "type": "directive",
+  "priority": "high",
+  "timestamp": "2025-11-18T05:05:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "Priority 2: Project Bootstrap Package - Enable New Project Creation",
+  "content": {
+    "congratulations": "Excellent work completing Priority 1.5 (Skills Export)! The dual-pattern architecture is now operational with both MCP (98% token savings) and Skills (filesystem-based) patterns. 100% quality gates achieved on second submission demonstrates effective coordination.",
+
+    "task": "Create Project Bootstrap Package - Enable users to create new thinking-tools-framework project instances",
+
+    "strategic_importance": {
+      "why_now": "With all 27 specifications complete and dual-pattern architecture operational, users need a way to create new project instances. Bootstrap package enables self-service project setup.",
+      "current_state": "Framework fully specified (IMPLEMENTATION-ROADMAP.md shows 27/27 specs complete). No mechanism exists for users to create new projects from scratch.",
+      "problem": "Users cannot easily create new thinking-tools-framework instances. Must manually recreate directory structure, configuration, example tools, setup scripts.",
+      "impact": "Users can create production-ready thinking-tools-framework projects via single command. Reduces setup from hours to minutes. Ensures consistency across installations."
+    },
+
+    "deliverables": {
+      "1_bootstrap_cli_command": {
+        "name": "cogito bootstrap",
+        "purpose": "Initialize new thinking-tools-framework project with full structure",
+        "cli_signature": "cogito bootstrap PROJECT_NAME [--output-dir PATH] [--minimal] [--include-examples]",
+        "behavior": "Creates project directory, configuration files, example tools, documentation, setup scripts"
+      },
+
+      "2_project_structure_template": {
+        "name": "Project Directory Template",
+        "purpose": "Define canonical project structure for new instances",
+        "structure": {
+          "root": [
+            "pyproject.toml (dependencies, build config)",
+            "README.md (project overview, quick start)",
+            ".gitignore (Python, IDE, build artifacts)",
+            "LICENSE (MIT or specified license)"
+          ],
+          "src_cogito": [
+            "__init__.py",
+            "core/ (core modules placeholder)",
+            "provisioning/ (if --include-examples)",
+            "ui/ (CLI entry point)"
+          ],
+          "examples": [
+            "metacognition/ (5 example tools if --include-examples)",
+            "problem_solving/ (5 example tools if --include-examples)",
+            "README.md (examples overview)"
+          ],
+          "tests": [
+            "__init__.py",
+            "unit/ (unit test directory)",
+            "integration/ (integration test directory)",
+            "conftest.py (pytest configuration)"
+          ],
+          "docs": [
+            "QUICK-START.md",
+            "ARCHITECTURE.md (reference to thinking-tools-framework specs)",
+            "CONFIGURATION.md"
+          ],
+          "config": [
+            "cogito.yml (framework configuration)",
+            "logging.yml (logging configuration)"
+          ],
+          "bootstrap": [
+            "process_memory.jsonl (empty, ready for use)",
+            "knowledge_graph.json (empty graph structure)"
+          ]
+        }
+      },
+
+      "3_configuration_templates": {
+        "cogito_yml": {
+          "purpose": "Main framework configuration",
+          "includes": [
+            "tool_directories (examples/)",
+            "cache_settings (Layer 2 cache config)",
+            "security_settings (template sandboxing)",
+            "logging_config reference"
+          ]
+        },
+        "pyproject_toml": {
+          "purpose": "Python project configuration",
+          "includes": [
+            "dependencies (pydantic, jinja2, pyyaml, click, fastmcp)",
+            "dev-dependencies (pytest, mypy, ruff, pytest-cov)",
+            "build-system (setuptools)",
+            "project metadata (name, version, description)"
+          ]
+        }
+      },
+
+      "4_example_thinking_tools": {
+        "name": "Starter Example Tools",
+        "condition": "Only if --include-examples flag provided",
+        "tools": [
+          "think_aloud.yml (metacognition)",
+          "fresh_eyes.yml (metacognition)",
+          "assumption_challenger.yml (problem_solving)",
+          "decision_journal.yml (problem_solving)",
+          "context_preservation.yml (metacognition)"
+        ],
+        "purpose": "Provide working examples demonstrating YAML spec format"
+      },
+
+      "5_setup_scripts": {
+        "setup_py_script": {
+          "name": "setup.py or equivalent",
+          "purpose": "Initialize virtual environment, install dependencies, validate installation",
+          "includes": [
+            "Create virtual environment (venv)",
+            "Install dependencies from pyproject.toml",
+            "Run basic validation (import cogito)",
+            "Print success message with next steps"
+          ]
+        }
+      },
+
+      "6_documentation": {
+        "readme": "Project overview, installation, quick start, links to specs",
+        "quick_start": "5-minute getting started guide with example tool execution",
+        "architecture": "Reference to thinking-tools-framework specs (single source of truth)",
+        "configuration": "cogito.yml and pyproject.toml configuration guide"
+      }
+    },
+
+    "implementation_scope": {
+      "new_modules": [
+        "src/cogito/bootstrap/project_template.py (project structure generator)",
+        "src/cogito/bootstrap/config_generator.py (config file generation)",
+        "src/cogito/bootstrap/example_tools.py (example tool YAML generation)",
+        "templates/bootstrap/ (Jinja2 templates for README, configs, etc.)"
+      ],
+      "updated_modules": [
+        "src/cogito/ui/cli.py (add 'bootstrap' command group)"
+      ],
+      "template_files": [
+        "templates/bootstrap/README.md.j2",
+        "templates/bootstrap/pyproject.toml.j2",
+        "templates/bootstrap/cogito.yml.j2",
+        "templates/bootstrap/QUICK-START.md.j2",
+        "templates/bootstrap/.gitignore.j2"
+      ]
+    },
+
+    "quality_requirements": {
+      "completeness": {
+        "all_deliverables_100_percent": true,
+        "description": "All 6 deliverables fully implemented (CLI command, templates, configs, examples, scripts, docs)",
+        "validation": [
+          "Bootstrap command creates complete project structure",
+          "All configuration files generated and valid",
+          "Example tools (if --include-examples) are executable",
+          "Documentation complete and navigable",
+          "Setup scripts work on fresh Python environment"
+        ],
+        "no_todo_markers": true,
+        "no_will_fix_later": true
+      },
+
+      "specificity": {
+        "follow_patterns": "Use existing provisioning infrastructure patterns (see Priority 1 and 1.5)",
+        "architectural_constraints": [
+          "Bootstrap package in Layer 4.5 (Provisioning)",
+          "Single source of truth: thinking-tools-framework specs remain canonical",
+          "Generated projects reference specs, don't duplicate them",
+          "Use Jinja2 templates for all file generation (consistency with Skills pattern)"
+        ],
+        "convention_adherence": [
+          "pyproject.toml follows PEP 518/621 standards",
+          "Directory structure matches thinking-tools-framework canonical layout",
+          "Configuration schema matches schemas/config-v1.0.schema.json",
+          "Example tools follow schemas/thinking-tool-v1.0.schema.json"
+        ]
+      },
+
+      "clarity": {
+        "type_safety": "mypy --strict with 0 errors",
+        "code_quality": "ruff with 0 violations",
+        "self_documenting": "Clear function names, docstrings for public APIs",
+        "no_code_smells": "No duplicated logic, proper separation of concerns"
+      }
+    },
+
+    "success_criteria": {
+      "functionality": [
+        "cogito bootstrap my-project creates complete working project",
+        "Generated project has valid pyproject.toml (can install dependencies)",
+        "Generated configs validate against schemas",
+        "Example tools (if included) are executable via cogito execute",
+        "Documentation provides clear getting-started path",
+        "Setup script successfully initializes environment"
+      ],
+
+      "quality_gates": {
+        "mypy": "passes --strict with 0 errors",
+        "ruff": "0 violations",
+        "pytest": "100% pass rate (all tests passing)",
+        "coverage": "≥85% for bootstrap package modules"
+      },
+
+      "integration_validation": {
+        "end_to_end_test": "Bootstrap new project, run setup, execute example tool - all succeed",
+        "minimal_mode": "Bootstrap with --minimal creates valid minimal project",
+        "examples_mode": "Bootstrap with --include-examples creates project with working tools"
+      }
+    },
+
+    "success_verification": {
+      "before_completion_message": [
+        "All 6 deliverables 100% complete (no partial implementations)",
+        "All quality gates passed: mypy strict 0 errors, ruff 0 violations, pytest 100% pass rate",
+        "End-to-end validation: Bootstrap → Setup → Execute example tool → Success",
+        "No TODO markers in code or documentation",
+        "Integration tests validate both --minimal and --include-examples modes"
+      ]
+    },
+
+    "implementation_guidance": {
+      "layer": "Layer 4.5 (Provisioning package, alongside Skills Export)",
+
+      "dependencies": "Uses same infrastructure as Skills Export (Jinja2 templates, file generation patterns)",
+
+      "template_approach": {
+        "pattern": "Follow Skills Export pattern: Jinja2 templates for all generated files",
+        "location": "templates/bootstrap/*.j2 (similar to templates/SKILL.md.j2)",
+        "rendering": "Use same rendering approach as Skills Export for consistency"
+      },
+
+      "project_structure_generation": {
+        "approach": "Define canonical structure in project_template.py, generate via templates",
+        "minimal_mode": "Core structure only (src, tests, config) - no examples",
+        "full_mode": "Core + examples/ with 5 starter tools + documentation",
+        "validation": "Validate generated structure matches specification"
+      },
+
+      "configuration_generation": {
+        "pyproject_toml": "Template-based generation with project name, dependencies",
+        "cogito_yml": "Framework config with tool_directories pointing to examples/",
+        "logging_yml": "Standard logging config for development",
+        "validation": "Generated configs must validate against schemas"
+      },
+
+      "example_tools_selection": {
+        "strategy": "Copy/reference existing YAML specs from thinking-tools-framework examples/",
+        "tools": "5 most representative tools (metacognition + problem_solving)",
+        "single_source_of_truth": "Reference thinking-tools-framework specs, don't duplicate logic"
+      },
+
+      "right_altitude_guidance": {
+        "not_too_specific": "Don't hardcode exact implementation details - provide structural guidance",
+        "not_too_vague": "Be specific about deliverables, quality gates, patterns to follow",
+        "autonomy_preserved": "Technical decisions (module organization, exact implementations) are yours",
+        "constraints_clear": "Layer boundaries, schema adherence, quality gates are non-negotiable"
+      }
+    },
+
+    "testing_strategy": {
+      "unit_tests": [
+        "Project structure generation (verify all directories/files created)",
+        "Configuration template rendering (validate YAML/TOML output)",
+        "Example tool generation (verify valid YAML against schema)",
+        "CLI command parsing (flags, arguments, defaults)",
+        "Template rendering (Jinja2 templates produce valid output)"
+      ],
+
+      "integration_tests": [
+        "End-to-end: Bootstrap project → Install dependencies → Execute example tool",
+        "Minimal mode: Bootstrap --minimal creates valid project without examples",
+        "Examples mode: Bootstrap --include-examples creates project with working tools",
+        "Schema validation: Generated configs validate against JSON schemas",
+        "Setup script: Run setup.py successfully in fresh environment"
+      ],
+
+      "validation_tests": [
+        "Generated pyproject.toml is valid (can pip install)",
+        "Generated cogito.yml matches config schema",
+        "Generated example tools match thinking-tool schema",
+        "Documentation links are valid (no broken references)"
+      ]
+    },
+
+    "reference_documents": [
+      "docs/specs/IMPLEMENTATION-ROADMAP.md (Priority 2 specification)",
+      ".coordination/SKILLS-MCP-INTEGRATION-STRATEGY.md (template patterns)",
+      "schemas/config-v1.0.schema.json (config validation)",
+      "schemas/thinking-tool-v1.0.schema.json (tool validation)",
+      ".coordination/RESEARCH-SYNTHESIS-ACTIONABLE.md (quality dimensions, right altitude)"
+    ],
+
+    "process_memory_references": [
+      "PM-010 (Token Efficiency Through Progressive Disclosure)",
+      "PM-017 (FastMCP Refactoring Lessons - template patterns)",
+      "PM-021 (Module Duplication Prevention - single source of truth)"
+    ],
+
+    "context_retrieval": {
+      "approach": "Use PM references for pattern lookup, don't load all specs upfront",
+      "jit_reading": "Load IMPLEMENTATION-ROADMAP.md section for Priority 2, then explore as needed",
+      "lightweight_context": "This directive provides structural guidance, autonomous decisions for implementation details"
+    },
+
+    "estimated_effort": "3-4 hours (leverages existing provisioning infrastructure from Priority 1 and 1.5)"
+  },
+
+  "quality_gates": {
+    "mypy": "must pass with --strict (0 errors)",
+    "ruff": "0 violations",
+    "pytest": "100% pass rate (all tests passing, not 88%, not 95%)",
+    "coverage": "≥85% coverage for bootstrap package modules",
+    "integration": "end-to-end bootstrap → setup → execute example tool must succeed"
+  },
+
+  "coordinator_notes": {
+    "enhanced_directive_template": "Using revised template from RESEARCH-SYNTHESIS-ACTIONABLE.md with explicit quality requirements and right-altitude guidance",
+    "completeness_emphasis": "100% deliverables required before completion message",
+    "quality_gate_enforcement": "Lessons from Priority 1.5 rejection (88% → 100%) applied"
+  },
+
+  "read": false
+}

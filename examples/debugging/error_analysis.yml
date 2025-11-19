@@ -1,0 +1,511 @@
+version: "1.0"
+
+metadata:
+  name: "error_analysis"
+  display_name: "Error Analysis"
+  description: "Structured investigation framework for runtime errors, bugs, and unexpected behavior"
+  category: "debugging"
+  author: "Cogito Framework"
+  tags: ["debugging", "errors", "investigation", "troubleshooting", "bug-fixing"]
+
+parameters:
+  type: "object"
+  properties:
+    error_type:
+      type: "string"
+      description: "Category of error being investigated"
+      enum: ["runtime", "logic", "performance", "security", "integration", "data", "configuration"]
+      default: "runtime"
+    error_description:
+      type: "string"
+      description: "Brief description of the error"
+      default: ""
+  required: []
+
+template:
+  source: |
+    # Error Analysis - {{ error_type|upper }}
+
+    {% if error_description %}
+    **Error:** {{ error_description }}
+    {% endif %}
+
+    **Analysis Date:** {{ "now"|default("YYYY-MM-DD HH:MM:SS") }}
+
+    ---
+
+    ## 📋 Error Description
+
+    ### What Happened
+
+    **Error message / symptom:**
+    ```
+    [Paste exact error message, stack trace, or description of unexpected behavior]
+    ```
+
+    **When discovered:**
+    - Date/time: [When]
+    - Environment: [Dev / Staging / Production / Test]
+    - How discovered: [User report / Monitoring / Testing / Development]
+
+    **Frequency:**
+    - [ ] First occurrence
+    - [ ] Intermittent (happens sometimes)
+    - [ ] Consistent (happens every time)
+    - [ ] Recurring (happened before, thought it was fixed)
+
+    **Severity:**
+    - [ ] Critical (system down, data loss, security breach)
+    - [ ] High (major functionality broken, many users affected)
+    - [ ] Medium (feature impaired, workaround exists)
+    - [ ] Low (minor issue, cosmetic, edge case)
+
+    ---
+
+    ## 🔍 Error Context
+
+    ### Environment Details
+
+    **System information:**
+    - Application version: [Version]
+    - Environment: [Dev/Staging/Prod]
+    - Platform: [OS, browser, device]
+    - Configuration: [Relevant settings]
+
+    **User context (if applicable):**
+    - User ID / session: [Identifier]
+    - User role / permissions: [Role]
+    - User actions leading to error: [Steps]
+
+    **State when error occurred:**
+    - System load: [High/Normal/Low]
+    - Concurrent users: [Number]
+    - Recent deployments: [Yes/No - when]
+    - Related errors: [Other errors around same time]
+
+    ---
+
+    ## 🎯 Reproduction
+
+    ### Can You Reproduce It?
+
+    - [ ] Yes, consistently
+    - [ ] Yes, sometimes
+    - [ ] No, cannot reproduce
+    - [ ] Haven't tried yet
+
+    ### Reproduction Steps
+
+    **Minimal steps to reproduce:**
+
+    1. [Action 1]
+    2. [Action 2]
+    3. [Action 3]
+    4. [Error occurs]
+
+    **Prerequisites for reproduction:**
+    - Data state: [What data must exist]
+    - Configuration: [Required settings]
+    - Timing: [Any timing requirements]
+    - Conditions: [Other necessary conditions]
+
+    **Reproduction rate:**
+    - Reproduces: [X out of Y attempts]
+    - Pattern: [Every time / Random / Specific conditions]
+
+    ### Expected vs. Actual
+
+    **Expected behavior:**
+    [What should happen]
+
+    **Actual behavior:**
+    [What actually happens]
+
+    **Gap analysis:**
+    [Specific difference between expected and actual]
+
+    ---
+
+    {% if error_type == 'runtime' %}
+    ## 💥 Runtime Error Analysis
+
+    ### Stack Trace Analysis
+
+    **Top of stack (immediate failure point):**
+    ```
+    [Most recent call]
+    ```
+
+    **Key frames in stack:**
+    - Frame 1: [Function/method] - [File:Line] - [Significance]
+    - Frame 2: [Function/method] - [File:Line] - [Significance]
+    - Frame 3: [Function/method] - [File:Line] - [Significance]
+
+    **Root frame (entry point):**
+    ```
+    [Initial call that led to error]
+    ```
+
+    ### Exception/Error Type
+
+    **Exception class:** [Type of exception]
+
+    **What this exception means:**
+    [Explanation of what this error type indicates]
+
+    **Common causes of this exception:**
+    1.
+    2.
+    3.
+
+    ### Variables & State
+
+    **Variable values at time of error:**
+    - `variable1` = [value] - [Expected: value]
+    - `variable2` = [value] - [Expected: value]
+
+    **Suspicious values:**
+    - `variable` = [unexpected value] - Why suspicious: [Reason]
+
+    {% elif error_type == 'logic' %}
+    ## 🧩 Logic Error Analysis
+
+    ### Incorrect Behavior
+
+    **What the code is doing:**
+    [Actual behavior]
+
+    **What it should be doing:**
+    [Correct behavior]
+
+    **Logic flaw:**
+    [Where the logic goes wrong]
+
+    ### Algorithm Analysis
+
+    **Current algorithm:**
+    ```
+    [Pseudocode or description of current approach]
+    ```
+
+    **Why it fails:**
+    [Explain the logical error]
+
+    **Edge cases that fail:**
+    - Case 1: [Input] → [Wrong output] (Expected: [correct output])
+    - Case 2:
+    - Case 3:
+
+    ### Data Flow
+
+    **Input → Processing → Output:**
+
+    - Input: [What comes in]
+    - Step 1: [What happens] - State: [Data state]
+    - Step 2: [What happens] - State: [Data state]
+    - Step 3: [What happens] - State: [Data state]
+    - Output: [What comes out] - ❌ Should be: [Correct output]
+
+    **Where does it go wrong?**
+    - At step: [Which step]
+    - Because: [Why it goes wrong]
+
+    {% elif error_type == 'performance' %}
+    ## ⚡ Performance Error Analysis
+
+    ### Performance Metrics
+
+    **Observed performance:**
+    - Response time: [X ms/sec] (Target: [Y ms/sec])
+    - Throughput: [X req/sec] (Target: [Y req/sec])
+    - Resource usage: [CPU/Memory/Disk/Network]
+
+    **Performance degradation:**
+    - Started: [When performance became problematic]
+    - Trend: [Getting worse / Stable but slow / Intermittent]
+
+    ### Bottleneck Identification
+
+    **Where is time spent?**
+
+    | Operation | Time (%) | Time (abs) | Optimization Potential |
+    |-----------|----------|------------|------------------------|
+    | [Operation 1] | X% | Xms | High/Med/Low |
+    | [Operation 2] | X% | Xms | High/Med/Low |
+
+    **Bottleneck:** [Primary bottleneck]
+
+    **Why this is the bottleneck:**
+    - [Reason 1]
+    - [Reason 2]
+
+    ### Resource Analysis
+
+    **Resource consumption:**
+    - Memory: [Usage] - [Leak suspected: Yes/No]
+    - CPU: [Usage] - [Hot path: Location]
+    - I/O: [Operations] - [Blocking: Yes/No]
+    - Network: [Requests] - [Latency: Xms]
+
+    {% elif error_type == 'security' %}
+    ## 🔒 Security Error Analysis
+
+    ### Security Issue
+
+    **Type of security issue:**
+    - [ ] Authentication failure
+    - [ ] Authorization bypass
+    - [ ] Injection vulnerability
+    - [ ] Data exposure
+    - [ ] Configuration error
+    - [ ] Other: [Specify]
+
+    **Attack vector:**
+    [How the security issue can be exploited]
+
+    **Potential impact:**
+    - Data at risk: [What data]
+    - Users affected: [Who]
+    - System impact: [What could be compromised]
+
+    ### Vulnerability Analysis
+
+    **Root cause:**
+    [Why this vulnerability exists]
+
+    **Similar vulnerabilities:**
+    [Are there similar issues elsewhere?]
+
+    **Mitigation urgency:**
+    - [ ] Critical (exploited in wild)
+    - [ ] High (easily exploitable)
+    - [ ] Medium (requires conditions)
+    - [ ] Low (theoretical)
+
+    {% elif error_type == 'integration' %}
+    ## 🔌 Integration Error Analysis
+
+    ### Integration Point
+
+    **External system:**
+    - Name: [System name]
+    - Type: [API / Database / Service / etc.]
+    - Protocol: [HTTP / gRPC / etc.]
+
+    **Failure mode:**
+    - [ ] Timeout
+    - [ ] Connection refused
+    - [ ] Invalid response
+    - [ ] Authentication failure
+    - [ ] Rate limit exceeded
+    - [ ] Unexpected response format
+    - [ ] Other: [Specify]
+
+    ### Communication Analysis
+
+    **Request sent:**
+    ```
+    [Request details]
+    ```
+
+    **Response received:**
+    ```
+    [Response details or error]
+    ```
+
+    **Expected response:**
+    ```
+    [What should have been received]
+    ```
+
+    **Network conditions:**
+    - Latency: [Xms]
+    - Timeout configured: [Xms]
+    - Retries: [X attempts]
+
+    {% endif %}
+
+    ---
+
+    ## 🔬 Investigation
+
+    ### Hypotheses
+
+    Generate 3-5 hypotheses about the cause:
+
+    **Hypothesis 1:** [Theory about what's wrong]
+    - Confidence: [High / Medium / Low]
+    - How to test: [Experiment to validate/invalidate]
+    - Evidence for: [Supporting data]
+    - Evidence against: [Contradicting data]
+
+    **Hypothesis 2:** [Theory about what's wrong]
+    - Confidence:
+    - How to test:
+    - Evidence for:
+    - Evidence against:
+
+    **Hypothesis 3:** [Theory about what's wrong]
+    - Confidence:
+    - How to test:
+    - Evidence for:
+    - Evidence against:
+
+    ### Investigation Steps Taken
+
+    Document what you've tried:
+
+    - [x] [Action taken] - Result: [What was learned]
+    - [x] [Action taken] - Result: [What was learned]
+    - [ ] [Action to try] - Expected result: [Prediction]
+
+    ### Data Gathered
+
+    **Logs examined:**
+    - Log source: [Location]
+    - Time range: [Period]
+    - Key findings: [What logs show]
+
+    **Code inspected:**
+    - Files: [List]
+    - Suspicious code: [Location and why]
+
+    **Tests run:**
+    - Test: [Description] - Result: [Pass/Fail/Insight]
+
+    ---
+
+    ## 💡 Root Cause
+
+    ### Confirmed Root Cause
+
+    **The error is caused by:**
+    [Clear statement of root cause]
+
+    **Evidence supporting this conclusion:**
+    1. [Evidence item]
+    2. [Evidence item]
+    3. [Evidence item]
+
+    **How this explains all symptoms:**
+    - Symptom 1: [How root cause causes this]
+    - Symptom 2: [How root cause causes this]
+
+    ### Contributing Factors
+
+    Things that made the error more likely or severe:
+
+    - [Factor 1]: [How it contributed]
+    - [Factor 2]: [How it contributed]
+
+    ---
+
+    ## 🔧 Solution
+
+    ### Immediate Fix (Stop the Bleeding)
+
+    **Quick fix to resolve right now:**
+    - Action: [What to do]
+    - Impact: [What this fixes]
+    - Limitations: [What this doesn't address]
+    - Rollback plan: [How to undo if needed]
+
+    ### Proper Fix (Address Root Cause)
+
+    **Long-term solution:**
+    - Change: [What to change]
+    - Why this fixes it: [How it addresses root cause]
+    - Testing: [How to verify]
+    - Side effects: [Other impacts to consider]
+
+    ### Prevention (Stop Recurrence)
+
+    **How to prevent this class of error:**
+    - [ ] Add validation: [Where and what]
+    - [ ] Add test: [What to test]
+    - [ ] Add monitoring: [What to monitor]
+    - [ ] Update documentation: [What to document]
+    - [ ] Refactor: [What to improve]
+
+    ---
+
+    ## 📊 Impact Assessment
+
+    ### Users Affected
+
+    - Number of users: [Count or percentage]
+    - User segments: [Which types of users]
+    - Workaround available: [Yes/No - describe]
+
+    ### Business Impact
+
+    - Revenue impact: [If applicable]
+    - Reputation impact: [If applicable]
+    - Data integrity: [Affected/Not affected]
+
+    ### Technical Debt
+
+    - Technical debt created: [If quick fix used]
+    - Technical debt removed: [If proper fix addresses debt]
+
+    ---
+
+    ## ✅ Resolution Checklist
+
+    - [ ] Root cause identified and verified
+    - [ ] Fix implemented
+    - [ ] Fix tested (unit tests)
+    - [ ] Fix tested (integration tests)
+    - [ ] Fix tested (manual verification)
+    - [ ] Regression tests added
+    - [ ] Monitoring added
+    - [ ] Documentation updated
+    - [ ] Stakeholders notified
+    - [ ] Post-mortem scheduled (if needed)
+    - [ ] Lessons captured in process memory
+
+    ---
+
+    ## 📝 Process Memory Capture
+
+    **Capture to process memory:**
+
+    - [ ] **Lesson Learned**: [Key insight from this error]
+    - [ ] **Failure Analysis**: [What broke and why]
+    - [ ] **Assumption**: [Incorrect assumption discovered]
+
+    **Process memory entries to create:**
+    - PM-XXX: Type=[LessonLearned], Title=[Summary]
+    - PM-YYY: Type=[FailureAnalysis], Title=[Error summary]
+
+    ---
+
+    ## 🎓 Lessons Learned
+
+    ### Technical Lessons
+
+    - What did this error teach us about our system?
+    - What assumption was wrong?
+    - What edge case did we miss?
+
+    ### Process Lessons
+
+    - Could this have been caught earlier? How?
+    - What testing gap allowed this through?
+    - What monitoring could have detected this?
+
+    ### Prevention Strategy
+
+    - Similar errors to watch for:
+    - Patterns to avoid:
+    - Best practices to adopt:
+
+    ---
+
+    ## Meta-Analysis
+
+    - Was the investigation systematic and thorough?
+    - Did we reach the true root cause, or just a symptom?
+    - Is the solution addressing the cause, not just the symptom?
+    - Have we prevented this class of error from recurring?
+    - What would we do differently in future investigations?

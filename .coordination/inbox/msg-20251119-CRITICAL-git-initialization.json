@@ -1,0 +1,267 @@
+{
+  "message_id": "msg-20251119-CRITICAL-git-initialization",
+  "type": "directive",
+  "priority": "CRITICAL",
+  "timestamp": "2025-11-19T16:35:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "CRITICAL: Initialize Git Repository IMMEDIATELY - Foundation Imperative Violated",
+
+  "content": {
+    "CRITICAL_ALERT": {
+      "issue": "NO GIT REPOSITORY EXISTS",
+      "impact": "All work (Priorities 1, 1.5, 1.9, 2, 3) is UNVERSIONED AND UNPROTECTED",
+      "imperative_violated": "PROJECT-IMPERATIVES.md: 'Project = Repository. Everything lives here. Version controlled.'",
+      "risk": "Complete loss of all development work if directory corrupted or deleted",
+      "urgency": "IMMEDIATE - Must be fixed before any other work"
+    },
+
+    "task": "Initialize git repository, create initial commit, configure remote (if available)",
+
+    "role_definition": {
+      "your_role": "System Owner executing CRITICAL infrastructure fix",
+      "execution_mode": "EMERGENCY MODE - Execute git initialization IMMEDIATELY",
+      "reasoning_budget": "MINIMAL - Follow git initialization steps exactly, no exploration",
+      "priority": "This task BLOCKS all other work. Fix this FIRST."
+    },
+
+    "task_specification": {
+      "deliverables": {
+        "1_git_init": {
+          "action": "Initialize git repository in /c/Development/thinking-tools-framework",
+          "tool": "Bash: cd /c/Development/thinking-tools-framework && git init",
+          "validation": "Verify .git directory created",
+          "output": "Initialized empty Git repository in /c/Development/thinking-tools-framework/.git/"
+        },
+
+        "2_create_gitignore": {
+          "action": "Create .gitignore for Python project",
+          "content": [
+            "# Python",
+            "__pycache__/",
+            "*.py[cod]",
+            "*$py.class",
+            "*.so",
+            ".Python",
+            "build/",
+            "dist/",
+            "*.egg-info/",
+            ".pytest_cache/",
+            ".coverage",
+            "htmlcov/",
+            ".mypy_cache/",
+            ".ruff_cache/",
+            "",
+            "# Virtual environments",
+            "venv/",
+            "env/",
+            ".venv/",
+            "",
+            "# IDE",
+            ".vscode/",
+            ".idea/",
+            "",
+            "# OS",
+            ".DS_Store",
+            "Thumbs.db",
+            "",
+            "# Logs",
+            "*.log",
+            "",
+            "# Temporary files",
+            "*.tmp",
+            "*.bak",
+            "*.swp",
+            "",
+            "# Coordination (optional - may want to version)",
+            "# .coordination/outbox/",
+            "# .coordination/inbox/archived/"
+          ],
+          "tool": "Write file_path='.gitignore' content='...'",
+          "validation": ".gitignore file exists"
+        },
+
+        "3_initial_commit": {
+          "action": "Create initial commit with all current work",
+          "steps": [
+            "git add .",
+            "git commit -m \"Initial commit: Foundation work (Priorities 1, 1.5, 1.9, 2, 3)\n\nIncludes:\n- Priority 1: Process Memory provisioning (PM export/import/query)\n- Priority 1.5: Skills Export (SKILL.md generation)\n- Priority 1.9: PROJECT-IMPERATIVES.md (5 imperatives)\n- Priority 2: Project Bootstrap Package (cogito bootstrap)\n- Priority 3: 14 example thinking tools + validation\n\nQuality gates:\n- mypy --strict: 0 errors\n- ruff: 0 violations\n- Bootstrap tests: 100% pass/skip rate\n\nNote: pytest 94.6% (23 failures) - fix in progress\""
+          ],
+          "validation": "git log shows initial commit",
+          "output": "Commit SHA and message"
+        },
+
+        "4_configure_remote": {
+          "action": "Add remote origin if GitHub repo exists",
+          "note": "Coordinator indicates remote should be https://github.com/jcmrs/thinking-tools-framework",
+          "steps": [
+            "Check if remote repo exists: curl -I https://github.com/jcmrs/thinking-tools-framework 2>&1",
+            "If exists: git remote add origin https://github.com/jcmrs/thinking-tools-framework",
+            "If not exists: Report 'Remote repo does not exist yet. Local git initialized, remote pending.'"
+          ],
+          "validation": "git remote -v shows origin (if exists) OR message about pending remote",
+          "output": "Remote configuration status"
+        },
+
+        "5_branch_strategy": {
+          "action": "Ensure main branch exists and is default",
+          "steps": [
+            "git branch -M main (rename master to main if needed)",
+            "Verify: git branch --show-current"
+          ],
+          "validation": "Current branch is 'main'",
+          "output": "Branch: main"
+        }
+      },
+
+      "constraints": {
+        "no_git_push": "Do NOT push to remote yet (work may need review first)",
+        "preserve_all_work": "Ensure all files committed (check git status)",
+        "coordination_files": "Include .coordination/ in commit (process memory, directives)",
+        "minimal_scope": "Git initialization only. Do not fix test failures in this directive."
+      }
+    },
+
+    "execution_guidance": {
+      "approach": "Execute git commands in sequence. Validate each step immediately.",
+
+      "step_1_init": {
+        "action": "Initialize git repository",
+        "tool": "Bash: cd /c/Development/thinking-tools-framework && git init",
+        "validation": "ls -la .git (directory exists?)",
+        "next": "Proceed to step 2"
+      },
+
+      "step_2_gitignore": {
+        "action": "Create .gitignore",
+        "tool": "Write file_path='/c/Development/thinking-tools-framework/.gitignore' content='...'",
+        "validation": "cat .gitignore (file exists and has Python patterns?)",
+        "next": "Proceed to step 3"
+      },
+
+      "step_3_stage_all": {
+        "action": "Stage all files for initial commit",
+        "tool": "Bash: git add .",
+        "validation": "git status (shows staged files?)",
+        "next": "Proceed to step 4"
+      },
+
+      "step_4_initial_commit": {
+        "action": "Create initial commit",
+        "tool": "Bash: git commit -m '...'",
+        "validation": "git log --oneline -1 (shows commit?)",
+        "next": "Proceed to step 5"
+      },
+
+      "step_5_remote": {
+        "action": "Check if remote exists, configure if available",
+        "tool": "Bash: curl -I https://github.com/jcmrs/thinking-tools-framework",
+        "conditional": "If 200 OK, add remote. If 404, report pending.",
+        "validation": "git remote -v OR message about pending remote",
+        "next": "Proceed to step 6"
+      },
+
+      "step_6_verify": {
+        "action": "Verify git initialized correctly",
+        "checks": [
+          "git status (clean working tree?)",
+          "git log --oneline -1 (initial commit exists?)",
+          "git branch --show-current (main branch?)"
+        ],
+        "validation": "All checks pass",
+        "output": "Git repository initialized successfully"
+      }
+    },
+
+    "examples": {
+      "git_init_pattern": {
+        "what": "Standard Python project git initialization",
+        "steps": [
+          "git init",
+          "Create .gitignore with Python patterns",
+          "git add .",
+          "git commit -m 'Initial commit'",
+          "git remote add origin <URL>",
+          "git branch -M main"
+        ]
+      },
+
+      "commit_message_format": {
+        "what": "Descriptive initial commit message",
+        "example": "Initial commit: Foundation work (Priorities 1-3)\n\nIncludes process memory, skills export, imperatives, bootstrap, tools.",
+        "note": "Summarize what's being committed"
+      }
+    },
+
+    "quality_requirements": {
+      "completeness": {
+        "git_initialized": ".git directory exists",
+        "initial_commit": "All files committed (git status clean)",
+        "gitignore_present": ".gitignore exists with Python patterns",
+        "branch_configured": "main branch is default"
+      },
+
+      "specificity": {
+        "all_work_preserved": "All Priority 1-3 work included in initial commit",
+        "coordination_included": ".coordination/ directory committed",
+        "clean_working_tree": "git status shows no untracked or uncommitted files"
+      },
+
+      "clarity": {
+        "commit_message": "Clear summary of what's being committed",
+        "remote_status": "Clear message about remote configuration status"
+      }
+    },
+
+    "success_verification": {
+      "before_completion_message": [
+        "✓ git init executed successfully",
+        "✓ .git directory exists",
+        "✓ .gitignore created with Python patterns",
+        "✓ Initial commit created with all work (Priorities 1-3)",
+        "✓ git status shows clean working tree",
+        "✓ git log shows initial commit",
+        "✓ main branch is default",
+        "✓ Remote configured (if exists) OR pending message provided"
+      ],
+
+      "completion_message_format": {
+        "git_status": "Output of git status (should be clean)",
+        "commit_info": "Output of git log --oneline -1",
+        "remote_status": "Output of git remote -v OR message about pending remote"
+      }
+    },
+
+    "why_this_is_critical": {
+      "imperative_violation": "PROJECT-IMPERATIVES.md explicitly states 'Project = Repository'",
+      "work_at_risk": "All Priorities 1-3 work (weeks of development) is unprotected",
+      "foundation_principle": "Version control is FOUNDATION, not optional enhancement",
+      "ai_first_principle": "Fresh AI session needs git history to understand evolution",
+      "collaboration_blocker": "Cannot share work, cannot collaborate without git"
+    },
+
+    "coordinator_accountability": {
+      "coordinator_error": "Coordinator (me) failed to verify git initialization at project start",
+      "should_have_caught": "Should have been in Priority 0 or verified during Priority 1 acceptance",
+      "lesson_learned": "All future projects must verify git init BEFORE any development work",
+      "process_fix": "Add 'Verify git initialized' to Priority 1 acceptance checklist"
+    }
+  },
+
+  "quality_gates": {
+    "git_initialized": ".git directory must exist",
+    "initial_commit": "git log must show commit",
+    "clean_working_tree": "git status must show no uncommitted files"
+  },
+
+  "estimated_effort": "15-30 minutes (git init, gitignore, commit)",
+
+  "coordinator_notes": {
+    "blocking_priority": "All other work BLOCKED until git initialized",
+    "test_fix_paused": "Priority 3 test fix directive sent but should wait for git init",
+    "imperative_restored": "Once completed, 'Project = Repository' imperative satisfied",
+    "process_improvement": "Future projects: Verify git init as Priority 0"
+  },
+
+  "read": false
+}

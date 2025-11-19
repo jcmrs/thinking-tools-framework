@@ -1,0 +1,122 @@
+# {{ project_name }}
+
+{{ description }}
+
+## Quick Start
+
+```bash
+# Install dependencies
+python -m pip install -e ".[dev]"
+
+# Execute a thinking tool
+cogito execute think_aloud depth=detailed topic="your topic here"
+
+# List available tools
+cogito list
+
+# Export tools as Claude Skills
+cogito skills export-all .claude/skills/
+```
+
+## Project Structure
+
+```
+{{ project_name }}/
+├── src/cogito/          # Framework implementation
+│   ├── core/            # Core modules (placeholder)
+│   └── ui/              # CLI interface
+├── examples/            # Thinking tool specifications (YAML)
+│   ├── metacognition/   # Self-reflection and planning tools
+│   └── problem_solving/ # Decision-making and analysis tools
+├── tests/               # Test suite
+│   ├── unit/            # Unit tests
+│   └── integration/     # Integration tests
+├── docs/                # Documentation
+├── config/              # Configuration files
+│   ├── cogito.yml       # Framework configuration
+│   └── logging.yml      # Logging configuration
+└── .bootstrap/          # Process memory and knowledge graph
+    ├── process_memory.jsonl
+    └── knowledge_graph.json
+```
+
+## Configuration
+
+### Framework Configuration (`config/cogito.yml`)
+
+Configure tool discovery, caching, and security settings.
+
+### Logging Configuration (`config/logging.yml`)
+
+Configure logging levels, handlers, and formatters.
+
+## Creating Thinking Tools
+
+1. Choose a category directory under `examples/`
+2. Create a YAML file following the schema in `schemas/thinking-tool-v1.0.schema.json`
+3. Define metadata, parameters, and a Jinja2 template
+4. Validate using `bash scripts/validate.sh examples/category/tool.yml`
+
+See existing tools in `examples/` for reference.
+
+## Development
+
+```bash
+# Run tests
+pytest
+
+# Run with coverage
+pytest --cov=cogito --cov-report=html
+
+# Type checking
+mypy src/
+
+# Linting
+ruff check src/
+
+# Code formatting
+black src/
+```
+
+## Architecture
+
+This project follows the **Five-Layer Clean Architecture** from the Thinking Tools Framework:
+
+1. **Layer 1 (UI)**: CLI interfaces, user I/O formatting
+2. **Layer 2 (Orchestration)**: Tool discovery, execution coordination
+3. **Layer 3 (Processing)**: Template rendering, validation, security
+4. **Layer 4 (Storage)**: Process memory, caching
+5. **Layer 5 (Integration)**: MCP protocol, external integrations
+
+See `docs/ARCHITECTURE.md` for details.
+
+## Documentation
+
+- `docs/QUICK-START.md` - 5-minute getting started guide
+- `docs/ARCHITECTURE.md` - Architecture overview and design decisions
+- `docs/CONFIGURATION.md` - Configuration guide
+
+## Foundation Imperatives
+
+This project adheres to the **Five Foundation Imperatives**:
+
+1. **Holistic System Thinking** - Consider ripple effects across all layers
+2. **AI-First** - Optimized for AI comprehension and autonomy
+3. **Five Cornerstones** - Configurability, Modularity, Extensibility, Integration, Automation
+4. **Quality Without Compromise** - 100% means 100% (mypy --strict, ruff, pytest 100%)
+5. **Progressive Disclosure** - ~98% token savings through on-demand loading
+
+See `PROJECT-IMPERATIVES.md` for complete imperatives and enforcement checklists.
+
+## License
+
+Apache-2.0 License - see LICENSE file for details.
+
+## Contributing
+
+This project follows the **Partnership Model**:
+
+- **Vision Owner (Human)**: Strategic direction, YAML tool specifications
+- **System Owner (AI)**: Technical implementation, architecture, quality gates
+
+See `PROJECT-IMPERATIVES.md` for roles and responsibilities.

@@ -1,0 +1,180 @@
+{
+  "message_id": "msg-20251117-214500-mcp-smoke-test",
+  "type": "directive",
+  "priority": "normal",
+  "timestamp": "2025-11-17T21:45:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "MCP Server Smoke Test - Project-Level Installation Only",
+  "content": {
+    "congratulations": "Excellent work completing all 5 layers! Framework is feature-complete. Before moving to Priority 1 (Process Memory Provisioning), let's validate the MCP server works in production.",
+    "task": "Perform project-level MCP server smoke test using Claude Code",
+    "scope": "Quick validation (30-45 minutes) - confirm MCP server runs and basic tools work",
+    "critical_constraints": {
+      "project_level_only": "Use 'claude mcp add' with project-level installation (.claude/mcp.json) - DO NOT install globally",
+      "session_restart_required": "After MCP configuration, you MUST run 'claude --continue' to restart Claude Code session for MCP server to load",
+      "minimal_testing": "Focus on smoke test - confirm server starts and 1-2 tools work, not exhaustive testing",
+      "rollback_ready": "Keep .claude/mcp.json changes reversible - document original state before modifying"
+    },
+    "implementation_steps": {
+      "step_1_backup": {
+        "action": "Backup current .claude/mcp.json if it exists",
+        "command": "cp .claude/mcp.json .claude/mcp.json.backup 2>/dev/null || echo 'No existing config'",
+        "purpose": "Enable rollback if needed"
+      },
+      "step_2_configure_mcp": {
+        "action": "Add cogito MCP server to project-level configuration",
+        "method": "Use 'claude mcp add' command with project scope",
+        "configuration": {
+          "server_name": "cogito-thinking-tools",
+          "command": "python",
+          "args": ["-m", "cogito"],
+          "scope": "project (not user/global)",
+          "env": {
+            "PYTHONPATH": "/c/Development/thinking-tools-framework/src"
+          }
+        },
+        "expected_file": ".claude/mcp.json (project-level)",
+        "note": "Exact syntax may vary - follow Claude Code's mcp add documentation"
+      },
+      "step_3_session_restart": {
+        "action": "Restart Claude Code session to load MCP server",
+        "command": "claude --continue",
+        "critical": "MCP servers only load at session start - restart is REQUIRED",
+        "expected": "New Claude Code session with cogito MCP server available"
+      },
+      "step_4_verify_server": {
+        "action": "Verify MCP server is loaded and accessible",
+        "checks": [
+          "MCP server 'cogito-thinking-tools' appears in available servers list",
+          "Can list MCP tools from cogito server",
+          "No startup errors in logs"
+        ],
+        "how": "Use Claude Code MCP introspection commands or check logs"
+      },
+      "step_5_smoke_test": {
+        "action": "Test 1-2 basic MCP tools",
+        "tools_to_test": [
+          {
+            "tool": "list_thinking_tools",
+            "params": {},
+            "expected": "Returns list of 9 thinking tools from examples/"
+          },
+          {
+            "tool": "execute_thinking_tool",
+            "params": {
+              "tool_name": "think_aloud",
+              "parameters": {
+                "topic": "MCP integration test",
+                "mode": "standard"
+              }
+            },
+            "expected": "Returns rendered think_aloud template with prompts"
+          }
+        ],
+        "success_criteria": "Both tools execute without errors and return expected structure"
+      },
+      "step_6_validate_progressive_disclosure": {
+        "action": "Test progressive disclosure resources (OPTIONAL)",
+        "resources_to_test": [
+          {
+            "uri": "thinking-tools://discover",
+            "expected": "Returns categories and tool lists (small payload)"
+          },
+          {
+            "uri": "thinking-tools://tool-spec/metacognition/think_aloud",
+            "expected": "Returns YAML spec only when requested (on-demand loading)"
+          }
+        ],
+        "note": "Only test if time permits - not critical for smoke test"
+      },
+      "step_7_cleanup": {
+        "action": "Document results and optionally remove MCP config",
+        "options": {
+          "keep_config": "If smoke test passes and you want to continue using MCP server",
+          "rollback": "Restore .claude/mcp.json.backup if issues encountered",
+          "remove": "Delete .claude/mcp.json if preferring clean state"
+        },
+        "document": "Create completion message with smoke test results"
+      }
+    },
+    "expected_outcomes": {
+      "success_scenario": {
+        "mcp_server_loads": true,
+        "tools_accessible": true,
+        "execute_works": true,
+        "no_errors": true,
+        "next_step": "Proceed to Priority 1 (Process Memory Provisioning)"
+      },
+      "failure_scenarios": {
+        "server_not_loading": {
+          "possible_causes": [
+            "Python path incorrect",
+            "Missing dependencies",
+            "Entry point misconfigured",
+            "Import errors"
+          ],
+          "action": "Debug and fix before provisioning"
+        },
+        "tools_not_working": {
+          "possible_causes": [
+            "Tool discovery failing",
+            "YAML parsing errors",
+            "Template rendering issues"
+          ],
+          "action": "Fix integration issues"
+        },
+        "session_restart_issues": {
+          "possible_cause": "Claude Code session management",
+          "action": "Document issue, may be environment-specific"
+        }
+      }
+    },
+    "safety_protocols": {
+      "project_scope_only": "NEVER install globally - only .claude/mcp.json (project-level)",
+      "backup_first": "Always backup existing config before modifying",
+      "reversible_changes": "Document how to undo all changes",
+      "minimal_surface": "Test only what's needed for validation",
+      "session_awareness": "Remember 'claude --continue' is required for MCP changes to take effect"
+    },
+    "deliverables": {
+      "completion_message": {
+        "include": [
+          "Smoke test results (pass/fail for each step)",
+          "Any errors encountered and resolutions",
+          "MCP server configuration used",
+          "Recommendation: proceed to Priority 1 or fix issues first"
+        ]
+      },
+      "optional_artifacts": [
+        ".claude/mcp.json (if keeping config)",
+        "Smoke test log/transcript (if issues found)"
+      ]
+    },
+    "time_budget": {
+      "total_time": "30-45 minutes",
+      "breakdown": {
+        "backup_and_configure": "5 minutes",
+        "session_restart": "5 minutes",
+        "smoke_testing": "15-20 minutes",
+        "documentation": "10 minutes"
+      },
+      "if_exceeds_45min": "Document blockers and defer detailed debugging to separate task"
+    },
+    "process_memory_references": [
+      "PM-020: FastMCP Integration - validates progressive disclosure works in production",
+      "PM-017: JIT Learning - confirms token savings in real usage",
+      "PM-004: Hot-reload - can test if time permits"
+    ],
+    "next_after_this": {
+      "if_smoke_test_passes": "Priority 1: Process Memory Provisioning System",
+      "if_smoke_test_fails": "Debug and fix MCP integration issues first",
+      "rationale": "No point building provisioning system if MCP server doesn't work in production"
+    }
+  },
+  "quality_gates": {
+    "not_applicable": "Smoke test - no code changes, just validation",
+    "success_criteria": "MCP server loads and at least 1 tool executes successfully"
+  },
+  "read": false
+}

@@ -1,0 +1,325 @@
+{
+  "message_id": "msg-20251119-160000-priority3-validation-enhanced",
+  "type": "directive",
+  "priority": "high",
+  "timestamp": "2025-11-19T16:00:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "Priority 3: End-to-End Validation (ENHANCED PROMPT - Token Optimized)",
+
+  "content": {
+    "role_definition": {
+      "your_role": "System Owner executing validation priority autonomously",
+      "execution_mode": "Execution agent: Implement → Validate → Report. Minimize reasoning commentary in responses.",
+      "reasoning_budget": [
+        "Use find_symbol with specific name_path (NOT Read full files unless necessary)",
+        "Progressive information: get_symbols_overview → find_symbol depth=1 → targeted symbol reads",
+        "If you know symbol name, use find_symbol directly with include_body=true"
+      ],
+      "context_strategy": [
+        "PM references: Read via mcp__serena__read_memory ONLY when needed (not upfront)",
+        "Schemas: Read schemas/thinking-tool-v1.0.schema.json to understand structure",
+        "Patterns: Use find_symbol to locate similar implementations, not broad searches"
+      ],
+      "autonomy": "Full autonomy on implementation details. Consult PROJECT-IMPERATIVES.md for constraints."
+    },
+
+    "task_specification": {
+      "task": "Create 10+ example thinking tools and validate end-to-end system functionality before core component implementation",
+
+      "why_now": "Imperative 1: Holistic System Thinking - Validate foundation works end-to-end before building Template Engine, Spec Loader, Validator. Example tools validate YAML specs, MCP server, Skills export, Bootstrap workflow.",
+
+      "deliverables": {
+        "1_example_thinking_tools": {
+          "count": "Minimum 10 YAML tools across 3 categories",
+          "categories": {
+            "metacognition": [
+              "think_aloud.yml - Externalize reasoning step-by-step",
+              "fresh_eyes.yml - Beginner's perspective approach",
+              "assumption_challenger.yml - Identify and challenge assumptions",
+              "context_preservation.yml - Session handover context capture"
+            ],
+            "problem_solving": [
+              "decision_journal.yml - Document decisions with rationale",
+              "root_cause_analysis.yml - Five Whys technique",
+              "trade_off_analysis.yml - Systematic option evaluation"
+            ],
+            "planning": [
+              "task_breakdown.yml - Decompose complex tasks",
+              "risk_assessment.yml - Identify and evaluate risks",
+              "success_criteria.yml - Define measurable success"
+            ]
+          },
+          "location": "examples/{category}/{tool}.yml",
+          "validation": "All tools MUST validate against schemas/thinking-tool-v1.0.schema.json"
+        },
+
+        "2_end_to_end_validation": {
+          "workflows": [
+            "YAML creation → Schema validation → Success",
+            "MCP server discovery → Tool spec retrieval → Execution → Rendered output",
+            "Skills export → SKILL.md generation → Bash wrapper → Execution",
+            "Bootstrap project → Install dependencies → Execute tool → Success",
+            "Process memory export → Import → Query → Context retrieval"
+          ],
+          "implementation": "Create tests/validation/test_end_to_end_workflows.py with pytest tests for each workflow"
+        },
+
+        "3_documentation_update": {
+          "files": [
+            "README.md - Add real tool examples to getting started",
+            "docs/USER-GUIDE.md - Step-by-step: YAML creation → validation → execution → export",
+            "docs/TOOL-CREATION-GUIDE.md - Template-based guide for non-technical users",
+            "examples/README.md - Tool catalog with descriptions and use cases"
+          ]
+        }
+      },
+
+      "constraints": {
+        "schema_compliance": "Every YAML tool MUST pass JSON Schema validation",
+        "no_placeholders": "All tools must have real templates, parameters, examples (no TODOs)",
+        "quality_gates": "mypy --strict 0 errors, ruff 0 violations, pytest 100% pass rate",
+        "layer_boundaries": "Do not violate five-layer architecture"
+      }
+    },
+
+    "execution_guidance": {
+      "approach": "Incremental: Create tool → Validate → Test → Repeat. Do not create all tools then validate.",
+
+      "step_1_understand_structure": {
+        "action": "Read JSON Schema to understand required/optional fields",
+        "tool": "Read file_path='schemas/thinking-tool-v1.0.schema.json'",
+        "validation": "Can you list required fields: name, description, version, category, template, parameters, examples?",
+        "next": "Proceed to step 2 once confirmed"
+      },
+
+      "step_2_create_first_tool": {
+        "action": "Create examples/metacognition/think_aloud.yml following schema",
+        "structure": {
+          "metadata": "name, description, version, category, tags",
+          "parameters": "Define parameter schema (type, description, required, default)",
+          "template": "Jinja2 template using {{ parameters.name }} syntax",
+          "examples": "At least 2 usage examples with parameters and expected output"
+        },
+        "tool": "Write file_path='examples/metacognition/think_aloud.yml' content='...'",
+        "validation": "Validate immediately with schema validator (if available) or manual check against schema",
+        "next": "Proceed to step 3 only after validation passes"
+      },
+
+      "step_3_test_tool_via_mcp": {
+        "action": "Test tool discovery and execution via MCP server",
+        "tests": [
+          "MCP discovery: thinking-tools://discover should list think_aloud",
+          "MCP spec retrieval: thinking-tools://tool-spec/metacognition/think_aloud",
+          "MCP execution: execute_thinking_tool('think_aloud', {'topic': 'test'})"
+        ],
+        "validation": "Tool renders output without errors?",
+        "next": "If errors, fix template. If success, proceed to step 4"
+      },
+
+      "step_4_test_tool_via_skills": {
+        "action": "Test Skills export for think_aloud",
+        "tool": "Bash: cogito skills export think_aloud --output /tmp/think_aloud.md",
+        "validation": "SKILL.md generated with proper frontmatter (name, description)?",
+        "next": "If errors, fix tool spec. If success, proceed to step 5"
+      },
+
+      "step_5_repeat_for_remaining_tools": {
+        "action": "Repeat steps 2-4 for remaining 9+ tools",
+        "efficiency": "You may batch creation but MUST validate each tool immediately after creation",
+        "validation": "All 10+ tools created, schema-validated, MCP-tested, Skills-tested",
+        "next": "Proceed to step 6 only after all tools complete"
+      },
+
+      "step_6_integration_tests": {
+        "action": "Create tests/validation/test_end_to_end_workflows.py",
+        "pattern_reference": "See tests/integration/ for existing test structure patterns (use find_symbol to locate test classes)",
+        "tests_to_write": [
+          "test_yaml_schema_validation_all_tools()",
+          "test_mcp_discovery_lists_all_tools()",
+          "test_mcp_tool_spec_retrieval_all_tools()",
+          "test_mcp_execution_all_tools()",
+          "test_skills_export_all_tools()",
+          "test_bootstrap_with_example_tools()"
+        ],
+        "tool": "Write file_path='tests/validation/test_end_to_end_workflows.py' content='...'",
+        "validation": "pytest tests/validation/test_end_to_end_workflows.py -v (100% pass rate)",
+        "next": "Proceed to step 7 only after all tests pass"
+      },
+
+      "step_7_update_documentation": {
+        "action": "Update README, create USER-GUIDE, TOOL-CREATION-GUIDE, examples/README",
+        "content_source": "Use actual tool examples from step 5, real execution output from step 6",
+        "pattern": "Follow existing documentation structure in docs/",
+        "validation": "Documentation includes real examples (not placeholders)",
+        "next": "Proceed to step 8"
+      },
+
+      "step_8_final_quality_gates": {
+        "action": "Run all quality gates on entire codebase",
+        "commands": [
+          "mypy --strict src/",
+          "ruff check src/ tests/ examples/",
+          "pytest tests/ -v --cov=src --cov-report=term-missing"
+        ],
+        "validation": "mypy 0 errors, ruff 0 violations, pytest 100% pass rate, coverage 85%+",
+        "next": "If quality gates fail, fix issues. If all pass, proceed to completion message"
+      }
+    },
+
+    "examples": {
+      "yaml_tool_structure": {
+        "what": "Complete YAML tool following schema",
+        "example": "examples/metacognition/think_aloud.yml",
+        "structure": {
+          "name": "think-aloud",
+          "description": "Metacognitive tool for externalizing reasoning process step-by-step. Use when you need to work through complex problems methodically.",
+          "version": "1.0.0",
+          "category": "metacognition",
+          "tags": ["reasoning", "metacognition", "problem-solving"],
+          "parameters": {
+            "topic": {
+              "type": "string",
+              "description": "The topic or problem to think through",
+              "required": true
+            },
+            "depth": {
+              "type": "string",
+              "description": "Depth of analysis: surface, moderate, deep",
+              "required": false,
+              "default": "moderate"
+            }
+          },
+          "template": "# Think Aloud: {{ parameters.topic }}\n\n## Step 1: State the Problem\n[Clearly define what we're analyzing]\n\n## Step 2: Initial Observations\n[What do we know? What patterns do we see?]\n\n## Step 3: Reasoning Process\n[Work through logic step-by-step]\n\n## Step 4: Conclusions\n[What did we learn? What are implications?]",
+          "examples": [
+            {
+              "name": "Problem analysis",
+              "parameters": {"topic": "token efficiency in multi-agent systems", "depth": "deep"},
+              "expected_output": "Structured analysis with steps 1-4"
+            }
+          ]
+        }
+      },
+
+      "reference_implementation_priority2": {
+        "what": "Priority 2 Bootstrap Package - Quality gate enforcement example",
+        "where": "msg-20251118-152000-priority2-fix-completion.json",
+        "why_reference": "Shows proper completion: Fixed 7 issues, achieved 100% test pass rate, comprehensive validation",
+        "lessons": [
+          "Jinja2 whitespace control: Use {%- and -%} to strip newlines in templates",
+          "Windows compatibility: Always use encoding='utf-8' for file operations",
+          "Integration tests: Must handle environmental variations gracefully",
+          "Quality gates: 100% means 100%, not 88%, not 95% (Imperative 4)"
+        ]
+      },
+
+      "anti_pattern_batch_then_validate": {
+        "what": "Creating all 10 tools then validating at end",
+        "why_bad": "Accumulates errors, harder to debug, wastes time fixing batch",
+        "instead_do": "Incremental: Create → Validate → Test → Next tool"
+      },
+
+      "anti_pattern_full_file_reads": {
+        "what": "Using Read tool on entire files to understand code",
+        "why_bad": "Burns tokens unnecessarily, context bloat",
+        "instead_do": "get_symbols_overview → find_symbol with specific name_path → targeted include_body=true reads"
+      }
+    },
+
+    "quality_requirements": {
+      "completeness": {
+        "all_tools_complete": "10+ tools with real templates (not placeholders), real parameters, real examples",
+        "all_workflows_validated": "5 end-to-end workflows tested with pytest integration tests",
+        "all_documentation_updated": "README, USER-GUIDE, TOOL-CREATION-GUIDE complete with real examples",
+        "no_todo_markers": "No TODO, FIXME, or 'will implement later' in any deliverable"
+      },
+
+      "specificity": {
+        "schema_validation": "All YAML tools validate against schemas/thinking-tool-v1.0.schema.json (use validator if available)",
+        "template_rendering": "All Jinja2 templates render without errors when executed",
+        "pattern_adherence": "Follow existing project patterns: CLI commands (cogito {verb} {noun}), layer structure, type hints",
+        "examples_executable": "All examples in YAML tools can be executed successfully"
+      },
+
+      "clarity": {
+        "type_safety": "mypy --strict passes with 0 errors (no type: ignore comments)",
+        "code_quality": "ruff passes with 0 violations",
+        "test_quality": "pytest achieves 100% pass rate, 85%+ coverage for new code",
+        "documentation_clarity": "Non-technical users can create tools following TOOL-CREATION-GUIDE"
+      }
+    },
+
+    "success_verification": {
+      "before_completion_message": [
+        "✓ 10+ thinking tools created in examples/{category}/ directories",
+        "✓ All tools validate against schemas/thinking-tool-v1.0.schema.json",
+        "✓ MCP server discovers all tools via thinking-tools://discover",
+        "✓ MCP server retrieves specs via thinking-tools://tool-spec/{category}/{tool}",
+        "✓ MCP server executes all tools without errors",
+        "✓ Skills export generates valid SKILL.md for all tools (cogito skills export-all)",
+        "✓ Integration tests pass 100%: tests/validation/test_end_to_end_workflows.py",
+        "✓ Bootstrap validation: cogito bootstrap test-project → install → execute tool works",
+        "✓ Documentation complete: README, USER-GUIDE, TOOL-CREATION-GUIDE, examples/README",
+        "✓ Quality gates: mypy strict 0 errors, ruff 0 violations, pytest 100% pass rate",
+        "✓ Progressive disclosure validated: ~98% token savings measured with 10+ tools"
+      ],
+
+      "completion_message_format": {
+        "deliverables_status": "List each deliverable with completion status",
+        "quality_gates_results": "Exact output from mypy, ruff, pytest commands",
+        "verification_checklist": "Mark each item above with ✓ or ✗",
+        "lessons_learned": "Brief notes on implementation challenges and solutions"
+      }
+    },
+
+    "process_memory_references": {
+      "note": "Read these ONLY when needed (JIT), not upfront",
+      "references": [
+        "PM-010: Token Efficiency Through Progressive Disclosure - Validate ~98% savings claim",
+        "PM-015: Process Memory Implementation Success - Reference for layer structure patterns",
+        "PM-018: Skills Export Success - Reference for SKILL.md generation patterns"
+      ]
+    },
+
+    "reference_documents": {
+      "note": "Read these as needed for patterns, not all upfront",
+      "documents": [
+        "schemas/thinking-tool-v1.0.schema.json - Required YAML structure",
+        "PROJECT-IMPERATIVES.md - Constraints (Imperative 1: Holistic System Thinking)",
+        ".coordination/SKILLS-MCP-INTEGRATION-STRATEGY.md - Dual-pattern architecture details"
+      ]
+    },
+
+    "holistic_system_thinking": {
+      "imperative_1_check": [
+        "How does adding 10+ tools affect MCP server performance? (Measure discovery time)",
+        "Does Skills export scale with tool library growth? (Test export-all with 10+ tools)",
+        "Does Bootstrap handle projects with many tools? (Test bootstrap --include-examples)",
+        "Are there integration issues between components? (Run full integration test suite)",
+        "Does progressive disclosure still work at scale? (Measure token usage: 10 tools loaded vs on-demand)"
+      ],
+
+      "validation_before_proceeding": "This priority validates foundation before building Template Engine, Spec Loader, Validator. If validation reveals issues, fix foundation first before proceeding."
+    }
+  },
+
+  "quality_gates": {
+    "yaml_schema_validation": "all 10+ tools must validate against schemas/thinking-tool-v1.0.schema.json",
+    "mcp_server": "must discover and execute all tools successfully",
+    "skills_export": "must generate valid SKILL.md for all tools",
+    "bootstrap": "must create working project with example tools",
+    "mypy": "must pass --strict with 0 errors",
+    "ruff": "0 violations",
+    "pytest": "100% pass rate (all validation tests passing)"
+  },
+
+  "estimated_effort": "4-6 hours (10 tools + validation + documentation)",
+
+  "coordinator_notes": {
+    "prompt_engineering_applied": "This directive uses enhanced prompt engineering (role definition, execution guidance, few-shot examples) to reduce token burn",
+    "token_efficiency_hypothesis": "Explicit execution guidance should reduce reasoning overhead, extending session duration from <10 minutes baseline",
+    "measurement_needed": "Track token usage and session duration to validate prompt engineering effectiveness"
+  },
+
+  "read": false
+}

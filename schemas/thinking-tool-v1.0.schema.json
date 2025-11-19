@@ -1,0 +1,175 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://cogito.dev/schemas/thinking-tool-spec-v1.0.json",
+    "title": "Thinking Tool Specification",
+    "description": "JSON Schema for Cogito Thinking Tool YAML specifications",
+    "type": "object",
+    "required": [
+        "version",
+        "metadata",
+        "template"
+    ],
+    "properties": {
+        "version": {
+            "type": "string",
+            "pattern": "^[0-9]+\\.[0-9]+$",
+            "description": "Specification version (MAJOR.MINOR format)",
+            "examples": [
+                "1.0",
+                "1.1",
+                "2.0"
+            ]
+        },
+        "metadata": {
+            "type": "object",
+            "required": [
+                "name",
+                "display_name",
+                "description",
+                "category"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "pattern": "^[a-z][a-z0-9_]*$",
+                    "minLength": 3,
+                    "maxLength": 50,
+                    "description": "Tool identifier (snake_case)",
+                    "examples": [
+                        "fresh_eyes_exercise",
+                        "debug_analysis"
+                    ]
+                },
+                "display_name": {
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 100,
+                    "description": "Human-readable name",
+                    "examples": [
+                        "Fresh Eyes Exercise",
+                        "Debug Analysis"
+                    ]
+                },
+                "description": {
+                    "type": "string",
+                    "minLength": 10,
+                    "maxLength": 500,
+                    "description": "Tool description (shown in tool listing)"
+                },
+                "category": {
+                    "type": "string",
+                    "enum": [
+                        "metacognition",
+                        "review",
+                        "handoff",
+                        "debugging",
+                        "planning",
+                        "learning",
+                        "custom"
+                    ],
+                    "description": "Tool category for organization"
+                },
+                "author": {
+                    "type": "string",
+                    "description": "Tool author name"
+                },
+                "tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^[a-z0-9-]+$"
+                    },
+                    "uniqueItems": true,
+                    "description": "Searchable tags"
+                },
+                "documentation_url": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URL to detailed documentation"
+                }
+            }
+        },
+        "parameters": {
+            "description": "JSON Schema defining tool parameters (standard JSON Schema format)",
+            "type": "object"
+        },
+        "template": {
+            "type": "object",
+            "required": [
+                "source"
+            ],
+            "properties": {
+                "source": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 102400,
+                    "description": "Jinja2 template source (max 100KB)"
+                },
+                "includes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "description": "Path to included template file"
+                    },
+                    "description": "Template files to include"
+                },
+                "filters": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Required custom filters"
+                }
+            }
+        },
+        "examples": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "parameters"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Example name"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "What this example demonstrates"
+                    },
+                    "parameters": {
+                        "type": "object",
+                        "description": "Example parameter values"
+                    }
+                }
+            },
+            "description": "Usage examples"
+        },
+        "validation": {
+            "type": "object",
+            "properties": {
+                "strict_parameters": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Fail on unknown parameters"
+                },
+                "timeout_ms": {
+                    "type": "integer",
+                    "minimum": 100,
+                    "maximum": 60000,
+                    "default": 5000,
+                    "description": "Render timeout in milliseconds"
+                },
+                "max_output_size_bytes": {
+                    "type": "integer",
+                    "minimum": 1024,
+                    "maximum": 10485760,
+                    "default": 1048576,
+                    "description": "Maximum output size (1MB default)"
+                }
+            }
+        }
+    }
+}

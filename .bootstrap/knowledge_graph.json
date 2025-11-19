@@ -1,0 +1,1027 @@
+{
+  "nodes": [
+    {
+      "id": "pm-001",
+      "title": "YAML Specification Format",
+      "type": "StrategicDecision",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "format",
+        "yaml",
+        "specification",
+        "accessibility"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-002",
+      "title": "Sandboxed Jinja2 Template Engine",
+      "type": "StrategicDecision",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "template-engine",
+        "security",
+        "jinja2",
+        "sandboxing"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "pm-003",
+      "title": "Append-Only Process Memory Log",
+      "type": "StrategicDecision",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "process-memory",
+        "jsonl",
+        "immutability",
+        "ai-first"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "pm-004",
+      "title": "Hot-Reload Capability",
+      "type": "StrategicDecision",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "hot-reload",
+        "developer-experience",
+        "automation"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "id": "pm-005",
+      "title": "Multi-Layer Validation Pipeline",
+      "type": "StrategicDecision",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "validation",
+        "quality",
+        "security",
+        "multi-layer"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-006",
+      "title": "Protocol-Based Plugin Architecture",
+      "type": "StrategicDecision",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "plugins",
+        "protocols",
+        "extensibility",
+        "modularity"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-007",
+      "title": "Semantic Versioning for Specifications",
+      "type": "StrategicDecision",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "versioning",
+        "semver",
+        "compatibility"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "pm-008",
+      "title": "Five-Layer Architecture",
+      "type": "StrategicDecision",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "architecture",
+        "layers",
+        "modularity",
+        "separation-of-concerns"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-009",
+      "title": "Zero Serena Core Modifications",
+      "type": "StrategicDecision",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "integration",
+        "serena",
+        "mcp",
+        "decoupling"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "pm-010",
+      "title": "Declarative-First Design",
+      "type": "StrategicDecision",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "declarative",
+        "yaml",
+        "code-generation",
+        "accessibility"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-011",
+      "title": "JSON Format for Specifications",
+      "type": "AlternativeConsidered",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "alternative",
+        "json",
+        "rejected"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "id": "pm-012",
+      "title": "TOML Format for Specifications",
+      "type": "AlternativeConsidered",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "alternative",
+        "toml",
+        "rejected"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "id": "pm-013",
+      "title": "Python DSL for Specifications",
+      "type": "AlternativeConsidered",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "alternative",
+        "python-dsl",
+        "rejected",
+        "security"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-014",
+      "title": "String Format Template Engine",
+      "type": "AlternativeConsidered",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "alternative",
+        "string-format",
+        "rejected",
+        "too-limited"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "pm-015",
+      "title": "Mustache/Handlebars Template Engine",
+      "type": "AlternativeConsidered",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "alternative",
+        "mustache",
+        "rejected",
+        "too-limited"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "id": "pm-016",
+      "title": "Custom Template Language",
+      "type": "AlternativeConsidered",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "alternative",
+        "custom-language",
+        "rejected"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-030",
+      "title": "XML Specification Format",
+      "type": "AlternativeConsidered",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "alternative",
+        "xml",
+        "rejected",
+        "verbose"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "id": "pm-031",
+      "title": "INI/CFG Configuration Format",
+      "type": "AlternativeConsidered",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "alternative",
+        "ini",
+        "rejected",
+        "too-limited"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-032",
+      "title": "Pure Python Files for Specifications",
+      "type": "AlternativeConsidered",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "alternative",
+        "python",
+        "rejected",
+        "security-risk"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "pm-033",
+      "title": "Database for Process Memory Storage",
+      "type": "AlternativeConsidered",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "alternative",
+        "database",
+        "rejected",
+        "over-engineering"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "id": "pm-034",
+      "title": "Git-Based Process Memory",
+      "type": "AlternativeConsidered",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "alternative",
+        "git",
+        "rejected",
+        "heavyweight"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "id": "pm-035",
+      "title": "Inheritance-Based Plugin System",
+      "type": "AlternativeConsidered",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "alternative",
+        "inheritance",
+        "rejected",
+        "tight-coupling"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-036",
+      "title": "Dynamic Imports for Plugin Discovery",
+      "type": "AlternativeConsidered",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "alternative",
+        "dynamic-import",
+        "rejected",
+        "implicit"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "id": "pm-037",
+      "title": "React/Vue UI Framework",
+      "type": "AlternativeConsidered",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "alternative",
+        "ui-framework",
+        "rejected",
+        "scope-creep"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-038",
+      "title": "REST API for Serena Integration",
+      "type": "AlternativeConsidered",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "alternative",
+        "rest",
+        "rejected",
+        "mcp-better"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "pm-039",
+      "title": "Monolithic Architecture",
+      "type": "AlternativeConsidered",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "alternative",
+        "monolith",
+        "rejected",
+        "against-modularity"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-040",
+      "title": "Markdown Template Format",
+      "type": "AlternativeConsidered",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "alternative",
+        "markdown",
+        "partially-adopted"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "id": "pm-041",
+      "title": "GraphQL API for Integration",
+      "type": "AlternativeConsidered",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "alternative",
+        "graphql",
+        "rejected",
+        "over-engineering"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "id": "pm-017",
+      "title": "Modularity Enables JIT Learning",
+      "type": "LessonLearned",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "lesson",
+        "modularity",
+        "ai-first",
+        "token-efficiency"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "pm-018",
+      "title": "AI-First Requires Explicit Imperative Integration",
+      "type": "LessonLearned",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "lesson",
+        "ai-first",
+        "explicit-design"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-019",
+      "title": "Template Injection is Primary Security Risk",
+      "type": "LessonLearned",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "lesson",
+        "security",
+        "template-injection"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-020",
+      "title": "Process Memory is Critical for Handovers",
+      "type": "LessonLearned",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "lesson",
+        "process-memory",
+        "handovers",
+        "ai-first"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "pm-021",
+      "title": "Five Cornerstones Must Be Measurable",
+      "type": "LessonLearned",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "lesson",
+        "five-cornerstones",
+        "measurability"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "id": "pm-042",
+      "title": "Progressive Depth Reduces Tool Explosion",
+      "type": "LessonLearned",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "lesson",
+        "progressive-depth",
+        "design-pattern"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-043",
+      "title": "Context Preservation Enables Session Continuity",
+      "type": "LessonLearned",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "lesson",
+        "ai-first",
+        "handover"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "pm-044",
+      "title": "Checkpoints After Each Phase Prevent Information Loss",
+      "type": "LessonLearned",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "lesson",
+        "checkpoints",
+        "bootstrap"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "pm-045",
+      "title": "Domain-Specific Branching Better Than Tool Proliferation",
+      "type": "LessonLearned",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "lesson",
+        "domain-branching",
+        "design-pattern"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "id": "pm-046",
+      "title": "Examples Must Embody Principles, Not Just Demonstrate Syntax",
+      "type": "LessonLearned",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "lesson",
+        "examples",
+        "philosophy"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-022",
+      "title": "Spec Format Won't Need Frequent Major Changes",
+      "type": "AssumptionMade",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "assumption",
+        "versioning",
+        "stability"
+      ],
+      "confidence": 0.75
+    },
+    {
+      "id": "pm-023",
+      "title": "Most Users Can Write YAML but Not Python",
+      "type": "AssumptionMade",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "assumption",
+        "audience",
+        "accessibility"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "id": "pm-024",
+      "title": "Jinja2 Sandbox is Sufficient Security",
+      "type": "AssumptionMade",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "assumption",
+        "security",
+        "sandboxing"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "id": "pm-025",
+      "title": "Append-Only Log Won't Grow Too Large",
+      "type": "AssumptionMade",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "assumption",
+        "scalability",
+        "process-memory"
+      ],
+      "confidence": 0.8
+    },
+    {
+      "id": "pm-026",
+      "title": "File Watching is Reliable Across Platforms",
+      "type": "AssumptionMade",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "assumption",
+        "file-watching",
+        "cross-platform"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "id": "pm-027",
+      "title": "Five-Layer Architecture Mental Model",
+      "type": "MentalModels",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "mental-model",
+        "architecture",
+        "layers"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-028",
+      "title": "Protocol-Based Dependency Injection Model",
+      "type": "MentalModels",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "mental-model",
+        "protocols",
+        "dependency-injection"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-029",
+      "title": "Thinking Tool Lifecycle Model",
+      "type": "MentalModels",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "mental-model",
+        "lifecycle",
+        "thinking-tools"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "id": "pm-boot-001",
+      "title": "Example Tool Selection Strategy",
+      "type": "StrategicDecision",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "bootstrap",
+        "examples",
+        "tool-selection"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-boot-002",
+      "title": "Progressive Depth Pattern Works Well",
+      "type": "LessonLearned",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "bootstrap",
+        "lesson",
+        "design-pattern",
+        "progressive-depth"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-boot-003",
+      "title": "Code Review Should Explicitly Check Five Cornerstones",
+      "type": "AssumptionMade",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "bootstrap",
+        "assumption",
+        "five-cornerstones"
+      ],
+      "confidence": 0.85
+    },
+    {
+      "id": "pm-047",
+      "title": "Zero Serena Core Modifications Accelerates Adoption",
+      "type": "Observation",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "observation",
+        "mcp",
+        "architecture",
+        "adoption"
+      ],
+      "confidence": 0.95
+    },
+    {
+      "id": "pm-048",
+      "title": "Jinja2 Template Sandboxing Limits Available Features",
+      "type": "Constraint",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "constraint",
+        "security",
+        "jinja2"
+      ],
+      "confidence": 0.9
+    },
+    {
+      "id": "pm-049",
+      "title": "Example Tool Quality Directly Impacts Framework Adoption",
+      "type": "Observation",
+      "timestamp": "2025-11-15T23:45:08.096772",
+      "tags": [
+        "observation",
+        "examples",
+        "adoption",
+        "teaching"
+      ],
+      "confidence": 0.9
+    }
+  ],
+  "edges": [
+    {
+      "source": "pm-001",
+      "target": "pm-005",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-001",
+      "target": "pm-007",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-002",
+      "target": "pm-019",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-003",
+      "target": "pm-025",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-004",
+      "target": "pm-006",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-005",
+      "target": "pm-001",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-005",
+      "target": "pm-002",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-006",
+      "target": "pm-004",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-007",
+      "target": "pm-001",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-008",
+      "target": "pm-006",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-009",
+      "target": "pm-008",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-010",
+      "target": "pm-001",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-010",
+      "target": "pm-006",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-011",
+      "target": "pm-001",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-012",
+      "target": "pm-001",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-013",
+      "target": "pm-001",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-013",
+      "target": "pm-002",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-014",
+      "target": "pm-002",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-015",
+      "target": "pm-002",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-016",
+      "target": "pm-002",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-030",
+      "target": "pm-001",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-031",
+      "target": "pm-001",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-032",
+      "target": "pm-001",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-032",
+      "target": "pm-019",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-033",
+      "target": "pm-003",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-034",
+      "target": "pm-003",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-035",
+      "target": "pm-006",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-036",
+      "target": "pm-006",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-037",
+      "target": "pm-008",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-037",
+      "target": "pm-009",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-038",
+      "target": "pm-009",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-039",
+      "target": "pm-008",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-040",
+      "target": "pm-001",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-040",
+      "target": "pm-010",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-041",
+      "target": "pm-009",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-017",
+      "target": "pm-008",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-017",
+      "target": "pm-003",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-018",
+      "target": "pm-010",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-019",
+      "target": "pm-002",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-019",
+      "target": "pm-005",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-020",
+      "target": "pm-003",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-021",
+      "target": "pm-004",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-021",
+      "target": "pm-006",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-042",
+      "target": "pm-boot-002",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-043",
+      "target": "pm-020",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-043",
+      "target": "pm-boot-001",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-044",
+      "target": "pm-020",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-044",
+      "target": "pm-043",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-045",
+      "target": "pm-042",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-045",
+      "target": "pm-boot-002",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-046",
+      "target": "pm-boot-001",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-046",
+      "target": "pm-boot-003",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-022",
+      "target": "pm-007",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-023",
+      "target": "pm-001",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-023",
+      "target": "pm-013",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-024",
+      "target": "pm-002",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-024",
+      "target": "pm-019",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-025",
+      "target": "pm-003",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-026",
+      "target": "pm-004",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-027",
+      "target": "pm-008",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-028",
+      "target": "pm-006",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-029",
+      "target": "pm-004",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-029",
+      "target": "pm-005",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-boot-001",
+      "target": "pm-001",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-boot-001",
+      "target": "pm-010",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-boot-002",
+      "target": "pm-boot-001",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-boot-003",
+      "target": "pm-021",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-047",
+      "target": "pm-009",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-048",
+      "target": "pm-002",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-048",
+      "target": "pm-019",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-048",
+      "target": "pm-024",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-049",
+      "target": "pm-boot-001",
+      "type": "relates_to"
+    },
+    {
+      "source": "pm-049",
+      "target": "pm-046",
+      "type": "relates_to"
+    }
+  ],
+  "metadata": {
+    "generated": "2025-11-15T23:45:08.110002",
+    "total_nodes": 52,
+    "total_edges": 73
+  }
+}

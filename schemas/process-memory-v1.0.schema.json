@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://cogito.dev/schemas/process-memory-entry-v1.0.json",
+  "title": "Process Memory Entry",
+  "description": "JSON Schema for Cogito Process Memory entries",
+  "type": "object",
+  "required": ["id", "type", "timestamp", "schema_version", "title", "summary"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^pm-[0-9]{3,}$",
+      "description": "Unique process memory entry ID (e.g., 'pm-001')"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "StrategicDecision",
+        "AlternativeConsidered",
+        "FailureAnalysis",
+        "LessonLearned",
+        "AssumptionMade",
+        "ContextualMemory",
+        "MentalModels",
+        "FeedbackLoops",
+        "HypothesesTested",
+        "ImplicitBiases",
+        "Observations",
+        "CollaborationMemory",
+        "SystemArchetypes"
+      ],
+      "description": "Type of process memory entry"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp (e.g., '2025-01-15T14:30:00Z')"
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "AI agent identifier (optional)"
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+$",
+      "description": "Schema version (MAJOR.MINOR)"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "description": "Short title summarizing the entry"
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500,
+      "description": "One-sentence summary"
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Detailed explanation (optional)"
+    },
+    "context": {
+      "type": "object",
+      "description": "Execution context (optional)",
+      "additionalProperties": true
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9-]+$"
+      },
+      "uniqueItems": true,
+      "description": "Searchable tags"
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^pm-[0-9]{3,}$"
+      },
+      "uniqueItems": true,
+      "description": "IDs of related process memory entries"
+    },
+    "confidence_level": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Confidence level for decisions (0.0-1.0)"
+    },
+    "impact_level": {
+      "type": "string",
+      "enum": ["high", "medium", "low"],
+      "description": "Impact level of the entry"
+    },
+    "outcome": {
+      "type": "string",
+      "description": "Outcome for HypothesesTested type"
+    },
+    "pattern_type": {
+      "type": "string",
+      "description": "Pattern type for SystemArchetypes"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Extensible metadata",
+      "additionalProperties": true
+    }
+  }
+}

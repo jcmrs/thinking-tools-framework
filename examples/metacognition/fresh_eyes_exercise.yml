@@ -1,0 +1,98 @@
+version: "1.0"
+
+metadata:
+  name: "fresh_eyes_exercise"
+  display_name: "Fresh Eyes Exercise"
+  description: "Step back and re-evaluate with fresh perspective"
+  category: "metacognition"
+  author: "Cogito Framework"
+  tags: ["metacognition", "perspective", "reflection"]
+
+parameters:
+  type: "object"
+  properties:
+    phase:
+      type: "string"
+      description: "Which phase of the exercise to perform"
+      enum: ["full", "current_state", "target_state", "gap_analysis", "validation", "quick"]
+      default: "full"
+  required: []
+
+template:
+  source: |
+    # Fresh Eyes Exercise - {{ phase|upper }} Phase
+
+    {% if phase == 'full' or phase == 'current_state' %}
+    ## Current State Analysis
+    Step back from the immediate work. What is the current state?
+    - What patterns do you observe in the code/design/approach?
+    - What assumptions have been made (explicit or implicit)?
+    - What constraints are you operating under?
+    - What's working well? What's not?
+    {% endif %}
+
+    {% if phase == 'full' or phase == 'target_state' %}
+    ## Target State Vision
+    What does the ideal solution look like?
+    - What are the core requirements (not implementation details)?
+    - What constraints must be respected vs. what's negotiable?
+    - What would "done and excellent" look like?
+    - What patterns or approaches align with project principles?
+    {% endif %}
+
+    {% if phase == 'full' or phase == 'gap_analysis' %}
+    ## Gap Analysis
+    What's the delta between current and target state?
+    - What needs to change?
+    - What's the simplest path forward?
+    - What risks or blockers exist?
+    - What can be deferred vs. must be now?
+    {% endif %}
+
+    {% if phase == 'full' or phase == 'validation' %}
+    ## Validation
+    Reality check the plan:
+    - Does this align with Five Cornerstones?
+    - Does this support AI-First principles?
+    - Are there simpler approaches being overlooked?
+    - What would future-you wish current-you had considered?
+    {% endif %}
+
+    {% if phase == 'quick' %}
+    ## Quick Fresh Eyes
+    Take 60 seconds to:
+    1. State the problem in one sentence
+    2. List 3 assumptions you're making
+    3. Consider: "Is there a simpler way?"
+    {% endif %}
+
+execution:
+  timeout_ms: 5000
+  optional: true
+  requires_project: false
+
+process_memory:
+  capture_execution: true
+  memory_type: "Observation"
+
+testing:
+  test_cases:
+    - name: "Full exercise"
+      parameters: {phase: "full"}
+      expected_contains: ["Current State", "Target State", "Gap Analysis", "Validation"]
+
+    - name: "Current state only"
+      parameters: {phase: "current_state"}
+      expected_contains: ["Current State"]
+      expected_not_contains: ["Target State"]
+
+quality:
+  examples:
+    - description: "Use when starting a new feature"
+      usage: "Let's do a fresh eyes exercise before implementing feature X"
+
+    - description: "Use when debugging seems stuck"
+      usage: "I'm stuck on this bug, let's do a quick fresh eyes check"
+
+  complexity_score: 0.3  # Low complexity
+  estimated_duration_seconds: 120  # 2 minutes

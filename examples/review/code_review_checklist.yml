@@ -1,0 +1,411 @@
+version: "1.0"
+
+metadata:
+  name: "code_review_checklist"
+  display_name: "Code Review Checklist"
+  description: "Structured framework for comprehensive code review with Five Cornerstones alignment"
+  category: "review"
+  author: "Cogito Framework"
+  tags: ["review", "code-quality", "five-cornerstones", "security", "performance"]
+
+parameters:
+  type: "object"
+  properties:
+    review_type:
+      type: "string"
+      description: "Type of code review being performed"
+      enum: ["self", "peer", "pre_commit", "architecture"]
+      default: "self"
+    language:
+      type: "string"
+      description: "Primary programming language of code under review"
+      enum: ["python", "javascript", "typescript", "go", "rust", "java", "csharp", "ruby", "php", "other"]
+      default: "python"
+    change_description:
+      type: "string"
+      description: "Brief description of what changed (e.g., 'add user authentication', 'refactor database layer')"
+      default: ""
+  required: []
+
+template:
+  source: |
+    # Code Review Checklist - {{ review_type|upper }}
+
+    **Language:** {{ language|upper }}
+    {% if change_description %}
+    **Changes:** {{ change_description }}
+    {% endif %}
+
+    {% if review_type == 'self' %}
+    > **Self-Review Mindset**: Step back from your code. Review as if you're seeing it for the first time. Question your own decisions.
+    {% elif review_type == 'peer' %}
+    > **Peer Review Mindset**: Focus on helping teammate grow. Be specific in feedback. Ask questions to understand intent.
+    {% elif review_type == 'pre_commit' %}
+    > **Pre-Commit Mindset**: Final quality gate before merge. Verify all automated checks pass. Ensure no regressions.
+    {% elif review_type == 'architecture' %}
+    > **Architecture Review Mindset**: Zoom out. Evaluate system-level impact. Consider long-term maintainability and scalability.
+    {% endif %}
+
+    ---
+
+    ## ✅ Five Cornerstones Compliance
+
+    ### 1. Configurability
+    Configuration vs. Hardcoding Assessment
+
+    - [ ] **No magic numbers**: All constants extracted to configuration/constants file?
+    - [ ] **Environment-aware**: Uses environment variables for environment-specific settings?
+    - [ ] **Feature flags**: New features behind toggles where appropriate?
+    - [ ] **Overridable**: Behavior can be customized without code changes?
+    - [ ] **Validated config**: Configuration values validated at startup?
+
+    **Issues Found:**
+    -
+
+    **Recommendations:**
+    -
+
+    ### 2. Modularity
+    Component Separation and Boundaries
+
+    - [ ] **Single Responsibility**: Each function/class does one thing well?
+    - [ ] **Clear interfaces**: Function signatures clear and minimal?
+    - [ ] **Low coupling**: Components depend on abstractions, not concretions?
+    - [ ] **High cohesion**: Related functionality grouped together?
+    - [ ] **Testable units**: Can test components in isolation?
+
+    **Issues Found:**
+    -
+
+    **Recommendations:**
+    -
+
+    ### 3. Extensibility
+    Future Growth Capability
+
+    - [ ] **Extension points**: Clear hooks for adding new features?
+    - [ ] **Open/Closed principle**: Can extend without modifying existing code?
+    - [ ] **Plugin architecture**: Uses dependency injection or plugin patterns?
+    - [ ] **Versioned interfaces**: Breaking changes handled gracefully?
+    - [ ] **Backward compatibility**: Changes don't break existing users?
+
+    **Issues Found:**
+    -
+
+    **Recommendations:**
+    -
+
+    ### 4. Integration
+    Interoperability and Standards
+
+    - [ ] **Standard protocols**: Uses established patterns (REST, GraphQL, etc.)?
+    - [ ] **Error propagation**: Errors include context and are properly typed?
+    - [ ] **Graceful degradation**: Handles missing dependencies gracefully?
+    - [ ] **API contracts**: Interfaces well-documented and stable?
+    - [ ] **Data formats**: Uses standard serialization (JSON, Protocol Buffers, etc.)?
+
+    **Issues Found:**
+    -
+
+    **Recommendations:**
+    -
+
+    ### 5. Automation
+    Reducing Manual Work
+
+    - [ ] **Auto-discovery**: Components discovered automatically (no manual registration)?
+    - [ ] **Self-validating**: Includes validation checks and tests?
+    - [ ] **CI/CD ready**: Works in automated pipeline?
+    - [ ] **Code generation**: Leverages generated code where appropriate?
+    - [ ] **Auto-documentation**: Code structure enables auto-generated docs?
+
+    **Issues Found:**
+    -
+
+    **Recommendations:**
+    -
+
+    ---
+
+    ## 🔒 Security Review
+
+    ### Input Validation
+    - [ ] **All inputs validated**: User input, API params, file content, environment variables?
+    - [ ] **Type checking**: Strong typing or runtime type validation?
+    - [ ] **Range checking**: Numeric bounds verified?
+    - [ ] **Sanitization**: Dangerous characters escaped/removed?
+
+    ### Injection Prevention
+    {% if language in ['python', 'javascript', 'typescript', 'php', 'ruby'] %}
+    - [ ] **SQL injection**: Using parameterized queries, not string concatenation?
+    - [ ] **Command injection**: Not passing user input directly to shell commands?
+    - [ ] **XSS prevention**: Output properly escaped in templates?
+    - [ ] **Path traversal**: File paths validated, no .. sequences?
+    {% elif language in ['go', 'rust', 'java', 'csharp'] %}
+    - [ ] **SQL injection**: Using prepared statements or ORM properly?
+    - [ ] **Command injection**: Not constructing shell commands from user input?
+    - [ ] **Buffer overflow**: Array bounds checked (if applicable)?
+    - [ ] **Resource injection**: Resource identifiers validated?
+    {% endif %}
+
+    ### Authentication & Authorization
+    - [ ] **Authentication required**: Endpoints/operations require authentication where needed?
+    - [ ] **Authorization checked**: User permissions verified before sensitive operations?
+    - [ ] **Credential handling**: No credentials in code/logs/error messages?
+    - [ ] **Session management**: Secure token generation and validation?
+
+    ### Sensitive Data
+    - [ ] **No secrets in code**: API keys, passwords, tokens in environment/vault?
+    - [ ] **No logging sensitive data**: PII, credentials, tokens not logged?
+    - [ ] **Encrypted at rest**: Sensitive data encrypted in database/files?
+    - [ ] **Encrypted in transit**: HTTPS/TLS for network communication?
+
+    **Security Issues Found:**
+    -
+
+    **Security Recommendations:**
+    -
+
+    ---
+
+    ## ⚡ Performance Review
+
+    ### Algorithmic Efficiency
+    - [ ] **Appropriate algorithm**: Time complexity acceptable for expected data size?
+    - [ ] **No unnecessary iterations**: Loops optimized, no redundant passes?
+    - [ ] **Early termination**: Exits loops early when condition met?
+    - [ ] **Memoization**: Expensive computations cached where appropriate?
+
+    ### Resource Management
+    {% if language in ['python', 'javascript', 'typescript', 'ruby', 'php'] %}
+    - [ ] **Memory leaks**: Event listeners removed? References cleared?
+    - [ ] **Resource cleanup**: Files/connections closed properly?
+    - [ ] **Lazy loading**: Large data loaded on-demand, not upfront?
+    {% elif language in ['go', 'rust', 'java', 'csharp'] %}
+    - [ ] **Memory allocation**: Avoiding unnecessary allocations in hot paths?
+    - [ ] **Resource cleanup**: Using defer/using/RAII patterns?
+    - [ ] **Object pooling**: Reusing expensive objects where appropriate?
+    {% endif %}
+
+    ### Database/I/O Efficiency
+    - [ ] **N+1 queries prevented**: Batch loading or eager loading used?
+    - [ ] **Appropriate indexes**: Queries use existing indexes?
+    - [ ] **Connection pooling**: Database connections reused?
+    - [ ] **Async I/O**: Long-running I/O operations non-blocking?
+
+    ### Caching Strategy
+    - [ ] **Cacheable results**: Expensive computations cached?
+    - [ ] **Cache invalidation**: Clear strategy for when to invalidate?
+    - [ ] **Cache appropriate data**: Not caching sensitive or rapidly changing data?
+
+    **Performance Issues Found:**
+    -
+
+    **Performance Recommendations:**
+    -
+
+    ---
+
+    ## 🧪 Testing Review
+
+    ### Test Coverage
+    - [ ] **Unit tests**: Core logic has unit test coverage?
+    - [ ] **Integration tests**: Component interactions tested?
+    - [ ] **Edge cases**: Boundary conditions and error paths tested?
+    - [ ] **Regression tests**: Known bugs have regression tests?
+
+    ### Test Quality
+    - [ ] **Test isolation**: Tests don't depend on each other?
+    - [ ] **Clear assertions**: Each test has clear pass/fail criteria?
+    - [ ] **Meaningful names**: Test names describe what they test?
+    - [ ] **Arrange-Act-Assert**: Tests follow clear structure?
+
+    ### Testability
+    - [ ] **Dependency injection**: Dependencies can be mocked/stubbed?
+    - [ ] **Pure functions**: Logic separated from side effects?
+    - [ ] **Seams for testing**: Can test internal behavior when needed?
+
+    **Testing Issues Found:**
+    -
+
+    **Testing Recommendations:**
+    -
+
+    ---
+
+    ## 📚 Documentation Review
+
+    ### Code Documentation
+    - [ ] **Public API documented**: All public functions/classes have docstrings?
+    - [ ] **Complex logic explained**: Non-obvious code has comments explaining why?
+    - [ ] **Type hints**: {% if language in ['python', 'typescript'] %}Full type annotations?{% else %}Appropriate type information?{% endif %}
+    - [ ] **Examples**: Complex functions have usage examples?
+
+    ### External Documentation
+    - [ ] **README updated**: If behavior changed, README reflects it?
+    - [ ] **Changelog updated**: User-facing changes documented?
+    - [ ] **API docs updated**: If API changed, documentation updated?
+    - [ ] **Migration guide**: Breaking changes include migration instructions?
+
+    ### Self-Documenting Code
+    - [ ] **Clear names**: Variables, functions, classes have descriptive names?
+    - [ ] **Intention-revealing**: Code structure reveals intent?
+    - [ ] **No misleading names**: Names accurately describe what code does?
+
+    **Documentation Issues Found:**
+    -
+
+    **Documentation Recommendations:**
+    -
+
+    ---
+
+    ## 🐛 Correctness Review
+
+    ### Functionality
+    - [ ] **Implements requirements**: Code does what it's supposed to do?
+    - [ ] **Edge cases handled**: Boundary conditions covered?
+    - [ ] **Error handling**: Errors caught and handled appropriately?
+    - [ ] **No regressions**: Existing functionality still works?
+
+    ### Error Handling
+    {% if language in ['python', 'javascript', 'typescript', 'ruby', 'php'] %}
+    - [ ] **Appropriate exceptions**: Throwing/catching right exception types?
+    - [ ] **Error context**: Errors include helpful context?
+    - [ ] **Resource cleanup**: Finally blocks or context managers for cleanup?
+    - [ ] **No silent failures**: Errors not swallowed without logging?
+    {% elif language in ['go'] %}
+    - [ ] **Error checking**: All error returns checked?
+    - [ ] **Error wrapping**: Errors wrapped with context using fmt.Errorf or errors.Wrap?
+    - [ ] **Sentinel errors**: Using errors.Is/errors.As for error comparison?
+    - [ ] **Error propagation**: Errors returned to caller when appropriate?
+    {% elif language in ['rust'] %}
+    - [ ] **Result types**: Using Result<T, E> for fallible operations?
+    - [ ] **Error propagation**: Using ? operator appropriately?
+    - [ ] **Custom errors**: Implementing proper error types with context?
+    - [ ] **Panic usage**: Only panicking for truly unrecoverable errors?
+    {% endif %}
+
+    ### Concurrency (if applicable)
+    {% if language in ['python', 'javascript', 'typescript'] %}
+    - [ ] **Race conditions**: Shared state properly protected?
+    - [ ] **Deadlock prevention**: Lock ordering consistent?
+    - [ ] **Async/await usage**: Promises/async properly awaited?
+    {% elif language in ['go'] %}
+    - [ ] **Goroutine leaks**: All goroutines terminate?
+    - [ ] **Channel usage**: Channels properly closed?
+    - [ ] **Race conditions**: go vet -race passes?
+    - [ ] **Mutex usage**: Mutexes properly locked/unlocked?
+    {% elif language in ['rust'] %}
+    - [ ] **Send/Sync bounds**: Proper thread safety guarantees?
+    - [ ] **Arc/Mutex usage**: Shared state properly protected?
+    - [ ] **Deadlock prevention**: Lock ordering consistent?
+    {% endif %}
+
+    **Correctness Issues Found:**
+    -
+
+    **Correctness Recommendations:**
+    -
+
+    ---
+
+    ## 🎨 Code Style & Maintainability
+
+    ### Code Style
+    - [ ] **Linter passes**: Code passes configured linter?
+    - [ ] **Formatter applied**: Code formatted with project formatter?
+    - [ ] **Consistent style**: Follows project conventions?
+    - [ ] **No commented code**: Dead code removed?
+
+    ### Complexity
+    - [ ] **Function length**: Functions under 50 lines (guideline)?
+    - [ ] **Cyclomatic complexity**: Functions have low complexity?
+    - [ ] **Nesting depth**: Deep nesting extracted into functions?
+    - [ ] **DRY principle**: No significant code duplication?
+
+    ### Readability
+    - [ ] **Clear flow**: Logic flow easy to follow?
+    - [ ] **Meaningful names**: Names communicate intent?
+    - [ ] **Consistent abstraction**: Similar things handled similarly?
+    - [ ] **No magic**: No unexplained "magic" behavior?
+
+    **Style Issues Found:**
+    -
+
+    **Style Recommendations:**
+    -
+
+    ---
+
+    ## 🎯 Architecture Impact (for architecture reviews)
+
+    {% if review_type == 'architecture' %}
+    ### System-Level Impact
+    - [ ] **Layer boundaries**: Respects architectural layers?
+    - [ ] **Dependency direction**: Dependencies point in correct direction?
+    - [ ] **Protocol adherence**: Implements defined protocols/interfaces?
+    - [ ] **Coupling analysis**: Doesn't increase system coupling?
+
+    ### Scalability
+    - [ ] **Horizontal scaling**: Design supports scaling out?
+    - [ ] **State management**: Stateless where appropriate?
+    - [ ] **Resource limits**: Considers resource constraints at scale?
+    - [ ] **Bottleneck analysis**: No obvious bottlenecks introduced?
+
+    ### Long-term Maintainability
+    - [ ] **Technical debt**: Not introducing significant technical debt?
+    - [ ] **Future changes**: Anticipates likely future changes?
+    - [ ] **Migration path**: Has upgrade/migration strategy if needed?
+    - [ ] **Operational impact**: Considers monitoring, debugging, operations?
+
+    **Architecture Issues Found:**
+    -
+
+    **Architecture Recommendations:**
+    -
+
+    {% endif %}
+
+    ---
+
+    ## 📋 Review Summary
+
+    ### Overall Assessment
+    - **Ready to merge?** [Yes / No / With changes]
+    - **Confidence level:** [High / Medium / Low]
+    - **Risk level:** [Low / Medium / High]
+
+    ### Critical Issues (Must Fix Before Merge)
+    1.
+    2.
+    3.
+
+    ### Important Issues (Should Fix Before Merge)
+    1.
+    2.
+    3.
+
+    ### Nice to Have (Can Address Later)
+    1.
+    2.
+    3.
+
+    ### Positive Observations
+    - ✅
+    - ✅
+    - ✅
+
+    ### Follow-Up Actions
+    - [ ]
+    - [ ]
+    - [ ]
+
+    ---
+
+    ## Meta-Review
+
+    - What was the most important issue found?
+    - What aspect of the code was strongest?
+    - Were any Five Cornerstones violated?
+    - What would you recommend the author focus on?

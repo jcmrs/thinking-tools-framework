@@ -1,0 +1,137 @@
+{
+  "message_id": "msg-20251118-140000-fix-integration-tests-priority2",
+  "type": "directive",
+  "priority": "critical",
+  "timestamp": "2025-11-18T14:00:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "Priority 2 Fix - Integration Tests Must Pass 100%",
+  "content": {
+    "status": "REJECTED - Quality gate not met",
+    "issue": "Integration tests failing (1/5 passing = 20%). Quality gates require 100% test pass rate.",
+    "task": "Fix Priority 2 Bootstrap integration test failures",
+
+    "quality_gate_requirement": "ALL tests must pass before completion. No exceptions. Imperative 4 (Quality Without Compromise): '100% means 100%, not 88%, not 95%'",
+
+    "failing_tests": {
+      "count": 3,
+      "passed": 1,
+      "skipped": 1,
+      "failed": 3,
+      "category": "Bootstrap integration tests",
+      "reported_cause": "Missing source example tools in test environment",
+      "impact": "Cannot verify end-to-end bootstrap workflow actually works"
+    },
+
+    "why_rejected": {
+      "imperative_violation": "Imperative 4: Quality Without Compromise - '100% means 100%'",
+      "reference": "PROJECT-IMPERATIVES.md lines 139-153",
+      "quality_gate": "pytest must achieve 100% pass rate (not 88%, not 95%, not 20%)",
+      "precedent": "Priority 1.5 rejected at 88% pass rate, fixed to 100%"
+    },
+
+    "deliverables": {
+      "1_fix_integration_tests": {
+        "description": "Fix all 3 failing integration tests OR properly skip them with clear justification",
+        "validation": "All integration tests must either pass or be explicitly skipped with pytest.skip and documented reason",
+        "options": [
+          "Option A: Fix test environment (ensure source example tools available)",
+          "Option B: Mock missing dependencies appropriately",
+          "Option C: Skip tests with pytest.skip() and document why they can't run in test environment"
+        ]
+      },
+
+      "2_verify_bootstrap_functionality": {
+        "description": "Manually verify bootstrap actually works end-to-end",
+        "validation": "Execute cogito bootstrap test-project and verify all files created correctly",
+        "success_criteria": [
+          "Project directory created with correct structure",
+          "All config files valid and parseable",
+          "PROJECT-IMPERATIVES.md copied correctly",
+          "Example tools copied (if --include-examples)",
+          "Generated pyproject.toml can install dependencies"
+        ]
+      },
+
+      "3_final_quality_gates": {
+        "mypy": "must still pass --strict with 0 errors",
+        "ruff": "must still pass with 0 violations",
+        "pytest_unit": "must still pass 30/30 (100%)",
+        "pytest_integration": "must pass 5/5 OR have explicit skips with documented reasons (100% pass/skip rate)",
+        "coverage": "must maintain 85%+ for bootstrap modules"
+      }
+    },
+
+    "success_criteria": {
+      "pytest_integration": "5/5 tests passing OR 5/5 explicitly handled (pass + properly documented skips)",
+      "no_test_failures": "0 failed tests (failures are not acceptable, even if 'environmental')",
+      "manual_verification": "Bootstrap command verified to work end-to-end",
+      "quality_gates": "mypy strict, ruff clean, pytest 100% pass/skip rate"
+    },
+
+    "guidance": {
+      "root_cause": "You reported 'missing source example tools in test environment' - fix the test environment setup",
+
+      "scope": "Minimal change - fix integration test environment OR properly skip with justification",
+
+      "validation": "Run pytest again to confirm 5/5 passing or 5/5 handled (pass + documented skip)",
+
+      "no_new_features": "Do not add new features, only fix integration test environment or skip appropriately",
+
+      "test_environment_fix": {
+        "approach_1": "Ensure test environment has access to source example tools (examples/metacognition/, examples/problem_solving/)",
+        "approach_2": "Mock example tools in test fixtures",
+        "approach_3": "Skip integration tests that require full framework (pytest.skip with clear reason)"
+      },
+
+      "skip_justification": {
+        "if_skipping": "Use pytest.skip() with message explaining why test cannot run in current environment",
+        "example": "pytest.skip('Requires full framework installation with example tools')",
+        "document": "Add comment explaining what the test validates and why it's skipped"
+      }
+    },
+
+    "quality_requirements": {
+      "completeness": {
+        "all_tests_handled": true,
+        "description": "All 5 integration tests must either pass or be explicitly skipped with documented reason",
+        "no_failures": "0 failed tests allowed",
+        "validation": "pytest output shows 5/5 handled (passed or skipped, not failed)"
+      },
+
+      "specificity": {
+        "root_cause_addressed": "Fix test environment setup OR document why integration tests cannot run",
+        "manual_verification": "Actually run cogito bootstrap command to verify it works"
+      },
+
+      "clarity": {
+        "skip_reasons_clear": "If tests skipped, reason must be clear and documented",
+        "test_output_clean": "pytest output shows no failures, only passes or documented skips"
+      }
+    },
+
+    "success_verification": {
+      "before_completion": [
+        "pytest integration tests: 5/5 handled (passed OR properly skipped with documented reason)",
+        "0 failed integration tests (failures not acceptable)",
+        "Manual verification: cogito bootstrap test-project works end-to-end",
+        "All quality gates still passing: mypy strict 0 errors, ruff 0 violations, unit tests 30/30",
+        "No TODO markers, no 'will fix later'"
+      ]
+    },
+
+    "reminder": "Quality gates are non-negotiable. 'Environmental issues' do not exempt tests from passing. Either fix the environment, properly skip the tests with clear documentation, or the work is incomplete. Imperative 4: Quality Without Compromise."
+  },
+
+  "quality_gates": {
+    "pytest_integration": "must achieve 5/5 handled (passed or properly documented skips)",
+    "pytest_unit": "must continue to pass 30/30 (100%)",
+    "mypy": "must continue to pass --strict with 0 errors",
+    "ruff": "must continue to pass with 0 violations",
+    "manual_verification": "cogito bootstrap command must work end-to-end"
+  },
+
+  "estimated_effort": "30-60 minutes (fix test environment or properly skip tests)",
+
+  "read": false
+}

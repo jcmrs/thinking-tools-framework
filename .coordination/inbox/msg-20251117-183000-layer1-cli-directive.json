@@ -1,0 +1,148 @@
+{
+  "message_id": "msg-20251117-183000-layer1-cli-directive",
+  "type": "directive",
+  "priority": "normal",
+  "timestamp": "2025-11-17T18:30:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "Begin Layer 1 UI - CLI Interface Implementation",
+  "content": {
+    "congratulations": "Excellent work on resolving the module duplication issue. The fix was clean, thorough, and prevents a critical production bug. Layer 5 is now stable and Layer 1 UI is unblocked.",
+    "task": "Implement Layer 1 UI - Command Line Interface (CLI)",
+    "description": "Create Click-based CLI interface for thinking tools framework, enabling users to discover, execute, and manage thinking tools from command line.",
+    "layer_dependencies": {
+      "depends_on": [
+        "Layer 2: Orchestration (ToolRegistry, ToolExecutor)",
+        "Layer 3: Processing (ToolRenderer, ToolValidator)",
+        "Layer 4: Storage (ProcessMemoryStore, KnowledgeGraph)",
+        "Layer 5: Integration (MCP Server)"
+      ],
+      "all_dependencies_status": "completed"
+    },
+    "implementation_scope": {
+      "primary_deliverable": "src/cogito/ui/cli.py",
+      "commands_to_implement": [
+        "cogito list [--category CATEGORY] - List available thinking tools",
+        "cogito execute TOOL_NAME [--param KEY=VALUE]... - Execute a thinking tool",
+        "cogito validate TOOL_FILE - Validate tool spec YAML",
+        "cogito info TOOL_NAME - Show detailed tool information",
+        "cogito memory [--search KEYWORD] - Query process memory",
+        "cogito serve - Start MCP server (delegates to python -m cogito)"
+      ],
+      "framework": "Click (already in dependencies)",
+      "entry_point": "pyproject.toml [project.scripts] cogito = 'cogito.ui.cli:main'"
+    },
+    "success_criteria": {
+      "functionality": [
+        "All 6 commands work correctly",
+        "Help text for each command is clear and accurate",
+        "Error handling with user-friendly messages",
+        "Output formatting (JSON/text/markdown options)",
+        "Exit codes: 0 for success, 1 for user error, 2 for system error"
+      ],
+      "quality_gates": {
+        "mypy": "passes with --strict",
+        "ruff": "0 violations",
+        "black": "properly formatted",
+        "pytest": "New CLI tests pass, existing tests still pass",
+        "coverage": "≥60% overall (CLI integration tests)"
+      },
+      "integration": [
+        "CLI works with examples/tools/ directory",
+        "Can execute real thinking tools (think_aloud, etc.)",
+        "Process memory queries return actual data",
+        "Validates against actual JSON schemas"
+      ]
+    },
+    "implementation_guidance": {
+      "architecture": {
+        "pattern": "Thin CLI layer delegating to Layer 2 orchestration",
+        "no_business_logic": "CLI only handles user I/O and error display",
+        "reuse_layers": "Use existing ToolRegistry, ToolExecutor, ToolRenderer"
+      },
+      "click_structure": {
+        "main_group": "@click.group() for cogito command",
+        "subcommands": "Separate function for each command with @cli.command()",
+        "options": "Use Click options/arguments with validation",
+        "output_format": "--output-format [json|text|markdown] global option"
+      },
+      "error_handling": {
+        "user_errors": "Click.UsageError for invalid arguments",
+        "system_errors": "Click.ClickException for tool errors",
+        "display": "Rich error messages with suggestions",
+        "no_tracebacks": "Hide Python tracebacks unless --debug flag"
+      },
+      "example_command_structure": "
+```python
+@click.group()
+@click.version_option(version=__version__)
+@click.option('--debug', is_flag=True, help='Enable debug mode')
+def cli(debug: bool) -> None:
+    '''Cogito: Thinking Tools Framework'''
+    if debug:
+        logging.basicConfig(level=logging.DEBUG)
+
+@cli.command()
+@click.option('--category', help='Filter by category')
+@click.option('--output-format', type=click.Choice(['json', 'text']), default='text')
+def list(category: str | None, output_format: str) -> None:
+    '''List available thinking tools.'''
+    try:
+        registry = ToolRegistry([Path('examples/tools')])
+        registry.discover_tools()
+        # ... implementation
+    except Exception as e:
+        raise click.ClickException(str(e))
+```
+"
+    },
+    "testing_strategy": {
+      "unit_tests": [
+        "Test each command function with mocked dependencies",
+        "Test output formatting (JSON vs text)",
+        "Test error handling paths"
+      ],
+      "integration_tests": [
+        "Use Click's CliRunner to invoke commands",
+        "Test with real examples/tools/ directory",
+        "Verify output correctness for actual tools",
+        "Test process memory queries with real data"
+      ],
+      "test_file": "tests/unit/test_cli.py + tests/integration/test_cli_integration.py"
+    },
+    "process_memory_references": [
+      "PM-010: Declarative-First Design - CLI delegates to declarative layer",
+      "PM-008: Five-Layer Architecture - Layer 1 depends on 2-5",
+      "PM-021: Import Hygiene - Proper imports from cogito.ui.cli"
+    ],
+    "estimated_effort": "2-3 hours (straightforward Click implementation)",
+    "deliverables": [
+      "src/cogito/ui/cli.py (main CLI implementation)",
+      "src/cogito/ui/__init__.py (package init)",
+      "tests/unit/test_cli.py (unit tests for commands)",
+      "tests/integration/test_cli_integration.py (integration tests)",
+      "Updated pyproject.toml with cogito entry point",
+      "Quality gates passing (mypy, ruff, pytest)"
+    ],
+    "optional_enhancements": [
+      "Rich library for beautiful terminal output (tables, colors)",
+      "Progress bars for long-running tool execution",
+      "Interactive mode with prompt_toolkit",
+      "Shell completion (Click supports this)"
+    ],
+    "deferred_to_later": [
+      "Web dashboard (separate spec)",
+      "TUI (text-based UI) interface",
+      "Configuration file management commands"
+    ]
+  },
+  "quality_gates": {
+    "mypy": "must pass with --strict",
+    "ruff": "0 violations",
+    "black": "properly formatted",
+    "pytest": "all tests pass (new + existing)",
+    "coverage": "≥60% overall",
+    "manual_testing": "Test each command with real data"
+  },
+  "read": false
+}

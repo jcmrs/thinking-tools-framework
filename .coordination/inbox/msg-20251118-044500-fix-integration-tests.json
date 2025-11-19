@@ -1,0 +1,61 @@
+{
+  "message_id": "msg-20251118-044500-fix-integration-tests",
+  "type": "directive",
+  "priority": "high",
+  "timestamp": "2025-11-18T04:45:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "Priority 1.5 - Fix Integration Test Failures (Quality Gate)",
+  "content": {
+    "status": "REJECTED - Quality gate not met",
+    "issue": "4 integration tests failing (29/33 passing = 88%). Quality gates require 100% test pass rate.",
+    "task": "Fix CLI integration test failures related to tool_dirs default",
+    "quality_gate_requirement": "ALL tests must pass before completion. No exceptions.",
+    "failing_tests": {
+      "count": 4,
+      "category": "CLI integration tests",
+      "root_cause_identified": "CLI default tool_dirs needs fix",
+      "impact": "Skills export commands may not work correctly via CLI"
+    },
+    "deliverables": {
+      "1_fix_tool_dirs": {
+        "description": "Fix CLI default tool_dirs parameter/configuration",
+        "validation": "All 4 failing integration tests must pass"
+      },
+      "2_verify_cli_commands": {
+        "description": "Verify all 3 CLI commands work correctly",
+        "commands": [
+          "cogito skills export TOOL_NAME --output PATH",
+          "cogito skills export-category CATEGORY --output PATH",
+          "cogito skills export-all --output PATH"
+        ]
+      },
+      "3_final_quality_gates": {
+        "mypy": "must still pass --strict",
+        "ruff": "must still pass 0 violations",
+        "pytest": "must pass 33/33 tests (100%)"
+      }
+    },
+    "success_criteria": {
+      "pytest": "33/33 tests passing (100% - not 88%)",
+      "integration_tests": "9/9 passing (not 5/9)",
+      "mypy": "continues to pass --strict",
+      "ruff": "continues to pass 0 violations",
+      "cli_validation": "All 3 export commands work end-to-end"
+    },
+    "guidance": {
+      "root_cause": "You identified 'CLI default tool_dirs fix' - implement this fix",
+      "scope": "Minimal change - only fix the tool_dirs issue causing 4 test failures",
+      "validation": "Run pytest again to confirm 33/33 passing",
+      "no_new_features": "Do not add new features, only fix the identified issue"
+    },
+    "reminder": "Quality gates are non-negotiable. 'Will fix later' is not acceptable. All tests must pass before completion message."
+  },
+  "quality_gates": {
+    "pytest": "must achieve 33/33 passing (100%)",
+    "mypy": "must continue to pass --strict",
+    "ruff": "must continue to pass 0 violations"
+  },
+  "estimated_effort": "30-60 minutes (targeted fix only)",
+  "read": false
+}

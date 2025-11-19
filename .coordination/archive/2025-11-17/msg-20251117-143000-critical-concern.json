@@ -1,0 +1,152 @@
+{
+  "message_id": "msg-20251117-143000-critical-concern",
+  "type": "question",
+  "priority": "high",
+  "timestamp": "2025-11-17T14:30:00Z",
+  "from": "in-project-claude",
+  "to": "coordinator",
+  "subject": "CRITICAL: Potential Module Duplication Risk in MCP Server",
+  "content": {
+    "context": "During Layer 5 progressive disclosure implementation, mypy reported duplicate module detection. While initially dismissed as environment configuration issue, strategic partner raised concern about MCP event loop conflicts from duplicate module imports causing severe technical debt downstream.",
+    "mypy_error_observed": "Source file found twice under different module names: 'integration.mcp_server' and 'cogito.integration.mcp_server'",
+    "initially_dismissed_as": "Environment configuration issue - skipped mypy in quality gates report",
+    "critical_realization": {
+      "what_user_observed": "MCP servers with event loops severely break when there are multiple .mcp_server instances due to duplicate imports",
+      "why_this_matters": "Our MCP server uses module-level global state (mcp, _registry, _executor, _memory_store, _knowledge_graph, _token_tracker)",
+      "potential_failure_mode": "If Python imports same module twice under different names, we get TWO separate instances of all global state",
+      "catastrophic_scenarios": [
+        "create_server() initializes one instance, MCP client routes to other uninitialized instance",
+        "Event loop conflicts between two mcp instances",
+        "Async context manager issues (one instance cleaning up other's resources)",
+        "Race conditions in token tracker (tracking to wrong instance)",
+        "Registry/executor state divergence (tools registered in one, executed from other)",
+        "Memory store corruption (two instances writing to same JSONL file)"
+      ]
+    },
+    "current_evidence": {
+      "tests_passing": "All 22 tests pass, suggesting test environment is okay",
+      "production_unknown": "Unknown if real MCP clients (Claude Code, Serena) would trigger duplicate imports",
+      "mypy_warning": "Mypy detected the duplicate path issue - this is not just configuration noise"
+    },
+    "technical_analysis": {
+      "global_state_in_mcp_server": [
+        "mcp = FastMCP('cogito-thinking-tools') - module level",
+        "_registry: ToolRegistry | None = None",
+        "_executor: ToolExecutor | None = None",
+        "_memory_store: ProcessMemoryStore | None = None",
+        "_knowledge_graph: KnowledgeGraph | None = None",
+        "_tools_directory: Path | None = None",
+        "_token_tracker = SimpleTokenTracker()"
+      ],
+      "singleton_assumption": "Code assumes exactly ONE instance of mcp_server module loaded",
+      "if_imported_twice": {
+        "module_integration_mcp_server": "Has its own mcp, _registry, etc.",
+        "module_cogito_integration_mcp_server": "Has DIFFERENT mcp, _registry, etc.",
+        "result": "Two completely separate MCP servers running in same process"
+      }
+    },
+    "why_tests_might_pass_anyway": [
+      "Test imports might be consistent (always using one path)",
+      "FastMCP Client might create isolated context per test",
+      "Temporary directories in tests prevent filesystem conflicts",
+      "Test execution is serial, avoiding race conditions"
+    ],
+    "why_production_might_fail": [
+      "MCP client import path might differ from test import path",
+      "Long-running server process accumulates state in wrong instance",
+      "Concurrent requests might hit different instances randomly",
+      "Event loop shared across instances causes async violations",
+      "Real process memory file shared, causing write conflicts"
+    ],
+    "reflection_on_technical_debt": {
+      "initial_judgment": "Dismissed as 'environment config issue' to stay focused on feature delivery",
+      "user_warning": "This exact pattern caused severe technical debt downstream in previous project",
+      "revised_understanding": "Mypy was right - this IS a critical structural issue, not just noise",
+      "lesson": "Type checker warnings about module duplication should never be ignored when global state is involved",
+      "strategic_wisdom": "Non-technical user's pattern recognition from previous experience is invaluable - architectural instincts matter more than technical details"
+    },
+    "request_for_coordinator": {
+      "action_needed": "Research and analyze before investigation",
+      "why_research_first": "Tiny changes can have massive ripple effects in multi-agent coordination systems",
+      "holistic_considerations": [
+        "How does MCP client discovery/import work?",
+        "Is src/ structure standard for MCP servers?",
+        "Should MCP server be entry point script vs importable module?",
+        "How do other MCP servers handle module structure?",
+        "Is pyproject.toml configured correctly for src layout?",
+        "Should we use namespace packages or flat structure?",
+        "What are FastMCP best practices for production deployment?"
+      ],
+      "research_questions": [
+        "Does FastMCP have guidance on module structure and imports?",
+        "How do reference MCP servers (like code-execution) structure their code?",
+        "What causes Python to import same module under multiple names?",
+        "Is this a PYTHONPATH issue, sys.path issue, or package structure issue?",
+        "Should MCP server be installed as package or run as script?",
+        "How does MCP client (Claude Code/Serena) import/discover MCP servers?",
+        "Are there FastMCP decorators or patterns to prevent this?"
+      ]
+    },
+    "proposed_investigation_approach": {
+      "phase_1_research": {
+        "owner": "coordinator",
+        "actions": [
+          "Review FastMCP documentation on server structure",
+          "Examine reference MCP servers for import patterns",
+          "Research Python import system and module duplication causes",
+          "Identify if this is src-layout specific issue",
+          "Determine MCP client import behavior"
+        ],
+        "output": "Architectural guidance document with safe patterns"
+      },
+      "phase_2_diagnosis": {
+        "owner": "in-project-claude",
+        "depends_on": "Phase 1 research complete",
+        "actions": [
+          "Check if duplicate imports actually occurring in test runs",
+          "Verify PYTHONPATH and sys.path configuration",
+          "Test with real MCP client if available",
+          "Add diagnostic logging to detect multi-instance scenario",
+          "Review pyproject.toml package configuration"
+        ],
+        "output": "Concrete evidence of whether issue is real or theoretical"
+      },
+      "phase_3_remediation": {
+        "owner": "in-project-claude",
+        "depends_on": "Phase 2 confirms issue exists",
+        "possible_solutions": [
+          "Fix pyproject.toml to enforce single import path",
+          "Restructure to entry point script pattern",
+          "Add singleton enforcement to prevent multiple instances",
+          "Move to namespace package structure",
+          "Use FastMCP server factory pattern instead of module globals"
+        ],
+        "output": "Verified fix with mypy passing and no duplicate imports"
+      }
+    },
+    "urgency_assessment": {
+      "immediate_risk": "Low - tests passing, no production deployment yet",
+      "deployment_risk": "HIGH - could cause production failures that are hard to debug",
+      "technical_debt_risk": "CRITICAL - if ignored, becomes architectural constraint",
+      "recommendation": "Block Layer 1 UI implementation until resolved",
+      "rationale": "Building more features on unstable foundation amplifies remediation cost"
+    },
+    "process_memory_implications": {
+      "PM-004_hot_reload": "Multiple instances would break atomic swap assumption",
+      "PM-017_jit_learning": "Token tracker in wrong instance defeats optimization tracking",
+      "PM-008_five_layer": "Layer 5 instability undermines entire architecture",
+      "new_lesson": "Mypy warnings about module duplication are architectural red flags, not noise"
+    },
+    "gratitude_to_user": "Thank you for catching this. Your experience-based intuition about MCP event loop conflicts prevented me from shipping a critical architectural flaw. This is exactly why strategic partnership matters - I was optimizing for feature delivery velocity, you were protecting long-term system integrity."
+  },
+  "questions": [
+    "Should coordinator research MCP server structure best practices before we investigate?",
+    "Is blocking Layer 1 UI implementation appropriate risk management?",
+    "Should this trigger creation of new process memory entry about import hygiene?",
+    "Are there other projects with similar MCP + src-layout patterns to reference?"
+  ],
+  "blocking": false,
+  "requires_research": true,
+  "confidence_in_concern": "high",
+  "confidence_in_solution": "requires_research"
+}

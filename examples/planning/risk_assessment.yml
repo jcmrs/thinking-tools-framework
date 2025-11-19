@@ -1,0 +1,111 @@
+version: "1.0"
+
+metadata:
+  name: "risk_assessment"
+  display_name: "Risk Assessment"
+  description: "Identify and evaluate project risks with mitigation strategies and contingency plans"
+  category: "planning"
+  author: "Cogito Framework"
+  tags: ["planning", "risk-management", "mitigation", "contingency"]
+
+parameters:
+  type: "object"
+  properties:
+    project:
+      type: "string"
+      description: "The project or initiative to assess"
+      default: ""
+  required: ["project"]
+
+template:
+  source: |
+    # Risk Assessment: {{ project }}
+
+    ---
+
+    ## Instructions
+
+    Risk assessment helps identify potential problems, prioritize risks, and develop mitigation strategies.
+
+    ---
+
+    ## Risk Identification
+
+    ### Technical Risks
+
+    | Risk | Probability | Impact | Mitigation |
+    |------|-------------|--------|------------|
+    | [Technical risk 1] | H/M/L | H/M/L | [Strategy] |
+    | [Technical risk 2] | H/M/L | H/M/L | [Strategy] |
+
+    ### Business Risks
+
+    | Risk | Probability | Impact | Mitigation |
+    |------|-------------|--------|------------|
+    | [Business risk 1] | H/M/L | H/M/L | [Strategy] |
+
+    ### Operational Risks
+
+    | Risk | Probability | Impact | Mitigation |
+    |------|-------------|--------|------------|
+    | [Operational risk 1] | H/M/L | H/M/L | [Strategy] |
+
+    ---
+
+    ## Risk Priority Matrix
+
+    **Critical Risks (High Impact + High Probability):**
+    1. [Risk]: Immediate mitigation required
+
+    **High Priority (High Impact):**
+    1. [Risk]: Develop contingency plan
+
+    **Monitor (High Probability, Lower Impact):**
+    1. [Risk]: Track and mitigate if needed
+
+    ---
+
+    ## Mitigation Plans
+
+    ### Top Risk: [Risk Name]
+
+    **Prevention:**
+    - Action: [What to do proactively]
+    - Owner: [Who is responsible]
+    - Timeline: [When to complete]
+
+    **Detection:**
+    - Metrics: [What to monitor]
+    - Threshold: [Warning level]
+
+    **Response:**
+    - If occurs: [Immediate actions]
+    - Escalation: [Who to notify]
+
+    ---
+
+    ## Contingency Plans
+
+    **Scenario 1:** [Worst case]
+    - Trigger: [What activates this plan]
+    - Response: [Immediate actions]
+    - Recovery: [How to recover]
+
+    ---
+
+    ## Summary
+
+    **Biggest threat:** [The most critical risk]
+
+    **Top mitigation priority:** [What to do first]
+
+examples:
+  - name: "Software Project"
+    description: "Risk assessment for development project"
+    parameters:
+      project: "Migrate legacy system to cloud"
+
+  - name: "Product Launch"
+    description: "Risk analysis for new product"
+    parameters:
+      project: "Launch mobile app in new market"

@@ -1,0 +1,27 @@
+{
+  "id": "msg-20251117-073000",
+  "from": "coordinator",
+  "to": "project-instance",
+  "timestamp": "2025-11-17T07:30:00Z",
+  "type": "directive",
+  "priority": "high",
+  "content": "Begin Layer 5 (Integration) implementation - MCP server integration. Follow roadmap (BOOTSTRAP-COMPLETE.md Weeks 7-8). Implement MCP protocol with tool discovery endpoint, tool execution endpoint, and process memory query endpoint. Enable Serena integration, hot-reload testing, and external tool access. Target >90% test coverage. All quality gates must pass before completion.",
+  "references": ["layer5-integration-implementation"],
+  "metadata": {
+    "task_id": "layer5-integration-implementation",
+    "process_memory_refs": ["PM-010", "PM-011"],
+    "roadmap_ref": "BOOTSTRAP-COMPLETE.md lines 312-318",
+    "depends_on": ["layer3-renderer-implementation", "layer3-validator-implementation", "layer2-orchestration-implementation", "layer4-storage-implementation"],
+    "integration_requirements": [
+      "MCP protocol implementation for tool discovery",
+      "MCP protocol for tool execution (validate + render pipeline)",
+      "MCP protocol for process memory queries",
+      "Integration with ToolRegistry and ToolExecutor",
+      "Integration with ProcessMemoryStore and KnowledgeGraph",
+      "Hot-reload testing (PM-004)",
+      "Serena integration verification",
+      "External MCP client testing (e.g., Claude Code)"
+    ]
+  },
+  "read": false
+}

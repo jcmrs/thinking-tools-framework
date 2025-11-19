@@ -1,0 +1,297 @@
+{
+  "message_id": "msg-20251118-154000-priority3-validation",
+  "type": "directive",
+  "priority": "high",
+  "timestamp": "2025-11-18T15:40:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "Priority 3: End-to-End Validation & Example Tools - Holistic System Check",
+  "content": {
+    "congratulations": "Excellent work completing Priority 2 (Project Bootstrap Package)! Foundation components now complete: Process Memory (Priority 1), Skills Export (Priority 1.5), PROJECT-IMPERATIVES.md (Priority 1.9), and Bootstrap Package (Priority 2). Time to validate the system works holistically.",
+
+    "task": "Create example thinking tools and validate end-to-end system functionality before core component implementation",
+
+    "strategic_importance": {
+      "why_now": "Imperative 1: Holistic System Thinking - Before building more components, verify foundation actually works end-to-end. Example tools validate YAML specs, template rendering, MCP server, Skills export, bootstrap workflow.",
+      "current_state": "Infrastructure complete but only 1-2 example tools exist. Cannot validate dual-pattern architecture (MCP + Skills) without real thinking tools.",
+      "problem": "Foundation may have integration issues hidden by lack of real tools. Bootstrap generates projects but no validation that tools actually execute correctly.",
+      "impact": "Confidence that foundation works before investing effort in core components. Real tools enable dogfooding - using the framework to develop the framework."
+    },
+
+    "deliverables": {
+      "1_example_thinking_tools": {
+        "name": "Minimum 10 Example Thinking Tools",
+        "purpose": "Validate YAML schema, template rendering, MCP server, Skills export with real tools",
+        "categories": {
+          "metacognition": [
+            "think_aloud.yml - Externalize reasoning process step-by-step",
+            "fresh_eyes.yml - Approach problem from beginner's perspective",
+            "assumption_challenger.yml - Identify and challenge assumptions",
+            "context_preservation.yml - Capture context for session handover"
+          ],
+          "problem_solving": [
+            "decision_journal.yml - Document decision with rationale and alternatives",
+            "root_cause_analysis.yml - Five Whys technique for problem investigation",
+            "trade_off_analysis.yml - Systematic evaluation of options"
+          ],
+          "planning": [
+            "task_breakdown.yml - Decompose complex task into steps",
+            "risk_assessment.yml - Identify and evaluate project risks",
+            "success_criteria.yml - Define measurable success criteria"
+          ]
+        },
+        "validation": "All tools must validate against schemas/thinking-tool-v1.0.schema.json"
+      },
+
+      "2_end_to_end_validation": {
+        "name": "System Integration Validation",
+        "purpose": "Verify complete workflow from tool creation to execution",
+        "workflows_to_validate": [
+          "YAML tool creation → Schema validation → Success",
+          "MCP server discovery → Tool spec retrieval → Execution → Rendered output",
+          "Skills export → SKILL.md generation → Bash wrapper → Execution",
+          "Bootstrap project → Install dependencies → Execute example tool → Success",
+          "Process memory export → Import → Context retrieval → Success"
+        ]
+      },
+
+      "3_mcp_server_validation": {
+        "name": "MCP Server Real-World Test",
+        "purpose": "Validate MCP server with 10+ real tools (not just smoke test)",
+        "tests": [
+          "thinking-tools://discover lists all 10+ tools",
+          "thinking-tools://tool-spec/{category}/{tool} retrieves each tool",
+          "execute_thinking_tool() renders each tool correctly",
+          "Progressive disclosure achieves ~98% token savings with real tools",
+          "Process memory query returns relevant entries"
+        ]
+      },
+
+      "4_skills_export_validation": {
+        "name": "Skills Export Real-World Test",
+        "purpose": "Validate Skills export with 10+ real tools",
+        "tests": [
+          "cogito skills export TOOL_NAME generates valid SKILL.md",
+          "cogito skills export-category CATEGORY exports all category tools",
+          "cogito skills export-all generates 10+ Skills",
+          "Generated SKILL.md validates against Claude Skills schema",
+          "Bash wrappers execute successfully"
+        ]
+      },
+
+      "5_bootstrap_validation": {
+        "name": "Bootstrap Package Real-World Test",
+        "purpose": "Validate bootstrapped project works with real tools",
+        "workflow": [
+          "cogito bootstrap validation-project --include-examples",
+          "cd validation-project",
+          "pip install -e '.[dev]'",
+          "cogito list (should show example tools)",
+          "cogito execute think_aloud topic='test' (should render output)",
+          "pytest (all tests should pass in bootstrapped project)"
+        ]
+      },
+
+      "6_documentation_update": {
+        "name": "User Documentation with Real Examples",
+        "purpose": "Update README, QUICK-START with actual tool examples",
+        "files": [
+          "README.md - Add real tool examples, update getting started",
+          "docs/USER-GUIDE.md - Create comprehensive user guide with tool catalog",
+          "docs/TOOL-CREATION-GUIDE.md - Step-by-step guide for creating new tools",
+          "examples/README.md - Overview of all example tools with use cases"
+        ]
+      }
+    },
+
+    "implementation_scope": {
+      "new_files": [
+        "examples/metacognition/think_aloud.yml",
+        "examples/metacognition/fresh_eyes.yml",
+        "examples/metacognition/assumption_challenger.yml",
+        "examples/metacognition/context_preservation.yml",
+        "examples/problem_solving/decision_journal.yml",
+        "examples/problem_solving/root_cause_analysis.yml",
+        "examples/problem_solving/trade_off_analysis.yml",
+        "examples/planning/task_breakdown.yml",
+        "examples/planning/risk_assessment.yml",
+        "examples/planning/success_criteria.yml",
+        "docs/USER-GUIDE.md",
+        "docs/TOOL-CREATION-GUIDE.md",
+        "tests/validation/test_end_to_end_workflows.py"
+      ],
+      "updated_files": [
+        "README.md (add real tool examples)",
+        "examples/README.md (tool catalog)"
+      ]
+    },
+
+    "quality_requirements": {
+      "completeness": {
+        "all_tools_complete": "10+ thinking tools fully implemented with YAML specs",
+        "all_workflows_validated": "5 end-to-end workflows tested and passing",
+        "all_documentation_updated": "README, USER-GUIDE, TOOL-CREATION-GUIDE complete",
+        "no_placeholder_tools": "All tools have real templates, parameters, examples"
+      },
+
+      "specificity": {
+        "tools_follow_schema": "All YAML tools validate against schemas/thinking-tool-v1.0.schema.json",
+        "templates_renderable": "All Jinja2 templates in tools render without errors",
+        "examples_executable": "All tool examples in YAML can be executed successfully",
+        "documentation_accurate": "Examples in docs match actual tool behavior"
+      },
+
+      "clarity": {
+        "tools_well_documented": "Each tool has clear description, parameters, usage examples",
+        "user_guide_accessible": "Non-technical users can create tools following TOOL-CREATION-GUIDE",
+        "error_messages_helpful": "Validation errors explain what's wrong and how to fix"
+      }
+    },
+
+    "success_criteria": {
+      "functionality": [
+        "10+ thinking tools created and validated against JSON schema",
+        "MCP server discovers and executes all tools successfully",
+        "Skills export generates valid SKILL.md for all tools",
+        "Bootstrap → install → execute workflow succeeds with real tools",
+        "Process memory export/import works with real decision data",
+        "Progressive disclosure achieves ~98% token savings with 10+ tools"
+      ],
+
+      "quality_gates": {
+        "yaml_schema_validation": "All 10+ tools validate against thinking-tool-v1.0.schema.json",
+        "mcp_server_functional": "MCP server serves all tools without errors",
+        "skills_export_functional": "Skills export generates valid SKILL.md for all tools",
+        "bootstrap_functional": "Bootstrapped project works with example tools",
+        "mypy": "passes --strict with 0 errors",
+        "ruff": "0 violations",
+        "pytest": "100% pass rate (all validation tests passing)"
+      },
+
+      "holistic_validation": {
+        "system_coherence": "All components (MCP, Skills, Bootstrap, Process Memory) work together",
+        "dogfooding_possible": "Framework can be used to develop itself (thinking tools aid development)",
+        "user_workflow_smooth": "Non-technical user can create, validate, export thinking tools",
+        "token_efficiency_validated": "~98% token savings achieved with real tool library"
+      }
+    },
+
+    "success_verification": {
+      "before_completion": [
+        "10+ thinking tools created and validated",
+        "All 5 end-to-end workflows tested and passing",
+        "MCP server, Skills export, Bootstrap all validated with real tools",
+        "Documentation updated with real examples",
+        "Quality gates: mypy strict 0 errors, ruff 0 violations, pytest 100% pass rate",
+        "Holistic system check: All components integrate smoothly"
+      ]
+    },
+
+    "implementation_guidance": {
+      "tool_creation_approach": {
+        "start_simple": "Begin with think_aloud.yml (simple metacognitive tool)",
+        "follow_schema": "Use schemas/thinking-tool-v1.0.schema.json as reference",
+        "validate_incrementally": "Validate each tool immediately after creation",
+        "test_rendering": "Execute tool via MCP and Skills to ensure templates render correctly"
+      },
+
+      "yaml_structure": {
+        "metadata": "name, description, version, category, tags",
+        "parameters": "Define parameter schema (type, description, required, default)",
+        "template": "Jinja2 template using {{ parameters.name }} syntax",
+        "examples": "At least 2 usage examples per tool",
+        "validation": "Ensure YAML parses and validates against schema"
+      },
+
+      "validation_strategy": {
+        "schema_first": "Validate YAML against JSON schema before testing execution",
+        "mcp_test": "Test via MCP server (thinking-tools://tool-spec/{category}/{tool})",
+        "skills_test": "Export via Skills and verify SKILL.md format",
+        "bootstrap_test": "Include in bootstrapped project and test execution",
+        "integration_test": "Write automated tests validating complete workflows"
+      },
+
+      "documentation_approach": {
+        "user_guide": "Step-by-step tutorial: YAML creation → validation → execution → export",
+        "tool_catalog": "Table listing all tools with description, category, use cases",
+        "creation_guide": "Template-based guide for non-technical users to create tools",
+        "examples_real": "Use actual tool execution output in documentation"
+      },
+
+      "right_altitude": {
+        "specific_enough": "10+ tools specified, categories defined, validation workflows clear",
+        "flexible_enough": "Tool content (prompts, parameters) are autonomous decisions",
+        "constraints_clear": "Schema validation, quality gates, holistic validation non-negotiable"
+      }
+    },
+
+    "testing_strategy": {
+      "unit_tests": [
+        "YAML parsing for all 10+ tools",
+        "Schema validation against thinking-tool-v1.0.schema.json",
+        "Template rendering for each tool",
+        "Parameter validation for each tool"
+      ],
+
+      "integration_tests": [
+        "End-to-end: YAML creation → MCP discovery → execution → output",
+        "End-to-end: YAML creation → Skills export → SKILL.md → bash execution",
+        "End-to-end: Bootstrap project → install → execute tool → success",
+        "Process memory: Export → import → query → context retrieval",
+        "Token efficiency: Measure actual token usage with 10+ tools vs loading all"
+      ],
+
+      "validation_tests": [
+        "All tools validate against JSON schema",
+        "All MCP resources return valid data",
+        "All Skills SKILL.md files validate against Claude Skills schema",
+        "All bash wrappers execute successfully",
+        "Bootstrapped project tests pass"
+      ]
+    },
+
+    "holistic_system_thinking": {
+      "imperative_1_check": [
+        "How does adding 10+ tools affect MCP server performance?",
+        "How does Skills export scale with tool library growth?",
+        "How does Bootstrap handle projects with many tools?",
+        "Are there integration issues between components?",
+        "Does progressive disclosure still work at scale?"
+      ],
+
+      "validation_before_proceeding": "This priority validates foundation works holistically before building Template Engine, Spec Loader, Validator. If validation reveals issues, fix foundation first."
+    },
+
+    "reference_documents": [
+      "schemas/thinking-tool-v1.0.schema.json (tool structure)",
+      "docs/specs/IMPLEMENTATION-ROADMAP.md (Priority 3 context)",
+      "PROJECT-IMPERATIVES.md (Imperative 1: Holistic System Thinking)",
+      ".coordination/SKILLS-MCP-INTEGRATION-STRATEGY.md (dual-pattern validation)"
+    ],
+
+    "process_memory_references": [
+      "PM-010 (Token Efficiency Through Progressive Disclosure - validate with real tools)",
+      "PM-001 through PM-021 (All strategic decisions - ensure coherence)"
+    ],
+
+    "estimated_effort": "4-6 hours (10 tools + validation + documentation)"
+  },
+
+  "quality_gates": {
+    "yaml_schema_validation": "all 10+ tools must validate against schema",
+    "mcp_server": "must discover and execute all tools successfully",
+    "skills_export": "must generate valid SKILL.md for all tools",
+    "bootstrap": "must create working project with example tools",
+    "mypy": "must pass --strict with 0 errors",
+    "ruff": "0 violations",
+    "pytest": "100% pass rate (all validation tests passing)"
+  },
+
+  "coordinator_notes": {
+    "holistic_thinking_first": "Validate foundation works before building more components",
+    "dogfooding_enabled": "Real tools allow using framework to develop framework",
+    "foundation_complete": "After this, proceed to Template Engine, Spec Loader, Validator implementation"
+  },
+
+  "read": false
+}

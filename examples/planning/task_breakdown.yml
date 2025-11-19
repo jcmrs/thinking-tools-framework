@@ -1,0 +1,332 @@
+version: "1.0"
+
+metadata:
+  name: "task_breakdown"
+  display_name: "Task Breakdown"
+  description: "Decompose complex tasks into manageable, actionable steps with clear dependencies"
+  category: "planning"
+  author: "Cogito Framework"
+  tags: ["planning", "decomposition", "project-management", "organization"]
+
+parameters:
+  type: "object"
+  properties:
+    task:
+      type: "string"
+      description: "The complex task to break down"
+      default: ""
+    granularity:
+      type: "string"
+      description: "Level of breakdown detail"
+      enum: ["high-level", "detailed", "exhaustive"]
+      default: "detailed"
+  required: ["task"]
+
+template:
+  source: |
+    # Task Breakdown: {{ task }}
+
+    **Granularity:** {{ granularity }}
+
+    ---
+
+    ## Instructions
+
+    Breaking down complex tasks helps you:
+    - Understand the full scope of work
+    - Identify dependencies and blockers
+    - Estimate effort accurately
+    - Track progress effectively
+    - Delegate work appropriately
+
+    ---
+
+    ## Task Overview
+
+    **Overall goal:** {{ task }}
+
+    **Why this matters:**
+    - Impact: [What this enables]
+    - Stakeholders: [Who cares about this]
+    - Deadline: [When needed]
+
+    **Success criteria:**
+    - [ ] [Criterion 1]
+    - [ ] [Criterion 2]
+    - [ ] [Criterion 3]
+
+    ---
+
+    {% if granularity == "high-level" %}
+    ## High-Level Phases
+
+    ### Phase 1: [Phase Name]
+
+    **Goal:** [What this phase achieves]
+
+    **Main activities:**
+    - [Activity 1]
+    - [Activity 2]
+    - [Activity 3]
+
+    **Estimated duration:** [Timeframe]
+
+    **Deliverables:**
+    - [Deliverable 1]
+    - [Deliverable 2]
+
+    ---
+
+    ### Phase 2: [Phase Name]
+
+    **Goal:** [What this phase achieves]
+
+    **Main activities:**
+    - [Activity 1]
+    - [Activity 2]
+
+    **Estimated duration:** [Timeframe]
+
+    **Deliverables:**
+    - [Deliverable 1]
+
+    ---
+
+    ### Phase 3: [Phase Name]
+
+    **Goal:** [What this phase achieves]
+
+    **Main activities:**
+    - [Activity 1]
+    - [Activity 2]
+
+    **Estimated duration:** [Timeframe]
+
+    **Deliverables:**
+    - [Deliverable 1]
+
+    {% elif granularity == "exhaustive" %}
+    ## Comprehensive Task List
+
+    ### Discovery & Planning
+
+    **Research tasks:**
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+
+    **Planning tasks:**
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+
+    **Design tasks:**
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+
+    ---
+
+    ### Implementation
+
+    **Setup & Infrastructure:**
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+
+    **Core Development:**
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+
+    **Integration:**
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+
+    ---
+
+    ### Testing & Quality
+
+    **Unit Testing:**
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+
+    **Integration Testing:**
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+
+    **QA & Review:**
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+
+    ---
+
+    ### Documentation & Deployment
+
+    **Documentation:**
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+
+    **Deployment:**
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+
+    **Post-Launch:**
+    - [ ] [Task]: Owner, Estimated hours, Dependencies
+
+    {% else %}
+    ## Detailed Task Breakdown
+
+    ### Subtask 1: [Name]
+
+    **Description:** [What needs to be done]
+
+    **Steps:**
+    1. [Step]: Description, estimated time
+    2. [Step]: Description, estimated time
+    3. [Step]: Description, estimated time
+
+    **Acceptance criteria:**
+    - [ ] [Criterion]
+    - [ ] [Criterion]
+
+    **Dependencies:**
+    - Requires: [Other subtask/resource]
+    - Blocks: [What this enables]
+
+    **Estimated effort:** [Hours/days]
+
+    **Owner:** [Person/team]
+
+    **Priority:** High/Medium/Low
+
+    ---
+
+    ### Subtask 2: [Name]
+
+    **Description:** [What needs to be done]
+
+    **Steps:**
+    1. [Step]: Description, estimated time
+    2. [Step]: Description, estimated time
+
+    **Acceptance criteria:**
+    - [ ] [Criterion]
+    - [ ] [Criterion]
+
+    **Dependencies:**
+    - Requires: [Other subtask/resource]
+    - Blocks: [What this enables]
+
+    **Estimated effort:** [Hours/days]
+
+    **Owner:** [Person/team]
+
+    **Priority:** High/Medium/Low
+
+    ---
+
+    ### Subtask 3: [Name]
+
+    **Description:** [What needs to be done]
+
+    **Steps:**
+    1. [Step]: Description, estimated time
+
+    **Acceptance criteria:**
+    - [ ] [Criterion]
+
+    **Dependencies:**
+    - Requires: [Other subtask/resource]
+    - Blocks: [What this enables]
+
+    **Estimated effort:** [Hours/days]
+
+    **Owner:** [Person/team]
+
+    **Priority:** High/Medium/Low
+
+    {% endif %}
+
+    ---
+
+    ## Dependencies Map
+
+    **Critical path:**
+    1. [Task A] → [Task B] → [Task C] → [Task D]
+
+    **Parallel workstreams:**
+    - Stream 1: [Tasks that can run in parallel]
+    - Stream 2: [Other parallel tasks]
+
+    **Blockers:**
+    - [Task] is blocked by: [Dependency]
+    - [Task] is waiting on: [External dependency]
+
+    ---
+
+    ## Resource Requirements
+
+    **People:**
+    - [Role]: [Number needed], [% allocation]
+    - [Role]: [Number needed], [% allocation]
+
+    **Technology:**
+    - [Tool/platform]: [Purpose]
+    - [Tool/platform]: [Purpose]
+
+    **Budget:**
+    - [Category]: [Estimated cost]
+    - [Category]: [Estimated cost]
+
+    ---
+
+    ## Timeline
+
+    **Total estimated duration:** [Time]
+
+    **Milestone 1:** [Date]
+    - Deliverable: [What's complete]
+
+    **Milestone 2:** [Date]
+    - Deliverable: [What's complete]
+
+    **Final completion:** [Date]
+    - Deliverable: [Full project done]
+
+    ---
+
+    ## Risks & Mitigation
+
+    **Risk 1:** [What could go wrong]
+    - Impact: High/Medium/Low
+    - Probability: High/Medium/Low
+    - Mitigation: [How to prevent/reduce]
+
+    **Risk 2:** [What could go wrong]
+    - Impact: High/Medium/Low
+    - Probability: High/Medium/Low
+    - Mitigation: [How to prevent/reduce]
+
+    ---
+
+    ## Next Steps
+
+    **Immediate actions (this week):**
+    - [ ] [Action]: Owner, deadline
+    - [ ] [Action]: Owner, deadline
+
+    **Coming soon (next 2 weeks):**
+    - [ ] [Action]: Owner, deadline
+
+    **Start with:** [The very first task to tackle]
+
+examples:
+  - name: "Feature Development"
+    description: "Breaking down a new feature implementation"
+    parameters:
+      task: "Build user authentication system with OAuth"
+      granularity: "detailed"
+
+  - name: "Project Planning"
+    description: "High-level project phases"
+    parameters:
+      task: "Launch new product v2.0"
+      granularity: "high-level"
+
+  - name: "Migration Project"
+    description: "Exhaustive breakdown of complex migration"
+    parameters:
+      task: "Migrate legacy system to cloud infrastructure"
+      granularity: "exhaustive"

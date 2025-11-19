@@ -1,0 +1,247 @@
+version: "1.0"
+
+metadata:
+  name: "assumption_check"
+  display_name: "Assumption Check"
+  description: "Surface and validate implicit assumptions in your thinking"
+  category: "metacognition"
+  author: "Cogito Framework"
+  tags: ["metacognition", "assumptions", "validation", "critical-thinking"]
+
+parameters:
+  type: "object"
+  properties:
+    scope:
+      type: "string"
+      description: "Domain of assumptions to focus on"
+      enum: ["technical", "business", "user_behavior", "constraints", "all"]
+      default: "all"
+    task_context:
+      type: "string"
+      description: "Brief description of the task or decision being analyzed"
+      default: ""
+  required: []
+
+template:
+  source: |
+    # Assumption Check{% if scope != 'all' %} - {{ scope|upper }} Focus{% endif %}
+
+    {% if task_context %}
+    **Context:** {{ task_context }}
+    {% endif %}
+
+    ## Instructions
+
+    Assumptions are beliefs we take for granted without explicit verification. They're often invisible until challenged. This exercise systematically surfaces and validates assumptions that might be influencing your thinking.
+
+    {% if scope == 'technical' or scope == 'all' %}
+    ## Technical Assumptions
+
+    ### System Behavior Assumptions
+    What am I assuming about how the system works?
+
+    | Assumption | Confidence (%) | Critical? | Validated? | How to Validate |
+    |------------|----------------|-----------|------------|-----------------|
+    | Example: "The API returns results in <100ms" | 70 | Yes | No | Load testing |
+    |  |  |  |  |  |
+    |  |  |  |  |  |
+    |  |  |  |  |  |
+
+    ### Technology Stack Assumptions
+    What am I assuming about the tools and frameworks?
+
+    - Version compatibility: Assuming...
+    - Available features: Assuming...
+    - Performance characteristics: Assuming...
+    - Configuration defaults: Assuming...
+
+    ### Data Assumptions
+    What am I assuming about the data?
+
+    - Data format and schema: Assuming...
+    - Data quality and completeness: Assuming...
+    - Data volume and scale: Assuming...
+    - Data update frequency: Assuming...
+
+    ### Integration Assumptions
+    What am I assuming about external dependencies?
+
+    - Third-party API availability: Assuming...
+    - External service behavior: Assuming...
+    - Network reliability: Assuming...
+    - Authentication and permissions: Assuming...
+
+    {% endif %}
+    {% if scope == 'business' or scope == 'all' %}
+    ## Business Assumptions
+
+    ### User Needs Assumptions
+    What am I assuming about what users want?
+
+    - Primary use case: Assuming users will...
+    - User sophistication level: Assuming users can...
+    - User priorities: Assuming users value...
+    - User constraints: Assuming users have...
+
+    ### Value Assumptions
+    What am I assuming about business value?
+
+    - What's valuable: Assuming... [is important/valuable to the business]
+    - What's measurable: Assuming... [can be measured as success]
+    - What's achievable: Assuming... [is realistic given constraints]
+    - What's sustainable: Assuming... [can be maintained long-term]
+
+    ### Stakeholder Assumptions
+    What am I assuming about decision-makers?
+
+    - Priorities: Assuming stakeholders care most about...
+    - Constraints: Assuming stakeholders are limited by...
+    - Timeline: Assuming stakeholders need this by...
+    - Resources: Assuming stakeholders can provide...
+
+    ### Market Assumptions
+    What am I assuming about the external environment?
+
+    - Competition: Assuming competitors will/won't...
+    - Regulations: Assuming legal/compliance requirements are...
+    - Trends: Assuming the market is moving toward...
+    - Economics: Assuming budget/resources will...
+
+    {% endif %}
+    {% if scope == 'user_behavior' or scope == 'all' %}
+    ## User Behavior Assumptions
+
+    ### How Users Will Discover
+    - Assuming users will find this feature by...
+    - Assuming users will understand its purpose through...
+    - Assuming users will recognize when to use it by...
+
+    ### How Users Will Learn
+    - Assuming users will learn by... [reading docs / trial-and-error / training / etc.]
+    - Assuming users will remember... [after using once / need repeated exposure / etc.]
+    - Assuming users will need... [no help / minimal help / extensive help]
+
+    ### How Users Will Use
+    - Assuming typical usage pattern is...
+    - Assuming users will access this... [frequency]
+    - Assuming users will combine this with...
+    - Assuming users will customize...
+
+    ### How Users Will Respond to Errors
+    - Assuming when errors occur, users will...
+    - Assuming error messages will be... [sufficient / insufficient]
+    - Assuming users will retry... [immediately / after investigation / give up]
+
+    {% endif %}
+    {% if scope == 'constraints' or scope == 'all' %}
+    ## Constraint Assumptions
+
+    ### Time Constraints
+    What am I assuming about time available?
+
+    - Development time: Assuming we have... [time estimate]
+    - Review/testing time: Assuming QA needs... [time estimate]
+    - Deployment time: Assuming rollout takes... [time estimate]
+    - Learning curve: Assuming team learns in... [time estimate]
+
+    ### Resource Constraints
+    What am I assuming about available resources?
+
+    - Team capacity: Assuming we have... [X developers / designers / etc.]
+    - Budget: Assuming we can spend... [$X or X hours]
+    - Infrastructure: Assuming we have... [servers / services / tools]
+    - Dependencies: Assuming we can get... [from other teams / vendors]
+
+    ### Knowledge Constraints
+    What am I assuming about what we/they know?
+
+    - Team expertise: Assuming team knows... [technology / domain]
+    - Documentation: Assuming we have... [adequate / inadequate docs]
+    - Tribal knowledge: Assuming critical knowledge is... [documented / in people's heads]
+    - Learning resources: Assuming we can learn from... [docs / colleagues / training]
+
+    ### Policy/Process Constraints
+    What am I assuming about organizational limits?
+
+    - Approval process: Assuming approvals take... [time] and require... [stakeholders]
+    - Security requirements: Assuming we must... [comply with X policy]
+    - Testing requirements: Assuming we must... [test coverage / review process]
+    - Deployment process: Assuming we can/cannot... [deploy directly / need approval]
+
+    {% endif %}
+
+    ---
+
+    ## Assumption Validation Matrix
+
+    For your top 5 most critical assumptions (from any category above):
+
+    | # | Assumption | If True → Impact | If False → Impact | Validation Method | Urgency |
+    |---|------------|------------------|-------------------|-------------------|---------|
+    | 1 |  | ✅ | ❌ |  | High/Med/Low |
+    | 2 |  | ✅ | ❌ |  | High/Med/Low |
+    | 3 |  | ✅ | ❌ |  | High/Med/Low |
+    | 4 |  | ✅ | ❌ |  | High/Med/Low |
+    | 5 |  | ✅ | ❌ |  | High/Med/Low |
+
+    **Validation Methods:** User research, prototype test, data analysis, expert consultation, literature review, small experiment, etc.
+
+    ---
+
+    ## Risk Assessment
+
+    ### High-Risk Assumptions (False = Major Impact)
+    List assumptions where being wrong would significantly derail the project:
+
+    1. [Assumption]: If this is wrong, then...
+    2. [Assumption]: If this is wrong, then...
+    3. [Assumption]: If this is wrong, then...
+
+    **Mitigation Plan:**
+    - Validate these assumptions ASAP through...
+    - Have backup plan if assumption proves false:
+    - Decision point: Will re-evaluate if...
+
+    ### Medium-Risk Assumptions (False = Moderate Impact)
+    List assumptions where being wrong would require rework but not fundamental changes:
+
+    1. [Assumption]: If this is wrong, then...
+    2. [Assumption]: If this is wrong, then...
+
+    ### Low-Risk Assumptions (False = Minor Impact)
+    List assumptions where being wrong is easily correctable:
+
+    1. [Assumption]: If this is wrong, then...
+    2. [Assumption]: If this is wrong, then...
+
+    ---
+
+    ## Action Items
+
+    Based on this assumption check:
+
+    ### Immediate Actions (Do Before Proceeding)
+    - [ ] Validate assumption: [which one] by [how]
+    - [ ] Get clarification on: [ambiguous area]
+    - [ ] Test hypothesis: [specific test]
+
+    ### Near-Term Actions (Do This Sprint/Week)
+    - [ ] Research: [what to investigate]
+    - [ ] Prototype: [what to validate]
+    - [ ] Consult: [who to talk to about what]
+
+    ### Watch Items (Monitor Over Time)
+    - [ ] Track: [metric to validate assumption over time]
+    - [ ] Review: [assumption to revisit after X period]
+    - [ ] Revisit: [decision if assumption proves false]
+
+    ---
+
+    ## Meta-Reflection
+
+    - How many assumptions did you identify? [count]
+    - How many were you previously aware of? [count]
+    - How many are currently validated? [count]
+    - Which assumption, if wrong, would have the biggest impact?
+    - What's your plan to validate the riskiest assumptions?
+    - Did this exercise change your confidence in your approach? [increased / decreased / same]

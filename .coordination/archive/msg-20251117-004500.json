@@ -1,0 +1,26 @@
+{
+  "id": "msg-20251117-004500",
+  "from": "coordinator",
+  "to": "project-instance",
+  "timestamp": "2025-11-17T00:45:00Z",
+  "type": "directive",
+  "priority": "high",
+  "content": "Begin Layer 4 (Storage) implementation - ProcessMemoryStore and KnowledgeGraph classes. Follow roadmap (BOOTSTRAP-COMPLETE.md Weeks 5-6). Implement JSONL append operations, entry querying/filtering, JIT (Just-In-Time) reading with 70% token savings. Create KnowledgeGraph with graph construction from JSONL, relationship traversal, and semantic search. Target >90% test coverage. All quality gates must pass before completion.",
+  "references": ["layer4-storage-implementation"],
+  "metadata": {
+    "task_id": "layer4-storage-implementation",
+    "process_memory_refs": ["PM-007", "PM-008"],
+    "roadmap_ref": "BOOTSTRAP-COMPLETE.md lines 301-310",
+    "depends_on": ["layer3-renderer-implementation", "layer3-validator-implementation", "layer2-orchestration-implementation"],
+    "integration_requirements": [
+      "ProcessMemoryStore handles JSONL append-only operations",
+      "Entry querying and filtering by category, tags, keywords",
+      "JIT reading optimization (70% token savings)",
+      "KnowledgeGraph construction from process_memory.jsonl",
+      "Relationship traversal (dependencies, related entries)",
+      "Semantic search across process memory",
+      "Integration tests with real .bootstrap/process_memory.jsonl file"
+    ]
+  },
+  "read": false
+}

@@ -1,0 +1,90 @@
+# {{ project_name }} - Quick Start Guide
+
+Get up and running with {{ project_name }} in 5 minutes.
+
+## Prerequisites
+
+- Python 3.11 or higher
+- pip (Python package manager)
+
+## Installation
+
+1. **Clone/Navigate to the project:**
+   ```bash
+   cd {{ project_name }}
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   python -m pip install -e ".[dev]"
+   ```
+
+## Your First Thinking Tool
+
+1. **List available tools:**
+   ```bash
+   cogito list
+   ```
+{% if include_examples %}
+2. **Execute a thinking tool:**
+   ```bash
+   cogito execute think_aloud topic="my project architecture"
+   ```
+
+3. **View the output:**
+   The tool will guide you through structured analysis of your topic.
+{% endif %}
+## Project Structure
+
+```
+{{ project_name }}/
+├── src/cogito/          # Main package code
+├── tests/               # Test suite
+├── docs/                # Documentation
+├── config/              # Configuration files
+│   ├── cogito.yml       # Framework configuration
+│   └── logging.yml      # Logging configuration
+{% if include_examples -%}
+├── examples/            # Example thinking tools
+{% endif -%}
+└── .bootstrap/          # Process memory and knowledge graph
+```
+
+## Next Steps
+
+- **Create your first tool:** Copy an example tool and customize it
+- **Read the architecture guide:** See `docs/ARCHITECTURE.md`
+- **Configure the framework:** Edit `config/cogito.yml`
+- **Run tests:** `pytest`
+
+## Common Commands
+
+```bash
+# List all tools
+cogito list
+
+# Execute a tool
+cogito execute TOOL_NAME param1="value1"
+
+# Validate tools
+bash scripts/validate.sh
+
+# Run tests
+pytest
+
+# Check types
+mypy src/
+
+# Format code
+black src/
+```
+
+## Getting Help
+
+- **Architecture:** `docs/ARCHITECTURE.md`
+- **Configuration:** `docs/CONFIGURATION.md`
+- **Foundation Principles:** `PROJECT-IMPERATIVES.md`
+
+---
+
+Generated on {{ now }}

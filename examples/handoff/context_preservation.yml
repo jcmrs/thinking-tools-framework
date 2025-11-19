@@ -1,0 +1,375 @@
+version: "1.0"
+
+metadata:
+  name: "context_preservation"
+  display_name: "Context Preservation"
+  description: "Quick context capture for interruptions, breaks, and checkpoints"
+  category: "handoff"
+  author: "Cogito Framework"
+  tags: ["handoff", "context", "interruption", "checkpoint", "working-memory"]
+
+parameters:
+  type: "object"
+  properties:
+    trigger:
+      type: "string"
+      description: "What triggered this context preservation"
+      enum: ["break", "interrupt", "checkpoint", "switch", "end_of_day"]
+      default: "checkpoint"
+    expected_duration:
+      type: "string"
+      description: "How long until resuming"
+      enum: ["minutes", "hours", "days", "unknown"]
+      default: "unknown"
+  required: []
+
+template:
+  source: |
+    # Context Preservation - {{ trigger|upper }}
+
+    **Trigger:** {{ trigger|replace('_', ' ')|title }}
+    **Expected Away:** {{ expected_duration }}
+    **Timestamp:** {{ "now"|default("YYYY-MM-DD HH:MM:SS") }}
+
+    ---
+
+    ## 🎯 Current Focus
+
+    ### What I'm Working On Right Now
+
+    **Primary task:** [One sentence description]
+
+    **Current sub-task:** [Specific thing being done at this moment]
+
+    **Last action taken:** [Most recent thing I did before this capture]
+
+    **Next action planned:** [What I was about to do next]
+
+    ---
+
+    ## 🧠 Mental Model Snapshot
+
+    ### How I'm Thinking About This
+
+    **Mental model:** [Framework or lens I'm using]
+
+    Example: "Thinking about this as a data flow problem", "Approaching this as a dependency injection challenge", "Viewing this through the lens of Five Cornerstones"
+
+    **Key insight:** [Most important realization so far]
+
+    **Working hypothesis:** [Current theory about the solution]
+
+    **Confidence level:** [High / Medium / Low]
+
+    ---
+
+    ## 🔄 Open Loops
+
+    ### Things in My Head Right Now
+
+    Things I need to remember when I return:
+
+    1. **[Open loop 1]**
+       - Why it matters: [Impact]
+       - Need to: [Action]
+
+    2. **[Open loop 2]**
+       - Why it matters:
+       - Need to:
+
+    3. **[Open loop 3]**
+       - Why it matters:
+       - Need to:
+
+    ### Incomplete Thoughts
+
+    Ideas or questions I was exploring:
+
+    - 💭 [Thought in progress]
+    - ❓ [Question I was investigating]
+    - 🔍 [Thing I was about to look up]
+
+    ---
+
+    ## 📍 Code Context
+
+    ### Current Location
+
+    **File:** [Current file path]
+
+    **Function/Class:** [Specific location in file]
+
+    **Line number:** [Approximate line number]
+
+    **What I'm doing here:** [Why I'm in this file]
+
+    ### Related Files
+
+    Other files I've been bouncing between:
+
+    - `[file path]` - [Purpose in current work]
+    - `[file path]` - [Purpose in current work]
+    - `[file path]` - [Purpose in current work]
+
+    ### Unsaved Changes
+
+    Changes I have in progress:
+
+    - [ ] `[file]` - [What changed]
+    - [ ] `[file]` - [What changed]
+    - [ ] `[file]` - [What changed]
+
+    **Should commit before break?** [Yes / No / After testing]
+
+    ---
+
+    ## 🔍 Investigation State
+
+    ### What I'm Currently Investigating
+
+    **Question:** [What I'm trying to figure out]
+
+    **Why:** [Why this question matters]
+
+    **Approach:** [How I'm investigating]
+
+    **Findings so far:**
+    - ✅ [What I've confirmed]
+    - ❌ [What I've ruled out]
+    - ❓ [What's still uncertain]
+
+    **Next step in investigation:** [What I was about to try]
+
+    ---
+
+    ## ⚡ Quick Resume Checklist
+
+    When resuming, do this to restore context:
+
+    {% if expected_duration == 'minutes' %}
+    ### Resume After Minutes
+
+    - [ ] Read "Current Focus" section
+    - [ ] Check "Open Loops"
+    - [ ] Review "Next action planned"
+    - [ ] Continue from where you left off
+
+    **Resume time:** <2 minutes
+
+    {% elif expected_duration == 'hours' %}
+    ### Resume After Hours
+
+    - [ ] Read entire context preservation
+    - [ ] Review recent git commits: `git log --oneline -3`
+    - [ ] Check current branch: `git status`
+    - [ ] Re-read key files from "Related Files"
+    - [ ] Remind yourself of "Mental Model"
+    - [ ] Review "Open Loops"
+    - [ ] Execute "Next action planned"
+
+    **Resume time:** 5-10 minutes
+
+    {% elif expected_duration == 'days' %}
+    ### Resume After Days
+
+    - [ ] Read this context preservation completely
+    - [ ] Review git log: `git log --oneline -10`
+    - [ ] Check for updates: `git fetch` / `git status`
+    - [ ] Re-read all "Related Files"
+    - [ ] Rebuild "Mental Model" understanding
+    - [ ] Review "Investigation State"
+    - [ ] Check if "Open Loops" still relevant
+    - [ ] Verify "Working hypothesis" still valid
+    - [ ] Consider if approach needs adjustment
+
+    **Resume time:** 15-20 minutes
+
+    {% else %}
+    ### Resume (Unknown Duration)
+
+    **If resuming within hours:**
+    - Read full document
+    - Review recent commits
+    - Check status
+    - Continue
+
+    **If resuming after days:**
+    - Read full document
+    - Review all commits since preservation
+    - Rebuild understanding of "Related Files"
+    - Validate "Mental Model" still applies
+    - Verify "Open Loops" relevance
+    - Proceed with "Next action planned" or re-evaluate
+
+    {% endif %}
+
+    ---
+
+    ## 🎯 Decision Points
+
+    ### Decisions Made Just Before This Capture
+
+    Recent decisions still fresh in mind:
+
+    - **Decided:** [Decision]
+      - **Rationale:** [Why]
+      - **Alternative rejected:** [What I chose not to do]
+
+    ### Decisions Pending
+
+    Choices I need to make when I return:
+
+    - **Decision needed:** [What needs deciding]
+      - **Options:** [A / B / C]
+      - **Considerations:** [Trade-offs]
+      - **Leaning toward:** [Current preference]
+
+    ---
+
+    ## 🧪 Testing Context
+
+    ### Tests I'm Running
+
+    {% if trigger == 'interrupt' or trigger == 'break' %}
+    **Tests running:** [None / Describe]
+
+    **Expected completion:** [Time]
+
+    **What to check when complete:** [Metrics/output to verify]
+
+    {% else %}
+    **Last test run:** [What was tested]
+
+    **Result:** [Pass / Fail / Partial]
+
+    **Next test to run:** [What to test next]
+
+    {% endif %}
+
+    ---
+
+    ## 📝 Scratchpad
+
+    ### Quick Notes & Reminders
+
+    Unstructured thoughts to preserve:
+
+    ```
+    [Free-form notes]
+    [Anything that doesn't fit above categories]
+    [Code snippets]
+    [URLs to check]
+    [Commands to remember]
+    ```
+
+    ---
+
+    ## 🔗 References Active
+
+    ### Tabs/Windows I Have Open
+
+    Useful context about what I'm referencing:
+
+    - [URL or document]: [Why I have this open]
+    - [URL or document]: [Why I have this open]
+
+    ### Documentation Sections Being Used
+
+    Specific docs I'm actively consulting:
+
+    - [Doc name, section]: [What I'm looking up]
+
+    ---
+
+    ## ⏰ Time Context
+
+    **Started current task:** [When] _(e.g., "30 minutes ago", "2 hours ago")_
+
+    **Time invested so far:** [Duration estimate]
+
+    **Estimated time remaining:** [Duration estimate]
+
+    **Deadline/target:** [When this needs to be done]
+
+    ---
+
+    ## 🚦 State Indicators
+
+    ### Current State
+
+    - **Mental state:** [Focused / Distracted / Stuck / In flow]
+    - **Energy level:** [High / Medium / Low]
+    - **Confidence:** [High / Medium / Low / Confused]
+    - **Progress feeling:** [Good pace / Slow / Blocked / Unsure]
+
+    ### Flags
+
+    - 🔴 **Blocked:** [Yes/No] - If yes: [On what]
+    - 🟡 **Uncertain:** [Yes/No] - If yes: [About what]
+    - 🟢 **Making progress:** [Yes/No]
+    - ⚠️ **Needs help:** [Yes/No] - If yes: [With what]
+
+    ---
+
+    ## 🎯 Context Quality Check
+
+    Before leaving, verify:
+
+    - [ ] Captured current exact task
+    - [ ] Listed all open loops
+    - [ ] Documented mental model
+    - [ ] Noted unsaved changes
+    - [ ] Described investigation state
+    - [ ] Listed next action
+    - [ ] Quick resume checklist clear
+
+    **Is this enough to resume seamlessly?** [Yes / No / Mostly]
+
+    **What's missing?** [Note any gaps]
+
+    ---
+
+    ## 🔄 Integration Points
+
+    {% if trigger == 'checkpoint' %}
+    ### Checkpoint Integration
+
+    This checkpoint can feed into:
+    - Full session handover (if session ends)
+    - Progress tracking (what's been accomplished)
+    - Time estimation (actual vs estimated time)
+    - Process memory (decisions and insights)
+
+    **Should elevate to full handover?** [Yes / No]
+
+    {% elif trigger == 'interrupt' %}
+    ### Interruption Recovery
+
+    If interruption becomes longer than expected:
+    - Promote to full session handover
+    - Capture additional context before context is lost
+    - Document interruption reason if relevant
+
+    **Interruption reason:** [Why interrupted]
+
+    {% elif trigger == 'switch' %}
+    ### Task Switch
+
+    **Switching to:** [Other task]
+
+    **Will return:** [Yes / No / Maybe]
+
+    **Priority when returning:** [Rank]
+
+    **Current state is:** [Stable / Partially complete / Critical to resume]
+
+    {% endif %}
+
+    ---
+
+    ## Meta-Preservation
+
+    - Is this context preservation complete?
+    - Would you be able to resume from this?
+    - What additional information would help?
+    - Is there any decision that should go into process memory?

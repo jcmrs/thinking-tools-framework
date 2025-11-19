@@ -1,0 +1,24 @@
+{
+  "id": "msg-20251116-234500",
+  "from": "coordinator",
+  "to": "project-instance",
+  "timestamp": "2025-11-16T23:45:00Z",
+  "type": "directive",
+  "priority": "high",
+  "content": "Begin Layer 2 (Orchestration) implementation - ToolRegistry and ToolExecutor classes. Follow roadmap (BOOTSTRAP-COMPLETE.md Weeks 3-4). Implement auto-discovery via file system scan of examples/ directory, tool caching with hot-reload support (PM-004), category-based organization. Create ToolExecutor to coordinate parameter validation + template rendering. Target >90% test coverage. All quality gates must pass before completion.",
+  "references": ["layer2-orchestration-implementation"],
+  "metadata": {
+    "task_id": "layer2-orchestration-implementation",
+    "process_memory_refs": ["PM-004", "PM-012"],
+    "roadmap_ref": "BOOTSTRAP-COMPLETE.md lines 290-299",
+    "depends_on": ["layer3-renderer-implementation", "layer3-validator-implementation"],
+    "integration_requirements": [
+      "ToolRegistry discovers tools in examples/ directory",
+      "ToolRegistry caches loaded tools for performance",
+      "ToolRegistry supports hot-reload when tools change",
+      "ToolExecutor coordinates ParameterValidator + TemplateRenderer",
+      "Integration tests with all 9 example tools"
+    ]
+  },
+  "read": false
+}

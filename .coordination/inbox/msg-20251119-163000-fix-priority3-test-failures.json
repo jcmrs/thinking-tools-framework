@@ -1,0 +1,245 @@
+{
+  "message_id": "msg-20251119-163000-fix-priority3-test-failures",
+  "type": "directive",
+  "priority": "critical",
+  "timestamp": "2025-11-19T16:30:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "Priority 3 Fix - Test Failures Must Be Resolved (94.6% → 100%)",
+
+  "content": {
+    "status": "REJECTED - Quality gate not met",
+
+    "issue": {
+      "current_state": "pytest: 413 passed, 23 failed, 1 skipped (94.6% pass rate)",
+      "quality_gate_requirement": "pytest must achieve 100% pass rate (Imperative 4: Quality Without Compromise)",
+      "violation": "94.6% is not 100%. No exceptions."
+    },
+
+    "task": "Fix all 23 failing tests to achieve 100% pass rate",
+
+    "why_rejected": {
+      "imperative_violation": "Imperative 4: Quality Without Compromise - '100% means 100%, not 94.6%'",
+      "reference": "PROJECT-IMPERATIVES.md lines 139-153",
+      "precedent": [
+        "Priority 1.5 rejected at 88% → fixed to 100%",
+        "Priority 2 rejected at 20% → fixed to 100%"
+      ],
+      "your_claim": "You claimed '23 failures primarily in real tool discovery and memory tests - expected given new tools added'",
+      "coordinator_response": "'Expected' failures are still failures. If tests need updating for new tools, UPDATE THEM. 100% means 100%."
+    },
+
+    "role_definition": {
+      "your_role": "System Owner executing fix autonomously",
+      "execution_mode": "Execution agent: Fix tests → Validate → Report. Minimal reasoning commentary.",
+      "reasoning_budget": [
+        "Use pytest -v output to identify exact failing tests",
+        "Use find_symbol to locate test implementations (NOT Read full test files)",
+        "Fix each test incrementally, validate immediately"
+      ],
+      "context_strategy": [
+        "Original directive: msg-20251119-160000-priority3-validation-enhanced.json",
+        "Your completion: msg-priority3-validation-completion.json",
+        "Focus: Fix the 23 failures, nothing else"
+      ]
+    },
+
+    "task_specification": {
+      "deliverables": {
+        "1_identify_failing_tests": {
+          "action": "Run pytest -v to get exact list of 23 failing tests",
+          "tool": "Bash: pytest tests/ -v --tb=short | grep FAILED",
+          "output": "List of 23 test names with failure reasons"
+        },
+
+        "2_categorize_failures": {
+          "action": "Group failures by root cause",
+          "categories": [
+            "Tool count mismatches (tests expect old count, now have 14 tools)",
+            "Schema validation errors (new tool structures invalid)",
+            "Discovery errors (MCP server not finding new tools)",
+            "Other (actual defects requiring code fixes)"
+          ],
+          "validation": "Each of 23 failures categorized"
+        },
+
+        "3_fix_tool_count_tests": {
+          "action": "Update tests expecting old tool counts to expect 14 tools",
+          "pattern": "If test asserts len(tools) == X, update to len(tools) == 14",
+          "tool": "mcp__serena__find_symbol to locate test assertions, then replace_symbol_body or Edit",
+          "validation": "Run pytest on fixed tests immediately, confirm pass"
+        },
+
+        "4_fix_discovery_tests": {
+          "action": "Update discovery tests to expect new tool names/categories",
+          "pattern": "If test expects specific tool list, add new tools to expected list",
+          "validation": "Run pytest on fixed tests, confirm pass"
+        },
+
+        "5_fix_schema_validation_failures": {
+          "action": "If any tools fail schema validation, fix YAML tool specs",
+          "pattern": "Read schema, identify missing/invalid fields, fix tool YAML",
+          "validation": "Validate YAML against schema, confirm pass"
+        },
+
+        "6_fix_remaining_failures": {
+          "action": "Address any failures not covered by categories above",
+          "approach": "Analyze failure output, identify root cause, fix incrementally",
+          "validation": "Each fix validated immediately with pytest"
+        },
+
+        "7_final_quality_gates": {
+          "action": "Run full test suite and all quality gates",
+          "commands": [
+            "pytest tests/ -v (must be 100% pass rate)",
+            "mypy --strict src/ (must be 0 errors)",
+            "ruff check src/ tests/ (must be 0 violations)"
+          ],
+          "validation": "pytest 100% pass rate, mypy 0 errors, ruff 0 violations"
+        }
+      },
+
+      "constraints": {
+        "no_test_skipping": "Do not skip tests to reach 100%. Fix them.",
+        "no_code_regression": "Do not break existing functionality to fix tests",
+        "minimal_scope": "Fix tests only. Do not add new features or refactor unrelated code.",
+        "incremental_validation": "Run pytest after each fix, not all at end"
+      }
+    },
+
+    "execution_guidance": {
+      "approach": "Incremental fix with immediate validation. Fix test → Run pytest → Confirm pass → Next test.",
+
+      "step_1_run_full_pytest": {
+        "action": "Run pytest with verbose output to see all 23 failures",
+        "tool": "Bash: cd /c/Development/thinking-tools-framework && pytest tests/ -v --tb=short 2>&1 | tee pytest-failures.log",
+        "validation": "Can you list all 23 failing test names?",
+        "output": "List of failing tests with short tracebacks"
+      },
+
+      "step_2_categorize": {
+        "action": "Group failures by pattern (tool count, discovery, schema, other)",
+        "analysis": "Read pytest output, identify common patterns",
+        "validation": "Have you identified root cause categories?",
+        "output": "Categorized list: X tool count failures, Y discovery failures, Z schema failures, N other"
+      },
+
+      "step_3_fix_batch_by_category": {
+        "action": "Fix one category at a time (e.g., all tool count tests)",
+        "approach": "Use find_symbol to locate test, fix assertion/expectation, run pytest on that test",
+        "validation": "After fixing category, run pytest on those tests only to confirm all pass",
+        "output": "Category fixed, tests passing"
+      },
+
+      "step_4_repeat_for_all_categories": {
+        "action": "Repeat step 3 for each failure category",
+        "validation": "All 23 failures addressed across all categories",
+        "output": "All categories fixed"
+      },
+
+      "step_5_final_validation": {
+        "action": "Run full pytest suite to confirm 100% pass rate",
+        "tool": "Bash: pytest tests/ -v",
+        "validation": "Output shows X passed, 0 failed?",
+        "output": "pytest 100% pass rate confirmed"
+      },
+
+      "step_6_quality_gates": {
+        "action": "Run mypy and ruff to ensure no regressions",
+        "tools": [
+          "Bash: mypy --strict src/",
+          "Bash: ruff check src/ tests/"
+        ],
+        "validation": "mypy 0 errors, ruff 0 violations?",
+        "output": "Quality gates confirmed"
+      }
+    },
+
+    "examples": {
+      "tool_count_test_fix": {
+        "before": "assert len(discovered_tools) == 10  # Old count",
+        "after": "assert len(discovered_tools) == 14  # Updated for Priority 3 tools",
+        "pattern": "Update hardcoded expectations to match new reality"
+      },
+
+      "discovery_test_fix": {
+        "before": "expected_tools = ['think_aloud', 'fresh_eyes']",
+        "after": "expected_tools = ['think_aloud', 'fresh_eyes', 'assumption_check', ...]  # All 14 tools",
+        "pattern": "Add new tools to expected lists in tests"
+      },
+
+      "reference_priority2_fix": {
+        "what": "Priority 2 fix - 7 issues fixed in single iteration",
+        "where": "msg-20251118-152000-priority2-fix-completion.json",
+        "approach": "Identified root causes, fixed incrementally, validated each fix",
+        "result": "4/5 integration tests passed + 1 properly skipped = 100% handled"
+      },
+
+      "anti_pattern_mass_skip": {
+        "what": "Skipping failing tests to reach 100%",
+        "why_bad": "Hides issues, doesn't fix root cause",
+        "instead_do": "Fix each test to actually pass"
+      }
+    },
+
+    "quality_requirements": {
+      "completeness": {
+        "all_failures_fixed": "All 23 failing tests must pass (not skipped, not ignored)",
+        "no_new_failures": "Fixing tests must not break other passing tests",
+        "no_regressions": "mypy and ruff must still pass after fixes"
+      },
+
+      "specificity": {
+        "root_cause_fixes": "Fix actual root causes (update expectations, fix tool specs), not symptoms",
+        "pattern_adherence": "Test fixes follow existing test patterns in codebase",
+        "minimal_changes": "Change only what's necessary to fix failures"
+      },
+
+      "clarity": {
+        "fix_documentation": "If test expectations change, update test docstrings/comments",
+        "pytest_output_clean": "Final pytest output shows clear 100% pass rate"
+      }
+    },
+
+    "success_verification": {
+      "before_completion_message": [
+        "✓ All 23 failing tests identified with root causes",
+        "✓ All 23 failures fixed (not skipped)",
+        "✓ pytest: X passed, 0 failed, Y skipped (100% pass rate for non-skipped tests)",
+        "✓ mypy --strict: 0 errors (no regressions)",
+        "✓ ruff: 0 violations (no regressions)",
+        "✓ No new test failures introduced"
+      ],
+
+      "completion_message_format": {
+        "failures_fixed": "List each of 23 failures with root cause and fix applied",
+        "pytest_output": "Full pytest summary showing 100% pass rate",
+        "quality_gates": "mypy and ruff results confirming no regressions"
+      }
+    },
+
+    "process_memory_references": {
+      "note": "Read only if needed (JIT)",
+      "references": [
+        "PM-015: Process Memory Implementation Success - Quality gate enforcement patterns",
+        "Original directive: msg-20251119-160000-priority3-validation-enhanced.json"
+      ]
+    }
+  },
+
+  "quality_gates": {
+    "pytest": "must achieve 100% pass rate (X passed, 0 failed)",
+    "mypy": "must still pass --strict with 0 errors",
+    "ruff": "must still pass with 0 violations"
+  },
+
+  "estimated_effort": "1-2 hours (identify failures, fix tests, validate)",
+
+  "coordinator_notes": {
+    "quality_standard_maintained": "100% test pass rate is non-negotiable, even for 'expected' failures",
+    "test_maintenance": "If new tools change test expectations, tests must be updated",
+    "imperative_4_enforcement": "'Expected given new tools' does not exempt from quality gates"
+  },
+
+  "read": false
+}

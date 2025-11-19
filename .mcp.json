@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "cogito-thinking-tools": {
+      "type": "stdio",
+      "command": "python",
+      "args": [
+        "-m",
+        "cogito"
+      ],
+      "env": {
+        "PYTHONPATH": "C:Developmentthinking-tools-frameworksrc"
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+"""Pytest configuration and shared fixtures for {{ project_name }}."""
+
+import pytest
+from pathlib import Path
+
+
+@pytest.fixture
+def project_root() -> Path:
+    """Return the project root directory."""
+    return Path(__file__).parent.parent
+
+
+@pytest.fixture
+def examples_dir(project_root: Path) -> Path:
+    """Return the examples directory."""
+    return project_root / "examples"
+
+
+@pytest.fixture
+def config_dir(project_root: Path) -> Path:
+    """Return the config directory."""
+    return project_root / "config"

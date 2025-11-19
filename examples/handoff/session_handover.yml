@@ -1,0 +1,449 @@
+version: "1.0"
+
+metadata:
+  name: "session_handover"
+  display_name: "Session Handover"
+  description: "Prepare comprehensive context for next AI session - zero information loss"
+  category: "handoff"
+  author: "Cogito Framework"
+  tags: ["handoff", "context-preservation", "ai-first", "session-continuity"]
+
+parameters:
+  type: "object"
+  properties:
+    completeness:
+      type: "string"
+      description: "Level of detail in handover documentation"
+      enum: ["minimal", "standard", "comprehensive"]
+      default: "standard"
+    reason:
+      type: "string"
+      description: "Why this handover is happening"
+      enum: ["session_end", "context_limit", "checkpoint", "blocked", "switching_tasks"]
+      default: "session_end"
+  required: []
+
+template:
+  source: |
+    # Session Handover - {{ completeness|upper }}
+
+    **Handover Reason:** {{ reason|replace('_', ' ')|title }}
+    **Timestamp:** {{ "now"|default("YYYY-MM-DD HH:MM:SS") }}
+
+    ---
+
+    ## 🎯 Session Summary
+
+    ### What Was Accomplished This Session
+
+    {% if completeness == 'comprehensive' %}
+    List everything completed, even small items. Include:
+    - Features implemented
+    - Bugs fixed
+    - Code refactored
+    - Documentation updated
+    - Tests written
+    - Decisions made
+    - Problems solved
+
+    #### Completed Items
+    - ✅
+    - ✅
+    - ✅
+
+    #### Impact of Completions
+    - [Item] enables...
+    - [Item] fixes...
+    - [Item] improves...
+
+    {% else %}
+    List major accomplishments (top 3-5):
+
+    - ✅
+    - ✅
+    - ✅
+
+    {% endif %}
+
+    ---
+
+    ## ⏳ What's In Progress
+
+    ### Active Work Items
+
+    For each in-progress item:
+
+    **Item 1:** [Description]
+    - Status: [% complete or current state]
+    - Next step: [Immediate next action]
+    - Files involved: [List key files]
+    - Branch: [Git branch if applicable]
+    - Context needed: [What next person needs to know]
+
+    **Item 2:** [Description]
+    - Status:
+    - Next step:
+    - Files involved:
+    - Branch:
+    - Context needed:
+
+    {% if completeness == 'comprehensive' %}
+    ### Partially Completed Sub-tasks
+
+    For work that's started but not finished:
+
+    - [ ] [Sub-task] - Started: [What's done] - Remaining: [What's left]
+    - [ ]
+    - [ ]
+
+    ### Work Context
+
+    - **Current mental model**: [How you're thinking about this problem]
+    - **Approach being used**: [Strategy/pattern you're applying]
+    - **Why this approach**: [Rationale for current strategy]
+    - **Alternatives considered**: [Other approaches evaluated]
+
+    {% endif %}
+
+    ---
+
+    ## 🚧 Blockers & Issues
+
+    ### Active Blockers
+
+    Things preventing progress:
+
+    **Blocker 1:** [Description]
+    - Impact: [High/Medium/Low]
+    - Blocking: [What work items this affects]
+    - Possible solutions:
+      1.
+      2.
+    - Who can unblock: [Person/team/decision needed]
+
+    **Blocker 2:** [Description]
+    - Impact:
+    - Blocking:
+    - Possible solutions:
+    - Who can unblock:
+
+    ### Issues Encountered
+
+    Problems discovered but not blocking:
+
+    - **Issue**: [Description]
+      - When discovered: [Context]
+      - Potential impact: [Implications]
+      - Needs investigation: Yes/No
+
+    ### Questions Raised
+
+    Unanswered questions that came up:
+
+    1. **Q:** [Question]
+       - **Why it matters:** [Impact of answer]
+       - **Possible approaches to answer:** [How to investigate]
+
+    2.
+
+    3.
+
+    ---
+
+    ## 💡 Decisions Made This Session
+
+    {% if completeness == 'comprehensive' %}
+    ### Strategic Decisions
+
+    Major decisions with long-term impact:
+
+    **Decision 1:** [What was decided]
+    - **Context**: [Why this decision was needed]
+    - **Alternatives considered**: [Other options]
+    - **Rationale**: [Why this choice]
+    - **Trade-offs accepted**: [What we're giving up]
+    - **Process memory**: [PM-XXX if captured]
+
+    **Decision 2:** [What was decided]
+    - **Context**:
+    - **Alternatives considered**:
+    - **Rationale**:
+    - **Trade-offs accepted**:
+    - **Process memory**:
+
+    ### Tactical Decisions
+
+    Implementation choices made:
+
+    - **Decided to** [action] **because** [reason]
+    - **Chose** [option] **over** [alternative] **due to** [constraint/benefit]
+
+    {% else %}
+    List key decisions (capture to process memory if strategic):
+
+    1. **Decision:** [What]
+       - **Why:** [Rationale]
+       - **Impact:** [Implications]
+
+    2.
+
+    3.
+
+    {% endif %}
+
+    ---
+
+    ## 📝 Important Context
+
+    ### Current Project State
+
+    - **Phase**: [Planning / Design / Implementation / Testing / Deployment]
+    - **Progress**: [% complete or milestone status]
+    - **Quality**: [Test coverage, known issues, technical debt]
+    - **Risks**: [Current concerns or uncertainties]
+
+    ### Key Files & Locations
+
+    Critical files for next session:
+
+    | File/Directory | Purpose | Current State |
+    |----------------|---------|---------------|
+    |  | | Modified / Stable / Needs Review |
+    |  | | |
+
+    ### Dependencies & Relationships
+
+    How pieces connect:
+
+    - **[Component A]** depends on **[Component B]** for **[reason]**
+    - **[File X]** must be updated when **[File Y]** changes because **[constraint]**
+
+    {% if completeness == 'comprehensive' %}
+    ### Mental Model
+
+    How to think about this system/problem:
+
+    - **Primary mental model**: [Lens or framework being used]
+    - **Key insight**: [Most important realization]
+    - **Critical assumption**: [Most important assumption]
+    - **Pattern being applied**: [Design pattern or architectural pattern]
+
+    ### Knowledge Discovered
+
+    Things learned this session:
+
+    - **Learned:** [New knowledge]
+      - **Source:** [How discovered]
+      - **Useful for:** [Where this applies]
+
+    - **Discovered:** [Unexpected finding]
+      - **Implication:** [What this means]
+
+    {% endif %}
+
+    ---
+
+    ## 🎯 Next Priorities
+
+    ### Immediate Next Steps (Start Here)
+
+    What the next session should tackle first:
+
+    1. **[Task]**
+       - Why this first: [Rationale for priority]
+       - Prerequisites: [What must be ready]
+       - Success criteria: [How to know it's done]
+       - Estimated effort: [Time estimate]
+
+    2. **[Task]**
+       - Why this first:
+       - Prerequisites:
+       - Success criteria:
+       - Estimated effort:
+
+    3. **[Task]**
+       - Why this first:
+       - Prerequisites:
+       - Success criteria:
+       - Estimated effort:
+
+    ### Upcoming Work (Next After Immediate)
+
+    - [ ] [Task] - [Brief description]
+    - [ ] [Task] - [Brief description]
+    - [ ] [Task] - [Brief description]
+
+    ### Deferred Items
+
+    Things deprioritized or postponed:
+
+    - **[Item]** - Deferred because: [Reason] - Revisit when: [Condition]
+
+    ---
+
+    ## 🔍 Context Preservation
+
+    ### For New AI Session
+
+    **Start here when resuming:**
+
+    1. **Read** this handover document completely
+    2. **Load** process memory entries: [PM-XXX, PM-YYY, PM-ZZZ]
+    3. **Review** recent commits: `git log --oneline -5`
+    4. **Check** current branch: `git branch --show-current`
+    5. **Read** key files: [List from "Key Files" section above]
+    6. **Verify** understanding by summarizing current state
+
+    **Mental state to adopt:**
+
+    - We are in **[phase]** phase of **[project]**
+    - Current focus is **[area]**
+    - Main challenge is **[problem]**
+    - Approach being used: **[strategy]**
+
+    **Critical context to internalize:**
+
+    - Most important decision: [Decision from above]
+    - Current blocker: [Blocker from above]
+    - Key assumption: [Assumption to keep in mind]
+
+    {% if completeness == 'comprehensive' %}
+    ### Process Memory References
+
+    **Strategic decisions to review:**
+    - PM-XXX: [Title]
+    - PM-YYY: [Title]
+
+    **Lessons learned to incorporate:**
+    - PM-XXX: [Title]
+    - PM-YYY: [Title]
+
+    **Related context:**
+    - PM-XXX: [Title]
+
+    ### Command Reference
+
+    Useful commands for this project:
+
+    ```bash
+    # [Purpose]
+    command here
+
+    # [Purpose]
+    command here
+    ```
+
+    {% endif %}
+
+    ---
+
+    ## 📊 Session Metrics
+
+    {% if completeness != 'minimal' %}
+    - **Duration**: [Hours worked]
+    - **Focus areas**: [Main topics addressed]
+    - **Files modified**: [Count]
+    - **Commits made**: [Count]
+    - **Tests added**: [Count]
+    - **Blockers encountered**: [Count]
+    - **Decisions made**: [Count]
+
+    ### Productivity Assessment
+
+    - **Velocity**: [High / Medium / Low]
+    - **Quality**: [High / Medium / Low]
+    - **Interruptions**: [Minimal / Moderate / Many]
+    - **Flow state**: [Achieved / Intermittent / Blocked]
+
+    {% endif %}
+
+    ---
+
+    ## 🧭 Continuation Strategy
+
+    ### If Resuming Within 24 Hours
+
+    - Quick refresh: Read "Session Summary" and "Next Priorities"
+    - Should be able to continue immediately
+    - Total resume time: <5 minutes
+
+    ### If Resuming After 24+ Hours
+
+    - Full handover review: Read entire document
+    - Process memory refresh: Review referenced PM entries
+    - Code refresh: Review key files and recent commits
+    - Context rebuild time: 10-15 minutes
+
+    ### If Different AI Instance
+
+    - Complete onboarding: Follow "For New AI Session" steps
+    - Mental model adoption: Understand approach and context
+    - Verification: Summarize understanding before proceeding
+    - Full context establishment: 15-20 minutes
+
+    ---
+
+    ## ✅ Handover Completeness Check
+
+    Before ending session, verify:
+
+    - [ ] All completed work documented
+    - [ ] All in-progress work captured with next steps
+    - [ ] All blockers identified and described
+    - [ ] All decisions recorded (strategic ones in process memory)
+    - [ ] Critical context preserved
+    - [ ] Next priorities clearly defined
+    - [ ] Resumption instructions clear
+    - [ ] Key files and locations listed
+    - [ ] Process memory references included
+
+    {% if reason == 'blocked' %}
+    ### Special: Blocked Handover
+
+    Since this handover is due to being blocked:
+
+    - **Primary blocker**: [Detailed description]
+    - **Attempted solutions**: [What was tried]
+    - **Help needed**: [What would unblock]
+    - **Alternative paths**: [What could be done instead]
+    - **Escalation**: [Who to contact if blocker persists]
+
+    {% elif reason == 'context_limit' %}
+    ### Special: Context Limit Handover
+
+    Since this handover is due to context window exhaustion:
+
+    - **What consumed context**: [Major context drivers]
+    - **Next session strategy**: [How to avoid same issue]
+    - **Critical to preserve**: [Most important context]
+    - **Can regenerate**: [What doesn't need preservation]
+
+    {% elif reason == 'switching_tasks' %}
+    ### Special: Task Switch Handover
+
+    Since this handover is due to task switching:
+
+    - **Reason for switch**: [Why switching away]
+    - **Expected return**: [When/if returning to this]
+    - **State preservation**: [How to preserve current state]
+    - **Return checklist**: [Steps to resume when switching back]
+
+    {% endif %}
+
+    ---
+
+    ## 📎 Attachments / References
+
+    - Related documents: [Links or file paths]
+    - External resources: [URLs or references]
+    - Design artifacts: [Diagrams, mockups, specs]
+    - Process memory: [PM-XXX entries]
+
+    ---
+
+    ## Meta-Handover Reflection
+
+    - Is this handover complete enough for someone else to continue?
+    - What critical information might be missing?
+    - If you were receiving this handover, what would you need clarified?
+    - Should any decisions be captured as process memory entries?

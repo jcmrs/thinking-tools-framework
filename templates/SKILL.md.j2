@@ -1,0 +1,116 @@
+---
+name: {{ skill_name }}
+description: {{ description }}
+---
+
+# {{ display_name }}
+
+## Instructions
+
+{{ metadata.description }}
+
+**When to use:**
+{% if metadata.category == "metacognition" %}
+- Working through complex problems step-by-step
+- Verifying reasoning before conclusions
+- Breaking down ambiguous requirements
+{% elif metadata.category == "review" %}
+- Conducting code or system reviews
+- Evaluating architectural decisions
+- Checking for security or performance issues
+{% elif metadata.category == "handoff" %}
+- Documenting decisions for future reference
+- Transferring knowledge to other team members
+- Creating session handover documentation
+{% elif metadata.category == "debugging" %}
+- Investigating errors or unexpected behavior
+- Analyzing system failures
+- Root cause analysis
+{% elif metadata.category == "planning" %}
+- Designing architecture or system design
+- Breaking down complex tasks
+- Strategic planning and roadmapping
+{% else %}
+- Structured guidance for this type of task
+{% endif %}
+
+**Parameters:**
+{% if parameters and parameters.properties %}
+{% for param_name, param_spec in parameters.properties.items() %}
+- `{{ param_name }}` ({{ "required" if param_name in parameters.get("required", []) else "optional" }}): {{ param_spec.description }}
+{% endfor %}
+{% else %}
+- No parameters required
+{% endif %}
+
+**Execution:**
+```bash
+cogito execute {{ metadata.name }}{% if parameters and parameters.properties %} \{% endif %}
+
+{% if parameters and parameters.properties %}
+{% for param_name in parameters.properties.keys() %}
+  --{{ param_name }} "value"{% if not loop.last %} \{% endif %}
+
+{% endfor %}
+{% endif %}
+```
+
+**Output:** {{ metadata.get("output_description", "Structured prompts or guidance based on your parameters.") }}
+
+## Examples
+
+{% if metadata.examples %}
+{% for example in metadata.examples %}
+### Example {{ loop.index }}{% if example.title %}: {{ example.title }}{% endif %}
+
+{% if example.description %}
+{{ example.description }}
+{% endif %}
+
+```bash
+cogito execute {{ metadata.name }}{% if example.parameters %} \{% endif %}
+
+{% if example.parameters %}
+{% for param, value in example.parameters.items() %}
+  --{{ param }} "{{ value }}"{% if not loop.last %} \{% endif %}
+
+{% endfor %}
+{% endif %}
+```
+
+{% if example.output %}
+**Expected Output:**
+{{ example.output }}
+{% endif %}
+
+{% endfor %}
+{% else %}
+### Basic Usage
+
+```bash
+cogito execute {{ metadata.name }} --help
+```
+
+Use `--help` to see all available parameters and usage examples.
+{% endif %}
+
+## Reference
+
+**Category:** {{ metadata.category }}
+**Tags:** {{ metadata.tags | join(", ") if metadata.tags else "None" }}
+**Author:** {{ metadata.get("author", "Unknown") }}
+**Version:** {{ metadata.get("version", "1.0") }}
+
+**Source:** `{{ source_path }}`
+
+{% if metadata.related_tools %}
+**Related Tools:**
+{% for tool in metadata.related_tools %}
+- `{{ tool }}`
+{% endfor %}
+{% endif %}
+
+---
+
+*This Skill was auto-generated from the thinking-tools-framework YAML specification.*
+*Source YAML: {{ source_path }}*

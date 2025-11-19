@@ -1,0 +1,159 @@
+{
+  "message_id": "msg-20251118-042500-priority15-skills-export",
+  "type": "directive",
+  "priority": "medium",
+  "timestamp": "2025-11-18T04:25:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "Priority 1.5: Skills Export and Integration",
+  "content": {
+    "congratulations": "Excellent work completing Priority 1 (Process Memory Provisioning)! The export/import/handover tools are production-ready with 70/70 tests passing and 96-99% coverage. This unlocks seamless AI session continuity.",
+    "task": "Implement Skills Export for Thinking Tools - Dual-Pattern Architecture Completion",
+    "strategic_importance": {
+      "why_now": "Completes dual-pattern architecture validated by Anthropic research (https://www.anthropic.com/engineering/code-execution-with-mcp and https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview). Enables thinking tools in Claude Code without MCP dependency.",
+      "current_state": "MCP pattern complete and production-validated (98% token savings). Process memory provisioning complete. Skills pattern researched and strategy documented in .coordination/SKILLS-MCP-INTEGRATION-STRATEGY.md.",
+      "problem": "Thinking tools only accessible via MCP protocol. Claude Code users must run MCP server. No native filesystem-based access pattern available.",
+      "impact": "Claude Code can use thinking tools as native Skills with zero-latency discovery. Self-service tool creation enabled. Both MCP and Skills patterns available from same YAML sources."
+    },
+    "deliverables": {
+      "1_skills_exporter": {
+        "name": "cogito skills export",
+        "purpose": "Generate SKILL.md files from YAML tool specifications",
+        "cli_commands": [
+          "cogito skills export TOOL_NAME --output PATH",
+          "cogito skills export-category CATEGORY --output PATH",
+          "cogito skills export-all --output PATH"
+        ],
+        "examples": [
+          "cogito skills export think_aloud --output ~/.claude/skills/think-aloud/",
+          "cogito skills export-category metacognition --output ~/.claude/skills/",
+          "cogito skills export-all --output ~/.claude/skills/"
+        ]
+      },
+      "2_skill_md_generator": {
+        "name": "SKILL.md Generator",
+        "purpose": "Auto-generate SKILL.md from YAML metadata, parameters, examples",
+        "format": "YAML frontmatter (name, description) + Instructions + Examples + Reference sections",
+        "constraints": [
+          "name: lowercase, hyphens only, max 64 chars, no 'anthropic' or 'claude'",
+          "description: max 1024 chars, must include 'Use when...' guidance"
+        ]
+      },
+      "3_execution_wrappers": {
+        "name": "Bash Execution Wrappers",
+        "purpose": "Wrapper scripts that call cogito CLI for Skills execution",
+        "pattern": "#!/usr/bin/env bash\\nset -euo pipefail\\nexec cogito execute TOOL_NAME \"$@\"",
+        "location": "~/.claude/skills/{tool-name}/scripts/execute.sh"
+      },
+      "4_validation_tool": {
+        "name": "Skills Validator",
+        "purpose": "Verify generated Skills match Claude Skills schema requirements",
+        "checks": [
+          "name format (lowercase, hyphens, max 64 chars)",
+          "description length (max 1024 chars)",
+          "SKILL.md structure (frontmatter + sections)",
+          "execution equivalence (Skills output == MCP output)"
+        ]
+      }
+    },
+    "implementation_scope": {
+      "new_modules": [
+        "src/cogito/provisioning/skills_exporter.py",
+        "src/cogito/provisioning/skill_generator.py",
+        "templates/SKILL.md.j2",
+        "templates/execute.sh.j2"
+      ],
+      "updated_modules": [
+        "src/cogito/ui/cli.py (add 'skills' command group)"
+      ],
+      "generated_artifacts": [
+        "~/.claude/skills/{tool-name}/SKILL.md",
+        "~/.claude/skills/{tool-name}/scripts/execute.sh",
+        "~/.claude/skills/{tool-name}/tool.yml (symlink to examples/{category}/{tool}.yml)"
+      ]
+    },
+    "success_criteria": {
+      "functionality": [
+        "All 30+ tools exportable as Claude Skills",
+        "SKILL.md validates against Claude Skills schema",
+        "Execution via Skills produces same output as MCP execution",
+        "Skills discoverable in Claude Code (metadata shows in system prompt)",
+        "Export commands work for single tool, category, and all tools",
+        "Symlinks created correctly to source YAML files"
+      ],
+      "quality_gates": {
+        "mypy": "passes --strict",
+        "ruff": "0 violations",
+        "pytest": "≥85% coverage for provisioning.skills_* modules"
+      },
+      "skills_validation": {
+        "name_format": "lowercase, hyphens only, max 64 chars, no forbidden words",
+        "description_length": "max 1024 chars, includes when-to-use guidance",
+        "frontmatter_valid": "YAML parses correctly with required fields",
+        "execution_equivalence": "bash execution via Skills == MCP execute_thinking_tool output"
+      }
+    },
+    "implementation_guidance": {
+      "layer": "Layer 4.5 (Provisioning package, between Storage and UI)",
+      "dependencies": "Uses ToolRegistry (Layer 2) for tool discovery, generates Skills from YAML specs in examples/",
+      "single_source_of_truth": "examples/{category}/*.yml remain canonical, Skills are generated artifacts (no duplication)",
+      "skill_md_approach": {
+        "parse": "Load YAML via ToolRegistry.get_tool()",
+        "frontmatter": "Extract metadata.name (convert to skill-name) + build description with use-when guidance",
+        "instructions": "Generate from metadata.description + parameters schema + usage patterns",
+        "examples": "Convert metadata.examples to markdown code blocks with cogito CLI syntax",
+        "reference": "Include category, tags, source YAML path"
+      },
+      "symlink_strategy": "Create tool.yml symlink pointing to examples/{category}/{tool}.yml - enables bidirectional sync, no file duplication",
+      "bash_wrapper_pattern": "Simple exec wrapper calling 'cogito execute TOOL_NAME \"$@\"' - no complex logic, just parameter passthrough",
+      "name_conversion": "Display name 'Think Aloud' → skill-name 'think-aloud' (lowercase, spaces to hyphens, remove special chars)",
+      "description_building": "Combine metadata.description + 'Use when' clause from parameter analysis (e.g., 'Use when you need to work through complex problems step-by-step')"
+    },
+    "testing_strategy": {
+      "unit_tests": [
+        "SKILL.md generation from YAML (test with real tool specs)",
+        "Name format conversion (display_name → skill-name validation)",
+        "Description truncation and use-when appending (max 1024 chars)",
+        "Frontmatter YAML generation and validation",
+        "Bash wrapper template rendering",
+        "Symlink creation and path resolution"
+      ],
+      "integration_tests": [
+        "Export single tool end-to-end (think_aloud → ~/.claude/skills/think-aloud/)",
+        "Export category of tools (metacognition → all metacognition tools)",
+        "Export all tools (verify 30+ Skills created)",
+        "Skills schema validation (parse SKILL.md, validate frontmatter)",
+        "Execution equivalence test (run via Skills bash wrapper vs MCP, compare outputs)",
+        "Claude Code discovery simulation (verify metadata loads in system prompt)"
+      ]
+    },
+    "anthropic_patterns": {
+      "progressive_disclosure": "Skills metadata (~100 tokens per skill, always loaded) → SKILL.md (~5k tokens, triggered when relevant) → bash execution (output only)",
+      "code_execution": "Bash wrappers execute cogito CLI, return rendered output only (template code never enters context)",
+      "token_efficiency": "Target ~97% savings compared to loading all tool specs upfront (similar to MCP's 98%)",
+      "filesystem_organization": "~/.claude/skills/{tool-name}/ structure matches Anthropic Skills pattern",
+      "skills_discovery": "Metadata in frontmatter enables Claude Code to discover tools without loading full specs"
+    },
+    "reference_documents": [
+      ".coordination/SKILLS-MCP-INTEGRATION-STRATEGY.md (complete dual-pattern architecture)",
+      ".coordination/COORDINATOR-INTEGRATION-GUIDE.md (directive templates and patterns)",
+      "https://www.anthropic.com/engineering/code-execution-with-mcp",
+      "https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview"
+    ],
+    "process_memory_references": [
+      "PM-010 (Token Efficiency Through Progressive Disclosure)",
+      "PM-017 (FastMCP Refactoring Lessons - template patterns)",
+      "PM-021 (Module Duplication Prevention - symlink hygiene)"
+    ],
+    "estimated_effort": "2-3 hours (streamlined by existing provisioning infrastructure from Priority 1)",
+    "next_after_this": "Priority 2: Project Bootstrap Package (original roadmap)"
+  },
+  "quality_gates": {
+    "mypy": "must pass with --strict",
+    "ruff": "0 violations",
+    "pytest": "≥85% coverage for skills export functionality",
+    "skills_validation": "all generated Skills must validate against Claude Skills schema",
+    "execution_equivalence": "Skills bash execution output must match MCP execute_thinking_tool output"
+  },
+  "read": false
+}

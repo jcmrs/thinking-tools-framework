@@ -1,0 +1,112 @@
+# Session Handover Document
+
+**Generated**: {{ stats.get('timestamp', 'N/A') }}
+
+## Executive Summary
+
+This project has accumulated **{{ stats.total_entries }} process memory entries** capturing design decisions, lessons learned, observations, and strategic context. These entries form a comprehensive knowledge base for understanding the project's evolution and rationale.
+
+### Statistics
+
+**Total Entries**: {{ stats.total_entries }}
+
+**By Type**:
+{% for entry_type, count in stats.by_type.items() | sort %}
+- **{{ entry_type }}**: {{ count }} entries
+{% endfor %}
+
+**Confidence Distribution**:
+- High confidence (≥90%): {{ stats.high_confidence }} entries
+- Medium confidence (70-89%): {{ stats.medium_confidence }} entries
+- Low confidence (<70%): {{ stats.low_confidence }} entries
+
+---
+
+## Recent Activity
+
+The following are the most recently created or updated process memory entries:
+
+{% for entry in recent_entries[:10] %}
+### {{ entry.id }}: {{ entry.title }}
+
+**Type**: {{ entry.type }}
+**Created**: {{ entry.get('timestamp_created', 'N/A') }}
+{% if entry.get('confidence_level') %}**Confidence**: {{ (entry.confidence_level * 100) | int }}%{% endif %}
+
+{{ entry.summary }}
+
+{% if entry.get('rationale') %}
+**Rationale**: {{ entry.rationale }}
+{% endif %}
+
+{% if entry.get('related_concepts') and entry.related_concepts %}
+**Related Concepts**: {{ entry.related_concepts | join(', ') }}
+{% endif %}
+
+{% if entry.get('tags') and entry.tags %}
+**Tags**: {% for tag in entry.tags %}`{{ tag }}`{% if not loop.last %}, {% endif %}{% endfor %}
+{% endif %}
+
+{% if entry.get('links') and entry.links %}
+**Links**: {{ entry.links | join(', ') }}
+{% endif %}
+
+---
+
+{% endfor %}
+
+## Entries by Type
+
+{% for entry_type, entries in by_type.items() | sort %}
+### {{ entry_type }}
+
+{{ entries | length }} entries in this category.
+
+{% for entry in entries[:5] %}
+**{{ entry.id }}**: {{ entry.title }}
+{{ entry.summary }}
+
+{% endfor %}
+
+{% if entries | length > 5 %}
+*... and {{ entries | length - 5 }} more entries of this type.*
+{% endif %}
+
+---
+
+{% endfor %}
+
+## Key Concepts
+
+The following concepts are referenced throughout the process memory:
+
+{% for concept in key_concepts[:30] %}
+- {{ concept }}
+{% endfor %}
+
+{% if key_concepts | length > 30 %}
+*... and {{ key_concepts | length - 30 }} more concepts.*
+{% endif %}
+
+---
+
+## Next Steps for Incoming AI
+
+1. **Review Process Memory**: Examine entries organized by type to understand architectural decisions and rationale
+2. **Understand Core Principles**: Study entries tagged with "Five Cornerstones" and "AI-First principles"
+3. **Check Recent Decisions**: Focus on the Recent Activity section for latest context
+4. **Query by Topic**: Use `cogito memory context <topic>` to explore specific areas
+5. **Continue Aligned Work**: Build on established patterns and documented decisions
+
+---
+
+## Additional Resources
+
+- **Full Process Memory**: `.bootstrap/process_memory.jsonl` (machine-readable)
+- **Knowledge Graph**: `.bootstrap/knowledge_graph.json` (entry relationships)
+- **Session Context**: `.bootstrap/session_context.md` (human-readable summary)
+- **Export Options**: Use `cogito memory export <format>` for custom exports
+
+---
+
+*This handover document was automatically generated from process memory to enable seamless AI session continuity.*

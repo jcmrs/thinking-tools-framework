@@ -1,0 +1,82 @@
+{
+  "message_id": "msg-20251117-233000-priority1-process-memory-provisioning",
+  "type": "directive",
+  "priority": "high",
+  "timestamp": "2025-11-17T23:30:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "Priority 1: Process Memory Provisioning System",
+  "content": {
+    "congratulations": "Excellent work on the MCP smoke test! All 5 layers are complete and production-validated. Now implementing the roadmap's Priority 1: Process Memory Provisioning System.",
+    "task": "Build Process Memory Provisioning System for AI Session Continuity",
+    "strategic_importance": {
+      "why_priority_1": "Enables new AI sessions to understand the entire framework architecture, design decisions, and lessons learned without starting from scratch",
+      "current_state": "21 process memory entries exist (.bootstrap/process_memory.jsonl) capturing critical decisions (PM-001 through PM-021)",
+      "problem": "No tooling exists to export, import, or generate context from these entries for new AI instances",
+      "impact": "Without this, future sessions lose all accumulated knowledge and must rediscover architecture"
+    },
+    "deliverables": {
+      "1_export_tool": {
+        "name": "cogito memory export",
+        "purpose": "Export process memory entries in various formats for session handover",
+        "cli_command": "cogito memory export [--format markdown|json|yaml] [--output FILE]",
+        "formats": ["markdown (human-readable)", "json (machine-readable)", "yaml (configuration-style)"]
+      },
+      "2_import_tool": {
+        "name": "cogito memory import",
+        "purpose": "Import process memory entries from external files",
+        "cli_command": "cogito memory import FILE [--format markdown|json|yaml] [--merge|--replace]"
+      },
+      "3_session_handover_protocol": {
+        "name": "Session Handover Document Generator",
+        "purpose": "Generate comprehensive context document for new AI sessions",
+        "cli_command": "cogito memory handover [--output FILE]",
+        "sections": ["Executive Summary", "Architecture Overview", "Key Design Decisions", "Lessons Learned", "Implementation Status", "Quick Start"]
+      },
+      "4_context_snippets": {
+        "name": "Context Snippet Generator",
+        "purpose": "Generate focused context snippets for specific topics",
+        "cli_command": "cogito memory context TOPIC [--max-entries N]"
+      }
+    },
+    "implementation_scope": {
+      "new_modules": [
+        "src/cogito/provisioning/__init__.py",
+        "src/cogito/provisioning/exporter.py",
+        "src/cogito/provisioning/importer.py",
+        "src/cogito/provisioning/handover.py",
+        "src/cogito/provisioning/context.py"
+      ],
+      "updated_modules": ["src/cogito/ui/cli.py"],
+      "templates": ["templates/handover_document.md.j2"]
+    },
+    "success_criteria": {
+      "functionality": ["Export to markdown/json/yaml", "Import with validation", "Generate handover document", "Generate context snippets"],
+      "quality_gates": {
+        "mypy": "passes --strict",
+        "ruff": "0 violations",
+        "pytest": "≥80% coverage"
+      }
+    },
+    "implementation_guidance": {
+      "layer": "New package at Layer 4.5 (between Storage and UI)",
+      "dependencies": "Uses ProcessMemoryStore (Layer 4), exposed via CLI (Layer 1)",
+      "export_approach": "Load entries from ProcessMemoryStore, format by type",
+      "import_approach": "Parse file, validate with schema, merge or replace",
+      "handover_approach": "Use Jinja2 template to generate comprehensive document"
+    },
+    "testing_strategy": {
+      "unit_tests": ["Exporter", "Importer", "Handover generator", "Context generator"],
+      "integration_tests": ["Export/import roundtrip", "Real handover generation", "CLI end-to-end"]
+    },
+    "process_memory_references": ["PM-001", "PM-008", "PM-010", "PM-017", "PM-021"],
+    "estimated_effort": "3-4 hours",
+    "next_after_this": "Priority 2: Project Bootstrap Package"
+  },
+  "quality_gates": {
+    "mypy": "must pass with --strict",
+    "ruff": "0 violations",
+    "pytest": "≥80% coverage for provisioning"
+  },
+  "read": false
+}

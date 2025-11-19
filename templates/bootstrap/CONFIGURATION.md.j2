@@ -1,0 +1,150 @@
+# Configuration Guide
+
+{{ project_name }} is configured through YAML files in the `config/` directory.
+
+## Framework Configuration (`config/cogito.yml`)
+
+### Tool Discovery
+
+Configure where the framework looks for thinking tool specifications:
+
+```yaml
+tool_directories:
+  - examples/
+  - custom_tools/  # Add additional directories as needed
+```
+
+### Cache Configuration
+
+Configure Layer 2 caching behavior:
+
+```yaml
+cache:
+  enabled: true
+  ttl_seconds: 3600  # Cache TTL in seconds
+  backend: "memory"  # Options: memory, filesystem, redis
+```
+
+**Backend Options:**
+- `memory`: In-memory cache (fast, not persistent)
+- `filesystem`: File-based cache (persistent across sessions)
+- `redis`: Redis-backed cache (distributed, requires Redis server)
+
+### Template Security
+
+Configure template sandboxing for security:
+
+```yaml
+security:
+  template_sandboxing: true
+  max_template_size_kb: 512
+  allowed_template_tags:
+    - if
+    - for
+    - block
+    - set
+```
+
+**Security Guidelines:**
+- Always keep `template_sandboxing: true` in production
+- Limit `max_template_size_kb` to prevent resource exhaustion
+- Only allow necessary Jinja2 tags
+
+### Logging Configuration Reference
+
+```yaml
+logging:
+  config_file: "config/logging.yml"
+```
+
+## Logging Configuration (`config/logging.yml`)
+
+### Log Levels
+
+Configure logging verbosity:
+
+```yaml
+loggers:
+  cogito:
+    level: INFO  # Options: DEBUG, INFO, WARNING, ERROR, CRITICAL
+```
+
+**Level Guidelines:**
+- `DEBUG`: Development and troubleshooting
+- `INFO`: Normal operation (recommended)
+- `WARNING`: Production default
+- `ERROR`: Minimal logging
+
+### Log Handlers
+
+Configure where logs are written:
+
+```yaml
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: standard
+    stream: ext://sys.stdout
+
+  file:
+    class: logging.handlers.RotatingFileHandler
+    level: INFO
+    formatter: detailed
+    filename: logs/cogito.log
+    maxBytes: 10485760  # 10MB
+    backupCount: 3
+```
+
+**Handler Types:**
+- `console`: Write to stdout/stderr (good for development)
+- `file`: Write to rotating log files (good for production)
+
+### Log Formatters
+
+Configure log message format:
+
+```yaml
+formatters:
+  standard:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+
+  detailed:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s'
+```
+
+**Format Variables:**
+- `%(asctime)s`: Timestamp
+- `%(name)s`: Logger name
+- `%(levelname)s`: Log level
+- `%(funcName)s`: Function name
+- `%(lineno)d`: Line number
+- `%(message)s`: Log message
+
+## Environment Variables
+
+The framework respects these environment variables:
+
+- `COGITO_CONFIG`: Path to custom cogito.yml (overrides default)
+- `COGITO_LOG_LEVEL`: Override logging level (DEBUG, INFO, WARNING, ERROR)
+- `COGITO_CACHE_BACKEND`: Override cache backend (memory, filesystem, redis)
+
+## Validation
+
+Validate configuration files against schemas:
+
+```bash
+# Validate cogito.yml
+python -m json.tool config/cogito.yml
+
+# Validate logging.yml
+python -m json.tool config/logging.yml
+```
+
+## Best Practices
+
+1. **Version Control**: Commit `config/*.yml` to version control
+2. **Environment-Specific**: Use different configs for dev/staging/prod
+3. **Security**: Never commit secrets to configuration files
+4. **Documentation**: Comment configuration choices with rationale
+5. **Validation**: Always validate after editing configuration

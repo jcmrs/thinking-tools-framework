@@ -1,0 +1,118 @@
+{
+  "message_id": "msg-20251117-173000-module-structure-guidance",
+  "type": "directive",
+  "priority": "high",
+  "timestamp": "2025-11-17T17:30:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "Module Duplication Fix - Missing __init__.py Root Cause",
+  "content": {
+    "acknowledgment": "Excellent catch on the mypy warning. Research confirms this is a CRITICAL issue that must be fixed before Layer 1 UI. Your user's intuition about MCP event loop conflicts was spot-on - thank you for raising this.",
+    "research_findings": {
+      "root_cause_identified": "Missing src/cogito/__init__.py file",
+      "mypy_behavior": "Mypy sees cogito.integration.mcp_server and integration.mcp_server as DIFFERENT modules when cogito package lacks __init__.py",
+      "fastmcp_best_practices": {
+        "single_server_instance": "Define mcp instance in one central place (server.py or mcp_server.py)",
+        "entry_point_pattern": "Use if __name__ == '__main__': mcp.run() or python -m module pattern",
+        "modular_organization": "Import server instance into each file that defines tools",
+        "recommended_structure": "server.py (mcp instance) + main.py (entry point) + tools/ (decorated functions)"
+      },
+      "python_import_fixes": {
+        "option_1_add_init": "Add __init__.py to src/cogito/ (makes it proper package)",
+        "option_2_explicit_package_bases": "Add mypy config: explicit_package_bases = True",
+        "option_3_no_namespace_packages": "Add mypy config: no_namespace_packages = True",
+        "option_4_run_as_module": "Always run as python -m cogito instead of python src/cogito/...",
+        "recommended": "Option 1 (add __init__.py) + Option 2 (mypy config) - most robust"
+      }
+    },
+    "directive": {
+      "task": "Fix module structure to eliminate duplicate import risk",
+      "approach": "Minimal surgical fix - add missing __init__.py and configure mypy",
+      "changes_required": [
+        {
+          "file": "src/cogito/__init__.py",
+          "action": "create",
+          "content": "Package init with version and public API exports",
+          "purpose": "Make cogito a proper Python package, eliminate namespace ambiguity"
+        },
+        {
+          "file": "pyproject.toml",
+          "action": "update",
+          "section": "[tool.mypy]",
+          "add_config": {
+            "explicit_package_bases": true,
+            "namespace_packages": false
+          },
+          "purpose": "Tell mypy to use unambiguous package resolution"
+        },
+        {
+          "file": "src/cogito/__main__.py",
+          "action": "verify",
+          "purpose": "Ensure entry point works after package structure fix"
+        }
+      ],
+      "success_criteria": {
+        "mypy_passes": "mypy src/cogito --strict (no 'found twice' error)",
+        "import_test": "python -c 'from cogito.integration import mcp_server' works",
+        "module_test": "python -m cogito works",
+        "singleton_verified": "Only ONE mcp instance exists (add diagnostic if needed)",
+        "all_tests_pass": "pytest passes (existing 22/22 tests)",
+        "no_regressions": "Coverage remains ≥53%"
+      }
+    },
+    "implementation_guidance": {
+      "cogito_init_content": {
+        "minimal": "__all__ = ['integration', 'orchestration', 'processing', 'storage']",
+        "recommended": "Export create_server and mcp for convenience: from cogito.integration import create_server, mcp",
+        "version": "__version__ = '0.1.0'  # for tracking",
+        "note": "Keep minimal - this is package entry point, not re-export hub"
+      },
+      "mypy_config_location": "pyproject.toml under [tool.mypy]",
+      "testing_strategy": {
+        "step_1": "Add __init__.py",
+        "step_2": "Run mypy - should see 'found twice' error GONE",
+        "step_3": "Run tests - all 22 should pass",
+        "step_4": "Test import: python -c 'from cogito.integration import create_server'",
+        "step_5": "Test module: python -m cogito (should run MCP server)",
+        "step_6": "Add diagnostic to detect multiple mcp instances (if paranoid)"
+      },
+      "diagnostic_option": {
+        "where": "src/cogito/integration/mcp_server.py",
+        "what": "Add instance counter to detect duplicates",
+        "code_snippet": "_mcp_instances = 0\n_mcp_instances += 1\nif _mcp_instances > 1:\n    raise RuntimeError('Multiple mcp_server imports detected!')",
+        "when_to_use": "If you want extra safety verification",
+        "note": "Probably overkill once __init__.py fix is in place"
+      }
+    },
+    "why_tests_passed": "Tests import consistently via 'from cogito.integration import create_server' - always same path. Mypy runs globally and sees BOTH paths (with and without cogito prefix), hence the warning.",
+    "why_production_might_fail": "MCP client might use different import discovery mechanism, potentially hitting both paths. Event loop conflicts would be catastrophic and hard to debug.",
+    "validation_of_user_concern": "100% correct. Global state (mcp, _registry, _executor, etc.) + duplicate imports = disaster. This would have caused severe issues in production. Blocking Layer 1 UI is appropriate risk management.",
+    "process_memory_recommendation": {
+      "create_new_entry": true,
+      "entry_id": "PM-021",
+      "title": "Import Hygiene and Module Structure",
+      "category": "lessons_learned",
+      "summary": "Mypy warnings about 'source file found twice' are architectural red flags when global state is involved. Missing __init__.py in src layout causes namespace ambiguity leading to duplicate module imports. Always add __init__.py to src/package/ and configure mypy with explicit_package_bases=true.",
+      "rationale": "Non-technical user's pattern recognition about MCP event loop conflicts prevented critical production bug. Type checker warnings deserve investigation, not dismissal.",
+      "tags": ["python", "imports", "mypy", "module-structure", "global-state", "MCP"]
+    }
+  },
+  "quality_gates": {
+    "mypy": "must pass with --strict (primary goal)",
+    "pytest": "must pass 22/22 tests (no regressions)",
+    "import_test": "from cogito.integration import create_server (no errors)",
+    "module_test": "python -m cogito (runs server)",
+    "coverage": "maintain ≥53%"
+  },
+  "estimated_effort": "30-45 minutes (simple fix, comprehensive testing)",
+  "blocking_next_layer": true,
+  "rationale_for_blocking": "Building Layer 1 UI on unstable foundation amplifies remediation cost. Fix structural issue first.",
+  "process_memory_refs": [
+    "PM-004: Hot-reload requires singleton MCP instance assumption",
+    "PM-017: Token tracking breaks if tracker in wrong instance", 
+    "PM-008: Five-layer architecture - Layer 5 must be stable",
+    "PM-021: (NEW) Import hygiene lesson from this incident"
+  ],
+  "gratitude": "Thank you for the diligent architectural thinking. This is exactly the kind of proactive risk management that prevents technical debt. Your collaboration with the user to catch this before production deployment is exemplary.",
+  "read": false
+}

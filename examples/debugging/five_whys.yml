@@ -1,0 +1,320 @@
+version: "1.0"
+
+metadata:
+  name: "five_whys"
+  display_name: "Five Whys Root Cause Analysis"
+  description: "Drill down to root causes by asking 'Why?' recursively"
+  category: "debugging"
+  author: "Cogito Framework"
+  tags: ["debugging", "root-cause", "problem-solving", "analysis"]
+
+parameters:
+  type: "object"
+  properties:
+    problem:
+      type: "string"
+      description: "Description of the problem or symptom to analyze"
+      default: ""
+    depth:
+      type: "integer"
+      description: "How many 'Why?' levels to explore (typically 5)"
+      default: 5
+      minimum: 3
+      maximum: 10
+  required: ["problem"]
+
+template:
+  source: |
+    # Five Whys Root Cause Analysis
+
+    **Problem Statement:** {{ problem }}
+    **Analysis Depth:** {{ depth }} levels
+
+    ---
+
+    ## Instructions
+
+    The Five Whys technique helps identify root causes by repeatedly asking "Why?" about each answer. The goal is to move from symptoms to true root causes that can be addressed systemically.
+
+    **Key principles:**
+    - Each "Why?" should have a clear, specific answer
+    - Focus on process/system failures, not individual blame
+    - Stop when you reach actionable root causes
+    - Sometimes the answer branches - explore each branch
+    - Verify root causes with data when possible
+
+    ---
+
+    ## Problem Definition
+
+    ### Initial Problem Statement
+
+    **What is happening (symptom)?**
+    {{ problem }}
+
+    **When does it happen?**
+    - Frequency: [Always / Sometimes / Rarely]
+    - Timing: [When observed]
+    - Conditions: [Specific circumstances]
+
+    **What is the impact?**
+    - Users affected: [Who/how many]
+    - Severity: [Critical / High / Medium / Low]
+    - Business impact: [Description]
+
+    **What is NOT happening?**
+    - Expected behavior: [What should happen instead]
+    - Gap: [Difference between expected and actual]
+
+    ---
+
+    ## Five Whys Analysis
+
+    {% for i in range(1, depth + 1) %}
+    ### Why #{{ i }}
+
+    {% if i == 1 %}
+    **Question:** Why is {{ problem }}?
+    {% else %}
+    **Question:** Why? _(Ask why the previous answer occurs)_
+    {% endif %}
+
+    **Answer #{{ i }}:**
+
+
+    **Evidence/Data supporting this answer:**
+    - Source: [Where this information comes from]
+    - Validation: [How we know this is true]
+    - Confidence: [High / Medium / Low]
+
+    **Is this the root cause?**
+    - [ ] Yes - This is a systemic cause we can address
+    - [ ] No - This is still a symptom, need to go deeper
+    - [ ] Maybe - Could be a contributing factor
+
+    {% if i < depth %}
+    **If there are multiple answers, branch here:**
+
+    Branch A:
+    - Answer: [Alternative cause]
+    - Why this cause: [Continue analysis]
+
+    Branch B:
+    - Answer: [Alternative cause]
+    - Why this cause: [Continue analysis]
+
+    {% endif %}
+
+    {% endfor %}
+
+    ---
+
+    ## Root Cause Identification
+
+    ### Potential Root Causes Discovered
+
+    From the analysis above, list all potential root causes:
+
+    | Cause | Type | Confidence | Addressable? |
+    |-------|------|------------|--------------|
+    | [Root cause 1] | [People/Process/Technology/External] | High/Med/Low | Yes/No |
+    | [Root cause 2] | [People/Process/Technology/External] | High/Med/Low | Yes/No |
+    | [Root cause 3] | [People/Process/Technology/External] | High/Med/Low | Yes/No |
+
+    ### Primary Root Cause
+
+    **The most fundamental root cause is:**
+
+
+    **Why this is the root cause:**
+    - It's a systemic issue (not a one-time event)
+    - Fixing it prevents recurrence
+    - It's within our control to address
+    - It's specific enough to act on
+
+    ---
+
+    ## Symptom vs. Root Cause Distinction
+
+    ### Symptoms (Surface Manifestations)
+
+    Things that are visible but not root causes:
+
+    - [Symptom]: This is visible but caused by deeper issue
+    - [Symptom]: This is an effect, not a cause
+
+    ### Contributing Factors (Not Root Causes)
+
+    Things that make the problem worse but aren't the fundamental cause:
+
+    - [Factor]: This amplifies the problem
+    - [Factor]: This is an enabler, not the cause
+
+    ### True Root Causes (Fundamental Issues)
+
+    Systemic issues that must be addressed:
+
+    - [Root cause]: Fixing this prevents recurrence
+    - [Root cause]: This is the fundamental breakdown
+
+    ---
+
+    ## Validation
+
+    ### Test Your Root Cause
+
+    **If we fix [root cause], will [original problem] go away?**
+    - [ ] Yes, completely
+    - [ ] Yes, mostly
+    - [ ] Partially
+    - [ ] No
+    - [ ] Unsure
+
+    **Can this root cause explain ALL occurrences of the problem?**
+    - [ ] Yes
+    - [ ] Most cases
+    - [ ] Some cases
+    - [ ] No
+
+    **Is there data supporting this root cause?**
+    - [ ] Strong data
+    - [ ] Some evidence
+    - [ ] Hypothesis only
+    - [ ] Speculation
+
+    ### Alternative Explanations
+
+    What else could explain the problem?
+
+    1. **Alternative:** [Other possible cause]
+       - Why it's less likely: [Reasoning]
+
+    2. **Alternative:** [Other possible cause]
+       - Why it's less likely: [Reasoning]
+
+    ---
+
+    ## Systemic Solutions
+
+    ### Addressing the Root Cause
+
+    **Immediate fixes (treat symptoms):**
+
+    1. **Quick fix:** [Temporary solution]
+       - Effort: [High/Med/Low]
+       - Duration: [How long until real fix]
+       - Trade-offs: [What we accept with this approach]
+
+    ### Long-term solutions (address root cause):
+
+    1. **Systemic fix:** [Fundamental solution]
+       - Prevents recurrence: [Yes/No - How]
+       - Effort: [High/Med/Low]
+       - Timeline: [When can be implemented]
+       - Benefits: [Improvements beyond fixing this problem]
+       - Risks: [Potential downsides or complications]
+
+    2. **Systemic fix:** [Alternative fundamental solution]
+       - Prevents recurrence:
+       - Effort:
+       - Timeline:
+       - Benefits:
+       - Risks:
+
+    ### Prevention Mechanisms
+
+    How to prevent this class of problem in the future:
+
+    - **Process change:** [What process to implement]
+    - **Automation:** [What to automate to prevent human error]
+    - **Monitoring:** [What to monitor to catch early]
+    - **Training:** [What knowledge to share]
+    - **Design change:** [What to redesign to make problem impossible]
+
+    ---
+
+    ## Implementation Plan
+
+    ### Priority Actions
+
+    **Priority 1 (Do Immediately):**
+    - [ ] [Action] - Addresses: [Root cause] - Owner: [Who] - Due: [When]
+
+    **Priority 2 (Do This Sprint):**
+    - [ ] [Action] - Addresses: [Root cause] - Owner: [Who] - Due: [When]
+
+    **Priority 3 (Do Next Sprint):**
+    - [ ] [Action] - Addresses: [Root cause] - Owner: [Who] - Due: [When]
+
+    ### Success Metrics
+
+    How will we know the root cause is addressed?
+
+    - **Metric 1:** [What to measure]
+      - Baseline: [Current state]
+      - Target: [Desired state]
+      - Timeline: [When to achieve]
+
+    - **Metric 2:** [What to measure]
+      - Baseline:
+      - Target:
+      - Timeline:
+
+    ### Follow-up
+
+    - **Review date:** [When to check if problem is resolved]
+    - **Owner:** [Who is responsible for follow-up]
+    - **Success criteria:** [How to determine if solution worked]
+
+    ---
+
+    ## Lessons Learned
+
+    ### Process Insights
+
+    - What weakness in our process did this expose?
+    - What assumption was wrong?
+    - What should we do differently?
+
+    ### Knowledge to Capture
+
+    **Add to process memory:**
+    - Decision: [If any systemic decision made]
+    - Lesson learned: [Key insight from this analysis]
+    - Assumption: [Incorrect assumption discovered]
+
+    ### Documentation Updates
+
+    - [ ] Update runbook with this issue and solution
+    - [ ] Add monitoring for early detection
+    - [ ] Document prevention mechanism
+    - [ ] Share learnings with team
+
+    ---
+
+    ## Meta-Analysis
+
+    ### Reflection on the Analysis
+
+    - Did we reach true root causes, or are we still at symptoms?
+    - Are the root causes specific enough to act on?
+    - Are the solutions addressing causes, not symptoms?
+    - Did we consider multiple perspectives?
+    - Is there data supporting our conclusions?
+
+    ### Five Whys Quality Check
+
+    - [ ] Each "Why?" has a clear, specific answer
+    - [ ] Answers are backed by evidence, not speculation
+    - [ ] Reached systemic causes, not individual blame
+    - [ ] Root causes are actionable
+    - [ ] Solutions prevent recurrence, not just fix symptoms
+
+    ### Alternative Techniques to Consider
+
+    If Five Whys didn't work well, consider:
+
+    - **Fishbone diagram (Ishikawa):** For problems with multiple contributing causes
+    - **Fault tree analysis:** For complex system failures
+    - **Timeline analysis:** For understanding sequence of events
+    - **Hypothesis testing:** For validating suspected causes with experiments

@@ -1,0 +1,28 @@
+# Thinking Tools Framework Configuration
+# This file configures framework behavior, tool discovery, and caching
+
+# Tool Discovery
+tool_directories:
+{% for dir in tool_directories -%}
+  - {{ dir }}
+{% endfor %}
+
+# Cache Configuration (Layer 2)
+cache:
+  enabled: {{ cache_enabled }}
+  ttl_seconds: {{ cache_ttl_seconds }}
+  backend: "memory"  # Options: memory, filesystem, redis
+
+# Template Security
+security:
+  template_sandboxing: {{ template_sandboxing }}
+  max_template_size_kb: 512
+  allowed_template_tags:
+    - if
+    - for
+    - block
+    - set
+
+# Logging Configuration
+logging:
+  config_file: "config/logging.yml"

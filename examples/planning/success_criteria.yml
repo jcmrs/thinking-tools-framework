@@ -1,0 +1,141 @@
+version: "1.0"
+
+metadata:
+  name: "success_criteria"
+  display_name: "Success Criteria Definition"
+  description: "Define clear, measurable success criteria for projects, features, or decisions"
+  category: "planning"
+  author: "Cogito Framework"
+  tags: ["planning", "metrics", "goals", "measurement"]
+
+parameters:
+  type: "object"
+  properties:
+    initiative:
+      type: "string"
+      description: "The project, feature, or initiative to define success for"
+      default: ""
+  required: ["initiative"]
+
+template:
+  source: |
+    # Success Criteria: {{ initiative }}
+
+    ---
+
+    ## Instructions
+
+    Clear success criteria help you define what "done" means, measure progress objectively, and know when to celebrate or pivot.
+
+    **SMART criteria:** Specific, Measurable, Achievable, Relevant, Time-bound
+
+    ---
+
+    ## Initiative Overview
+
+    **What we are doing:** {{ initiative }}
+
+    **Why this matters:**
+    - Business value: [Impact on business]
+    - User value: [Impact on users]
+
+    **Target completion:** [Date]
+
+    ---
+
+    ## Success Metrics
+
+    ### Primary Metric 1
+
+    **Metric:** [What to measure]
+    - **Baseline:** [Current state] as of [date]
+    - **Target:** [Specific number] by [date]
+    - **Stretch goal:** [Aspirational target]
+    - **Measurement method:** [How to measure]
+    - **Review cadence:** [How often to check]
+
+    ### Primary Metric 2
+
+    **Metric:** [What to measure]
+    - **Baseline:** [Current state]
+    - **Target:** [Goal]
+    - **Measurement method:** [How to measure]
+
+    ### Primary Metric 3
+
+    **Metric:** [What to measure]
+    - **Baseline:** [Current state]
+    - **Target:** [Goal]
+    - **Measurement method:** [How to measure]
+
+    ---
+
+    ## Success Tiers
+
+    ### Minimum Viable Success
+
+    **Must achieve:**
+    - [ ] [Criterion]: Core requirement
+    - [ ] [Criterion]: Non-negotiable outcome
+
+    ### Target Success
+
+    **Should achieve:**
+    - [ ] [Criterion]: Expected outcome
+    - [ ] [Criterion]: Planned deliverable
+
+    ### Stretch Success
+
+    **Aspire to achieve:**
+    - [ ] [Criterion]: Exceptional outcome
+    - [ ] [Criterion]: Beyond expectations
+
+    ---
+
+    ## Failure Criteria
+
+    ### Red Flags
+
+    **Warning sign 1:** [Indicator]
+    - Threshold: [When to be concerned]
+    - Action: [What to do]
+
+    **Warning sign 2:** [Indicator]
+    - Threshold: [When to be concerned]
+    - Action: [What to do]
+
+    ---
+
+    ## Measurement Plan
+
+    **Review schedule:**
+    - Weekly: [Leading indicators to check]
+    - Monthly: [Progress to targets]
+    - Quarterly: [Strategic alignment]
+
+    **Decision framework:**
+    - If minimum success: [Continue/adjust]
+    - If target success: [Continue/expand]
+    - If stretch success: [Scale up]
+    - If failure: [Pivot/stop]
+
+    ---
+
+    ## Summary
+
+    **Success in one sentence:** [What success looks like]
+
+    **Primary metric:** [Most important measure]
+
+    **Target:** [Specific goal] by [date]
+
+examples:
+  - name: "Feature Launch"
+    description: "Success criteria for new feature"
+    parameters:
+      initiative: "Launch real-time collaboration feature"
+
+  - name: "Performance Improvement"
+    description: "Success metrics for optimization"
+    parameters:
+      initiative: "Reduce page load time by 50%"

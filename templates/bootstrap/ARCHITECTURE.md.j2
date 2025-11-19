@@ -1,0 +1,110 @@
+# Architecture Overview
+
+{{ project_name }} follows the **Five-Layer Clean Architecture** from the Thinking Tools Framework specification.
+
+## Layer Diagram
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ Layer 1: User Interface                                      │
+│ - CLI (Click-based commands)                                 │
+│ - MCP Server Interface (JSON-RPC)                            │
+└─────────────────────────────────────────────────────────────┘
+                           ↓
+┌─────────────────────────────────────────────────────────────┐
+│ Layer 2: Orchestration                                       │
+│ - Tool Discovery & Registry                                  │
+│ - Execution Coordination                                     │
+│ - Cache Management                                           │
+└─────────────────────────────────────────────────────────────┘
+                           ↓
+┌─────────────────────────────────────────────────────────────┐
+│ Layer 3: Processing                                          │
+│ - YAML Spec Loader                                           │
+│ - JSON Schema Validation                                     │
+│ - Jinja2 Template Rendering (Sandboxed)                      │
+└─────────────────────────────────────────────────────────────┘
+                           ↓
+┌─────────────────────────────────────────────────────────────┐
+│ Layer 4: Storage                                             │
+│ - Process Memory (JSONL)                                     │
+│ - Knowledge Graph (JSON)                                     │
+│ - Template Cache                                             │
+└─────────────────────────────────────────────────────────────┘
+                           ↑
+┌─────────────────────────────────────────────────────────────┐
+│ Layer 5: Integration                                         │
+│ - MCP Protocol Implementation                                │
+│ - External Tool Integrations                                 │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## Dependency Flow
+
+- **Downward Dependencies Only**: Higher layers depend on lower layers, never reverse
+- **Layer 1 → Layer 2**: UI calls orchestration for tool execution
+- **Layer 2 → Layer 3**: Orchestration calls processing for rendering
+- **Layer 3 → Layer 4**: Processing stores/retrieves cached data
+- **Layer 5 ← Layer 4**: Integration layer accesses storage independently
+
+## Key Design Patterns
+
+### Progressive Disclosure
+
+Achieve ~98% token savings by loading metadata first, specifications on-demand:
+
+- **Discovery**: List tool names and categories (~500 tokens)
+- **Specification**: Load YAML for specific tool (~2k tokens per tool)
+- **Execution**: Render template and return output (~500 tokens)
+
+### Single Source of Truth
+
+- YAML specifications in `examples/` are the canonical source
+- Both MCP pattern and Skills pattern read from same YAML files
+- No duplication of tool logic across access patterns
+
+### Configuration-Driven Behavior
+
+- All tool specifications in YAML (not hardcoded)
+- All schemas in JSON Schema files
+- All framework configuration in `config/cogito.yml`
+- Architecture as Code principle
+
+## Core Components
+
+### Tool Registry (Layer 2)
+
+- Auto-discovers tools from configured directories
+- Validates against JSON Schema
+- Provides query interface for tool lookup
+
+### Template Renderer (Layer 3)
+
+- Sandboxed Jinja2 environment for security
+- Validates parameters against schema
+- Renders tool output from templates
+
+### Process Memory (Layer 4)
+
+- Append-only JSONL log of decisions
+- Enables AI session continuity
+- Provides context for future sessions
+
+### Knowledge Graph (Layer 4)
+
+- Links related decisions and concepts
+- Enables semantic navigation
+- Supports dependency tracking
+
+## Security Considerations
+
+- **Template Sandboxing**: Jinja2 templates run in restricted environment
+- **Schema Validation**: All inputs validated against JSON Schema
+- **No Code Execution**: Templates are declarative only
+- **File System Isolation**: Tools cannot access arbitrary files
+
+## For Complete Specifications
+
+See the Thinking Tools Framework repository for complete architectural specifications:
+- `docs/specs/02-ARCHITECTURE.md`
+- `docs/specs/00-IMPERATIVES-INTEGRATION.md`

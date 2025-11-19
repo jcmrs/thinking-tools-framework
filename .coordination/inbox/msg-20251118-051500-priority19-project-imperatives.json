@@ -1,0 +1,294 @@
+{
+  "message_id": "msg-20251118-051500-priority19-project-imperatives",
+  "type": "directive",
+  "priority": "critical",
+  "timestamp": "2025-11-18T05:15:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "Priority 1.9: PROJECT-IMPERATIVES.md - Foundation Document (BEFORE Bootstrap)",
+  "content": {
+    "strategic_importance": {
+      "why_now": "Priority 2 Bootstrap will generate projects that include PROJECT-IMPERATIVES.md. This foundational document must exist first to serve as the template source.",
+      "current_state": "No PROJECT-IMPERATIVES.md exists. Claude Code /init will generate CLAUDE.md but needs source material defining project imperatives.",
+      "problem": "Without canonical imperatives document, bootstrapped projects lack foundational constraints, partnership model, and AI-First guidance.",
+      "impact": "Every thinking-tools-framework project instance will have clear imperatives anchored for both AI sessions and human users. Enables consistent project behavior across all instances.",
+      "critical": "This is a BLOCKER for Priority 2 Bootstrap. Must complete before Priority 2."
+    },
+
+    "task": "Create PROJECT-IMPERATIVES.md - The foundational imperatives document for thinking-tools-framework",
+
+    "deliverables": {
+      "1_project_imperatives_md": {
+        "name": "PROJECT-IMPERATIVES.md",
+        "location": "Root directory of thinking-tools-framework",
+        "purpose": "Define non-negotiable constraints that shape all decisions and actions in thinking-tools-framework projects",
+        "structure": [
+          "Project = Repository (opening statement)",
+          "Core Identity (what is thinking-tools-framework)",
+          "Partnership Model (Vision Owner vs System Owner)",
+          "Foundation Imperatives (5 imperatives with enforcement checklists)"
+        ]
+      }
+    },
+
+    "content_requirements": {
+      "opening": {
+        "statement": "Project = Repository",
+        "explanation": "Everything lives here. Version controlled. Persistent. Accessible."
+      },
+
+      "core_identity": {
+        "purpose": "One clear paragraph explaining what thinking-tools-framework is",
+        "includes": [
+          "What it does (metacognitive tools for AI systems)",
+          "Who it serves (AI agents and their human partners)",
+          "How it works (YAML-based tool specifications, dual-pattern architecture)",
+          "Why it matters (enables structured thinking, process memory, session continuity)"
+        ]
+      },
+
+      "partnership_model": {
+        "vision_owner_human": {
+          "owns": "Strategic 'Why' - what thinking tools should exist, strategic goals, success definition",
+          "role": "Non-technical user, strategic partner, on the loop (not in the loop)",
+          "responsibilities": [
+            "Define thinking tools via YAML specifications",
+            "Set strategic direction and priorities",
+            "Validate tool effectiveness for intended use cases"
+          ]
+        },
+        "system_owner_ai": {
+          "owns": "Technical 'How' - framework implementation, architecture, tool execution",
+          "role": "Resident architect, autonomous technical decision-maker, system maintainer",
+          "responsibilities": [
+            "Implement and maintain five-layer architecture",
+            "Ensure quality gates (mypy, ruff, pytest)",
+            "Preserve process memory for future sessions",
+            "Execute holistic system thinking before claiming completion"
+          ]
+        }
+      },
+
+      "imperative_1_holistic_system_thinking": {
+        "what_it_means": "Every decision, component, and line of code must be considered in the context of the entire system. No part is truly independent.",
+        "enforcement_checklist": [
+          "Before any significant change, document expected ripple effects",
+          "Consider: How does this affect future AI sessions? Process memory? Tool users?",
+          "Ask: What breaks if this changes? What becomes possible?",
+          "Execute holistic-system-check before claiming completion (when implemented as thinking tool)",
+          "Verify all five layers remain coherent after changes"
+        ]
+      },
+
+      "imperative_2_ai_first": {
+        "what_it_means": "The primary user, resident, and owner of this framework is the AI (System Owner). The human (Vision Owner) is the strategic partner. The environment must be optimized for AI first.",
+        "enforcement_checklist": [
+          "Can a fresh AI session understand this system by reading PROJECT-IMPERATIVES.md and process memory?",
+          "Is documentation machine-readable AND human-readable?",
+          "Are automation scripts (CLI commands) created for all repetitive tasks?",
+          "Are strategic decisions captured in process memory (.bootstrap/process_memory.jsonl)?",
+          "Does YAML serve as the primary interface for non-technical users?"
+        ]
+      },
+
+      "imperative_3_five_cornerstones": {
+        "introduction": "These are the five pillars that make an AI-First framework possible.",
+
+        "cornerstone_1_configurability": {
+          "what_it_means": "Behavior must be driven by external configuration files, not hardcoded values. This is Architecture as Code.",
+          "enforcement_checklist": [
+            "All tool specifications MUST be in YAML files (examples/{category}/*.yml)",
+            "All schemas MUST be in JSON Schema files (schemas/*.json)",
+            "All protocols MUST be defined in Python type hints (contracts/python-protocols.py)",
+            "Configuration must be version-controlled",
+            "Defaults must be documented with rationale"
+          ]
+        },
+
+        "cornerstone_2_modularity": {
+          "what_it_means": "Components (layers, modules, tools) must be independent, replaceable, and have single responsibility. Five-layer architecture enforces this.",
+          "enforcement_checklist": [
+            "Five-layer architecture must be maintained (UI, Orchestration, Processing, Storage, Integration)",
+            "Layer boundaries must not be violated (see 02-ARCHITECTURE.md)",
+            "Clear interfaces between components enforced via protocols",
+            "Failure in one layer must not cascade to others"
+          ]
+        },
+
+        "cornerstone_3_extensibility": {
+          "what_it_means": "New capabilities (new thinking tools, new categories) can be added without modifying core framework.",
+          "enforcement_checklist": [
+            "New thinking tools added via YAML specs only (no code changes required)",
+            "New categories created by adding directories under examples/",
+            "Skills export and MCP server discover tools automatically",
+            "Core framework remains stable as tool library grows"
+          ]
+        },
+
+        "cornerstone_4_integration": {
+          "what_it_means": "Modular components must connect and communicate effectively. Dual-pattern architecture (MCP + Skills) enables this.",
+          "enforcement_checklist": [
+            "MCP pattern provides network-accessible tools",
+            "Skills pattern provides filesystem-based tools for Claude Code",
+            "Single source of truth (YAML specs) shared by both patterns",
+            "Process memory provides data integration across sessions",
+            "Progressive disclosure pattern used consistently (~98% token savings)"
+          ]
+        },
+
+        "cornerstone_5_automation": {
+          "what_it_means": "The AI (System Owner) must not be burdened with manual, repetitive tasks. CLI commands automate all common operations.",
+          "enforcement_checklist": [
+            "All common operations have CLI commands (cogito {command})",
+            "Template generation automated (Skills export, bootstrap)",
+            "Quality gates run automatically (mypy, ruff, pytest)",
+            "Process memory export/import automated for session handovers"
+          ]
+        }
+      },
+
+      "imperative_4_quality_without_compromise": {
+        "what_it_means": "Quality gates are non-negotiable. 100% means 100%, not 88%, not 95%. Completeness before claiming completion.",
+        "enforcement_checklist": [
+          "mypy --strict must pass with 0 errors (no exceptions)",
+          "ruff must pass with 0 violations (no exceptions)",
+          "pytest must achieve 100% pass rate (not 88%, not 95%)",
+          "Coverage must meet or exceed 85% for new modules",
+          "No TODO markers in completion messages",
+          "All deliverables 100% complete before claiming done",
+          "'Will fix later' is never acceptable"
+        ]
+      },
+
+      "imperative_5_progressive_disclosure": {
+        "what_it_means": "Context is a finite resource with diminishing marginal returns. Load lightweight metadata first, specifications on-demand, execution only when needed. Achieve ~98% token savings.",
+        "enforcement_checklist": [
+          "MCP pattern: discover → tool-spec → execute (progressive levels)",
+          "Skills pattern: metadata (~100 tokens) → SKILL.md (~5k tokens) → execution",
+          "Process memory: PM references (lightweight) → full retrieval on demand",
+          "JIT reading: Load specs only when needed, not all upfront",
+          "Template code never enters context (execution returns output only)",
+          "Target ~98% token savings compared to loading all specs upfront"
+        ]
+      }
+    },
+
+    "quality_requirements": {
+      "completeness": {
+        "all_five_imperatives": true,
+        "description": "All 5 imperatives fully defined with 'What it means' and 'Enforcement' sections",
+        "partnership_model_clear": true,
+        "core_identity_compelling": true,
+        "no_placeholder_text": true
+      },
+
+      "specificity": {
+        "thinking_tools_specific": "Imperatives tailored to thinking-tools-framework (not generic)",
+        "enforcement_actionable": "Checklists are concrete and verifiable",
+        "avoid_contamination": "Do not copy project-specific vocabulary from other projects (Workbenches, Specialists, etc.)"
+      },
+
+      "clarity": {
+        "language": "Clear, direct, non-technical where possible",
+        "structure": "Consistent format across all imperatives",
+        "audience": "Written for both AI sessions and human users"
+      }
+    },
+
+    "success_criteria": {
+      "document_complete": "PROJECT-IMPERATIVES.md exists at root with all 5 imperatives",
+      "partnership_defined": "Vision Owner vs System Owner roles clearly articulated",
+      "enforcement_actionable": "Each imperative has concrete enforcement checklist",
+      "thinking_tools_specific": "Content tailored to thinking-tools-framework (not generic)",
+      "ready_for_bootstrap": "Can serve as template source for Priority 2 Bootstrap"
+    },
+
+    "success_verification": {
+      "before_completion": [
+        "PROJECT-IMPERATIVES.md created at root directory",
+        "All 5 imperatives fully defined (not placeholders)",
+        "Partnership model clearly explained",
+        "Core identity paragraph compelling and accurate",
+        "Enforcement checklists concrete and actionable",
+        "No contamination from other project vocabularies",
+        "Document formatted for both AI and human readability"
+      ]
+    },
+
+    "implementation_guidance": {
+      "approach": "This is primarily a writing/documentation task, not code implementation",
+
+      "structure_pattern": {
+        "follow": "Use structure from provided examples (Assemblage, Perplex)",
+        "sections": [
+          "Opening statement (Project = Repository)",
+          "Core Identity (1 paragraph)",
+          "Partnership Model (Vision Owner, System Owner)",
+          "Foundation Imperatives (5 imperatives, each with 'What it means' + 'Enforcement')"
+        ]
+      },
+
+      "imperative_format": {
+        "heading": "### Imperative N: Name",
+        "what_it_means": "**What it means:** [Clear explanation]",
+        "enforcement": "**Enforcement:**\n- [ ] Checklist item 1\n- [ ] Checklist item 2\n..."
+      },
+
+      "cornerstone_format": {
+        "parent": "Imperative 3: The Five Cornerstones",
+        "children": "#### 1. Configurability, #### 2. Modularity, etc.",
+        "each_has": "'What it means' + 'Enforcement' checklist"
+      },
+
+      "right_altitude": {
+        "specific_enough": "Reference thinking-tools-framework specifics (YAML, five-layer, MCP+Skills)",
+        "flexible_enough": "Avoid prescribing exact implementation details",
+        "constraints_clear": "Quality gates, architecture boundaries, patterns are non-negotiable"
+      },
+
+      "avoid_contamination": {
+        "do_not_use": "Workbenches, Specialists, Anchors, Nudges, Guardrails (Assemblage-specific)",
+        "do_not_use_2": "Perplexity AI integration details (Perplex-specific)",
+        "do_use": "Universal patterns: Partnership model, Five Cornerstones, Holistic System Thinking, AI-First"
+      }
+    },
+
+    "reference_documents": [
+      ".coordination/SKILLS-MCP-INTEGRATION-STRATEGY.md (progressive disclosure, dual-pattern)",
+      "docs/specs/02-ARCHITECTURE.md (five-layer architecture)",
+      "docs/specs/IMPLEMENTATION-ROADMAP.md (project overview)",
+      ".coordination/RESEARCH-SYNTHESIS-ACTIONABLE.md (quality dimensions, right altitude)"
+    ],
+
+    "process_memory_references": [
+      "PM-010 (Token Efficiency Through Progressive Disclosure)",
+      "PM-021 (Module Duplication Prevention - single source of truth)"
+    ],
+
+    "context_retrieval": {
+      "approach": "Coordinator provided full content requirements in this directive",
+      "minimal_reading": "Review ARCHITECTURE.md for five-layer details, SKILLS-MCP-INTEGRATION-STRATEGY.md for progressive disclosure examples",
+      "autonomous": "Writing style and specific wording are autonomous decisions within structure constraints"
+    },
+
+    "estimated_effort": "1-2 hours (primarily writing and refinement)",
+
+    "next_after_this": "Priority 2: Project Bootstrap Package (which will include PROJECT-IMPERATIVES.md in generated projects)"
+  },
+
+  "quality_gates": {
+    "document_exists": "PROJECT-IMPERATIVES.md at root directory",
+    "completeness": "All 5 imperatives fully defined",
+    "no_placeholders": "No TODO or placeholder text",
+    "actionable_checklists": "Enforcement sections have concrete checklist items",
+    "thinking_tools_specific": "Content tailored to this framework (not generic)"
+  },
+
+  "coordinator_notes": {
+    "blocking_priority": "This MUST complete before Priority 2 Bootstrap can proceed",
+    "template_source": "Bootstrap will copy this file into generated projects",
+    "claude_init_integration": "This file will be consumed by Claude Code /init to generate CLAUDE.md"
+  },
+
+  "read": false
+}

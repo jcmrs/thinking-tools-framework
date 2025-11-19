@@ -1,0 +1,47 @@
+version: 1
+disable_existing_loggers: false
+
+formatters:
+  standard:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    datefmt: '%Y-%m-%d %H:%M:%S'
+
+  detailed:
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(funcName)s:%(lineno)d - %(message)s'
+    datefmt: '%Y-%m-%d %H:%M:%S'
+
+handlers:
+{% if console_logging %}
+  console:
+    class: logging.StreamHandler
+    level: {{ log_level }}
+    formatter: standard
+    stream: ext://sys.stdout
+
+{% endif %}
+  file:
+    class: logging.handlers.RotatingFileHandler
+    level: {{ log_level }}
+    formatter: detailed
+    filename: {{ log_file }}
+    maxBytes: 10485760  # 10MB
+    backupCount: 3
+    encoding: utf8
+
+loggers:
+  cogito:
+    level: {{ log_level }}
+    handlers:
+{% if console_logging %}
+      - console
+{% endif %}
+      - file
+    propagate: false
+
+root:
+  level: WARNING
+  handlers:
+{% if console_logging %}
+    - console
+{% endif %}
+    - file
