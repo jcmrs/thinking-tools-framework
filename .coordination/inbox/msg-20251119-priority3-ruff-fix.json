@@ -1,0 +1,121 @@
+{
+  "message_id": "msg-20251119-priority3-ruff-fix",
+  "type": "directive",
+  "priority": "critical",
+  "timestamp": "2025-11-19T10:25:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "Priority 3 Fix REJECTED - Ruff Violations (57 errors) + Work Uncommitted",
+
+  "content": {
+    "status": "REJECTED - Quality gates not met",
+
+    "issue": {
+      "ruff_violations": "57 errors (required: 0)",
+      "work_uncommitted": "8 modified files + 2 coordination messages not committed",
+      "imperative_violated": "Imperative 4: Quality Without Compromise + Project = Repository"
+    },
+
+    "task": "Fix all 57 ruff violations and commit work",
+
+    "role_definition": {
+      "your_role": "System Owner fixing trivial linting issues",
+      "execution_mode": "Execution agent: Run ruff --fix → Verify → Commit",
+      "reasoning_budget": "MINIMAL - These are trivial auto-fixable lint violations"
+    },
+
+    "task_specification": {
+      "deliverables": {
+        "1_fix_ruff_violations": {
+          "action": "Run ruff check --fix to auto-fix violations",
+          "tool": "Bash: cd /c/Development/thinking-tools-framework && ruff check --fix src/ tests/",
+          "validation": "ruff check src/ tests/ (must show 0 errors)"
+        },
+
+        "2_manual_fixes": {
+          "action": "Fix any remaining violations ruff can't auto-fix",
+          "examples": ["E501: Break long lines", "F401: Remove unused imports manually if needed"],
+          "validation": "ruff check src/ tests/ (0 errors)"
+        },
+
+        "3_commit_work": {
+          "action": "Commit all test fix work",
+          "files": [
+            "src/cogito/ui/cli.py",
+            "tests/integration/*.py",
+            "tests/unit/test_cli.py",
+            ".coordination/outbox/*.json"
+          ],
+          "message": "Fix Priority 3 test failures: 94.6% → 100%\\n\\n- Fixed 23 failing tests\\n- Updated tool count 9 → 14\\n- Fixed CLI command conflict (memory_group → provisioning)\\n- Fixed UTF-8 encoding for Windows\\n- Fixed ruff violations (57 → 0)\\n\\nQuality gates: pytest 100%, mypy 0 errors, ruff 0 violations",
+          "validation": "git status (clean working tree)"
+        },
+
+        "4_push_to_remote": {
+          "action": "Push committed work to remote",
+          "tool": "Bash: git push origin main",
+          "validation": "Work backed up to GitHub"
+        }
+      }
+    },
+
+    "execution_guidance": {
+      "step_1_auto_fix": {
+        "action": "Run ruff --fix to auto-fix violations",
+        "tool": "Bash: cd /c/Development/thinking-tools-framework && ruff check --fix src/ tests/",
+        "expected": "Most violations auto-fixed (unused imports, mode arguments, etc.)"
+      },
+
+      "step_2_verify": {
+        "action": "Check remaining violations",
+        "tool": "Bash: ruff check src/ tests/",
+        "expected": "0 errors OR only E501 (long lines) requiring manual fixes"
+      },
+
+      "step_3_manual_fixes": {
+        "action": "If E501 (long lines) remain, break lines manually",
+        "pattern": "Break lines at 100 characters",
+        "validation": "ruff check src/ tests/ (0 errors)"
+      },
+
+      "step_4_commit": {
+        "action": "Commit all work",
+        "tool": "Bash: git add . && git commit -m '...' && git push origin main",
+        "validation": "git status clean, remote updated"
+      }
+    },
+
+    "quality_requirements": {
+      "ruff": "0 violations (not 57)",
+      "git": "All work committed and pushed",
+      "pytest": "Still 100% (don't break tests fixing ruff)",
+      "mypy": "Still 0 errors"
+    },
+
+    "success_verification": {
+      "before_completion": [
+        "✓ ruff check src/ tests/ shows 0 errors",
+        "✓ git status shows clean working tree",
+        "✓ git push succeeded (remote updated)",
+        "✓ pytest still 100% (436 passed, 1 skipped)",
+        "✓ mypy still 0 errors"
+      ]
+    }
+  },
+
+  "quality_gates": {
+    "ruff": "0 violations (currently 57)",
+    "git": "all work committed and pushed",
+    "pytest": "100% (must not regress)",
+    "mypy": "0 errors (must not regress)"
+  },
+
+  "estimated_effort": "10-15 minutes (ruff --fix + manual lines + commit)",
+
+  "coordinator_notes": {
+    "trivial_violations": "Most are auto-fixable (unused imports, unnecessary mode args)",
+    "git_adherence": "Work must be committed per 'Project = Repository' imperative",
+    "quality_standard": "100% means 100% (includes ruff 0 violations)"
+  },
+
+  "read": false
+}
