@@ -46,7 +46,12 @@
       "Bash(git commit:*)",
       "Bash(curl:*)",
       "Bash(git remote:*)",
-      "Bash(git branch:*)"
+      "Bash(git branch:*)",
+      "Bash(tee:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git stash:*)",
+      "mcp__serena__insert_after_symbol"
     ],
     "deny": [],
     "ask": []

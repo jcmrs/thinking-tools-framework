@@ -1,0 +1,315 @@
+{
+  "message_id": "msg-20251119-180000-priority4-core-components",
+  "type": "directive",
+  "priority": "high",
+  "timestamp": "2025-11-19T18:00:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "Priority 4: Core Components (Template Engine, Spec Loader, Validator) - ENHANCED PROMPT",
+
+  "content": {
+    "role_definition": {
+      "your_role": "System Owner implementing core processing layer components autonomously",
+      "execution_mode": "Execution agent: Implement → Test → Validate → Report. Minimize reasoning commentary.",
+      "reasoning_budget": [
+        "Use find_symbol with specific name_path (NOT Read full files)",
+        "Progressive: get_symbols_overview → find_symbol depth=1 → targeted symbol reads",
+        "Reference existing: renderer.py (template engine exists), validator.py (exists) for patterns"
+      ],
+      "context_strategy": [
+        "Architecture: Read src/cogito/processing/renderer.py to understand existing template engine",
+        "Patterns: Use find_symbol to locate validation patterns in validator.py",
+        "PM references: Read via mcp__serena__read_memory ONLY when needed (not upfront)"
+      ],
+      "autonomy": "Full autonomy on implementation details. Follow five-layer architecture (UI → Orchestration → Processing → Storage ← Integration)."
+    },
+
+    "task_specification": {
+      "task": "Implement and integrate core processing layer components: enhance Template Engine (renderer.py), create Spec Loader, enhance Validator",
+
+      "why_now": "Foundation validated (Priorities 1-3 complete, 14 tools working end-to-end). Core components needed for production-ready tool execution: load YAML → validate → render template → output.",
+
+      "deliverables": {
+        "1_template_engine_enhancement": {
+          "file": "src/cogito/processing/renderer.py",
+          "current_state": "Basic Jinja2 rendering exists",
+          "enhancements_needed": [
+            "Sandboxed Jinja2 environment (security: no file system access, no imports)",
+            "Custom filters for thinking tools (e.g., format_list, indent, wrap_text)",
+            "Template validation (syntax check before execution)",
+            "Error handling with clear messages (template syntax errors, undefined variables)",
+            "Whitespace control support (Jinja2 {%- and -%} validated in Priority 2)"
+          ],
+          "tests": "tests/unit/processing/test_renderer.py - 100% coverage for security, filters, error handling"
+        },
+
+        "2_spec_loader": {
+          "file": "src/cogito/processing/spec_loader.py (NEW)",
+          "purpose": "Load thinking tool specifications from YAML files",
+          "functionality": [
+            "Load YAML file → Parse → Return ThinkingToolSpec object",
+            "Support progressive disclosure: load_metadata_only() → load_full_spec()",
+            "Handle YAML syntax errors with clear error messages",
+            "Cache loaded specs (in-memory cache, invalidate on file change)",
+            "Validate file paths and handle missing files gracefully"
+          ],
+          "api": {
+            "load_spec(path: Path) -> ThinkingToolSpec": "Load full spec from YAML",
+            "load_metadata(path: Path) -> ToolMetadata": "Load only metadata (name, description, version, category)",
+            "load_specs_from_directory(dir: Path) -> List[ThinkingToolSpec]": "Batch load from directory",
+            "clear_cache()": "Clear cached specs"
+          },
+          "tests": "tests/unit/processing/test_spec_loader.py - test loading, caching, error handling, progressive disclosure"
+        },
+
+        "3_validator_enhancement": {
+          "file": "src/cogito/processing/validator.py",
+          "current_state": "JSON Schema validation exists",
+          "enhancements_needed": [
+            "Validate Jinja2 template syntax (parse template, catch syntax errors)",
+            "Validate parameter schema (ensure parameter definitions match usage in template)",
+            "Validate cross-references (if tool references another tool, verify it exists)",
+            "Semantic validation (e.g., version format, category values)",
+            "Batch validation mode for multiple tools"
+          ],
+          "tests": "tests/unit/processing/test_validator.py - enhance existing tests with template validation, semantic checks"
+        },
+
+        "4_integration": {
+          "orchestration_layer": "src/cogito/orchestration/thinking_tools_manager.py",
+          "integration_points": [
+            "ThinkingToolsManager uses SpecLoader to load tools from examples/ directory",
+            "ThinkingToolsManager uses Validator to validate before execution",
+            "ThinkingToolsManager uses Renderer to execute tool with parameters",
+            "End-to-end flow: load_spec() → validate() → render_template() → output"
+          ],
+          "tests": "tests/integration/test_core_components_integration.py - test full workflow"
+        },
+
+        "5_documentation": {
+          "files": [
+            "src/cogito/processing/README.md - Architecture overview, component responsibilities",
+            "docs/ARCHITECTURE.md - Update Processing Layer section with new components",
+            "src/cogito/processing/spec_loader.py - Comprehensive docstrings with examples"
+          ],
+          "skip_if_time_constrained": "Focus on implementation first, documentation can follow"
+        }
+      },
+
+      "constraints": {
+        "security_first": "Template engine MUST be sandboxed (no file access, no imports, no code execution beyond templates)",
+        "layer_boundaries": "Processing layer MUST NOT import from UI layer. Can import from Storage, not vice versa.",
+        "test_coverage": "New code MUST have ≥80% coverage. All public APIs MUST have tests.",
+        "no_breaking_changes": "Existing tools (14 from Priority 3) MUST continue working",
+        "schema_compliance": "Loaded specs MUST validate against schemas/thinking-tool-v1.0.schema.json"
+      }
+    },
+
+    "execution_guidance": {
+      "step_1_understand_existing": {
+        "action": "Read existing renderer.py and validator.py to understand current implementation",
+        "tools": [
+          "get_symbols_overview file_path='src/cogito/processing/renderer.py'",
+          "find_symbol name_path='Renderer' relative_path='src/cogito/processing/renderer.py' include_body=true depth=1"
+        ],
+        "validation": "Can you describe the current Renderer API and what needs enhancement?",
+        "next": "Proceed to step 2 once you understand current state"
+      },
+
+      "step_2_create_spec_loader": {
+        "action": "Create spec_loader.py with SpecLoader class following architecture patterns",
+        "pattern_to_follow": "Look at src/cogito/storage/ for file loading patterns (caching, error handling)",
+        "implementation": [
+          "Class SpecLoader with load_spec(), load_metadata(), load_specs_from_directory()",
+          "Use pathlib.Path for file operations",
+          "Use pyyaml for YAML parsing (import yaml)",
+          "Implement in-memory cache with dict {path: (spec, mtime)}",
+          "Handle FileNotFoundError, yaml.YAMLError with clear messages"
+        ],
+        "validation": "Write tests FIRST (TDD): test_load_spec_success, test_load_metadata_only, test_cache_invalidation, test_yaml_syntax_error",
+        "next": "Run pytest tests/unit/processing/test_spec_loader.py -v to verify implementation"
+      },
+
+      "step_3_enhance_validator": {
+        "action": "Add template validation and semantic validation to validator.py",
+        "tools": "find_symbol name_path='Validator' relative_path='src/cogito/processing/validator.py' include_body=true depth=1",
+        "enhancements": [
+          "Method validate_template_syntax(template_str: str) -> ValidationResult",
+          "Method validate_parameter_usage(spec: ThinkingToolSpec) -> ValidationResult",
+          "Use jinja2.Environment to parse template and catch jinja2.TemplateSyntaxError",
+          "Extract {{ parameter.name }} references from template, verify against spec.parameters"
+        ],
+        "validation": "Add tests: test_validate_template_syntax_success, test_template_syntax_error, test_undefined_parameter",
+        "next": "Run pytest tests/unit/processing/test_validator.py -v"
+      },
+
+      "step_4_enhance_renderer": {
+        "action": "Enhance renderer.py with sandboxing and custom filters",
+        "sandboxing": [
+          "Use jinja2.sandbox.SandboxedEnvironment (not jinja2.Environment)",
+          "Configure: autoescape=False, undefined=jinja2.StrictUndefined",
+          "No file system loaders (templates from strings only)"
+        ],
+        "custom_filters": [
+          "format_list(items: List[str], separator: str = ', ') -> str",
+          "indent(text: str, spaces: int = 2) -> str",
+          "wrap_text(text: str, width: int = 80) -> str"
+        ],
+        "validation": "Add tests: test_sandboxed_environment, test_custom_filters, test_undefined_variable_error",
+        "next": "Run pytest tests/unit/processing/test_renderer.py -v"
+      },
+
+      "step_5_integration": {
+        "action": "Update ThinkingToolsManager to use SpecLoader, Validator, Renderer",
+        "file": "src/cogito/orchestration/thinking_tools_manager.py",
+        "changes": [
+          "Import SpecLoader from cogito.processing.spec_loader",
+          "In __init__: self.spec_loader = SpecLoader(), self.validator = Validator(), self.renderer = Renderer()",
+          "Method load_tools_from_directory(dir: Path) -> List[ThinkingToolSpec]",
+          "Method execute_tool(tool_name: str, parameters: Dict) -> str (load → validate → render)"
+        ],
+        "validation": "Create tests/integration/test_core_components_integration.py",
+        "tests": "test_load_validate_render_workflow, test_14_example_tools_still_work",
+        "next": "Run pytest tests/integration/test_core_components_integration.py -v"
+      },
+
+      "step_6_verify_no_regressions": {
+        "action": "Verify all 14 example tools from Priority 3 still work",
+        "tools": "Bash: pytest tests/ -v -k real_tools",
+        "validation": "All tests for real tools MUST pass (no regressions from enhancements)",
+        "fix_if_broken": "If tests fail, fix implementation to maintain backward compatibility",
+        "next": "Proceed to step 7 once all tests pass"
+      },
+
+      "step_7_quality_gates": {
+        "action": "Run full quality gate suite",
+        "checks": [
+          "pytest tests/ -v (100% pass rate, no failures)",
+          "mypy --strict src/ (0 errors)",
+          "ruff check src/ tests/ (0 violations)",
+          "pytest --cov=src/cogito/processing --cov-report=term (≥80% coverage for processing layer)"
+        ],
+        "validation": "All quality gates MUST pass before completion message",
+        "next": "If all pass, write completion message. If failures, fix and re-run."
+      },
+
+      "step_8_completion": {
+        "action": "Write completion message to .coordination/outbox/",
+        "format": {
+          "status": "COMPLETE (all quality gates passed)",
+          "deliverables_completed": "List each deliverable with file paths",
+          "quality_verification": "pytest: X passed, mypy: 0 errors, ruff: 0 violations, coverage: X%",
+          "integration_verified": "14 example tools still work (no regressions)"
+        },
+        "validation": "Message MUST be concise (< 50 lines), factual (no claims without verification)",
+        "git": "Commit all work: git add . && git commit -m 'Implement Priority 4 core components' && git push"
+      }
+    },
+
+    "examples": {
+      "reference_implementation_priority2": {
+        "what": "Priority 2 Bootstrap Package - Quality patterns to follow",
+        "file": "src/cogito/provisioning/bootstrap.py",
+        "lessons": [
+          "Jinja2 whitespace control: Use {%- and -%} for clean output",
+          "Error handling: Specific exception types with clear messages",
+          "Testing: TDD approach (tests first, implementation second)",
+          "Type safety: Full type annotations, mypy --strict compliance"
+        ]
+      },
+
+      "sandboxed_jinja2_pattern": {
+        "what": "Security pattern for template rendering",
+        "code_example": {
+          "import": "from jinja2.sandbox import SandboxedEnvironment",
+          "setup": "env = SandboxedEnvironment(autoescape=False, undefined=StrictUndefined)",
+          "custom_filters": "env.filters['format_list'] = lambda items, sep=', ': sep.join(items)",
+          "render": "template = env.from_string(template_str); output = template.render(**params)"
+        },
+        "anti_pattern": "NEVER use jinja2.Environment (not sandboxed), NEVER use FileSystemLoader"
+      },
+
+      "progressive_disclosure_pattern": {
+        "what": "Token-efficient loading (metadata first, full spec on-demand)",
+        "code_example": {
+          "metadata_only": "def load_metadata(path): with open(path) as f: data = yaml.safe_load(f); return {k: data[k] for k in ['name', 'description', 'version', 'category']}",
+          "full_spec": "def load_spec(path): with open(path) as f: return ThinkingToolSpec(**yaml.safe_load(f))"
+        },
+        "usage": "List tools: load_metadata() for all (fast). Execute tool: load_spec() for selected (JIT)."
+      },
+
+      "caching_pattern": {
+        "what": "In-memory cache with file modification time invalidation",
+        "code_example": {
+          "cache": "self._cache: Dict[Path, Tuple[ThinkingToolSpec, float]] = {}",
+          "check": "mtime = path.stat().st_mtime; if path in self._cache and self._cache[path][1] == mtime: return self._cache[path][0]",
+          "update": "spec = self._load_from_file(path); self._cache[path] = (spec, mtime); return spec"
+        }
+      },
+
+      "yaml_error_handling": {
+        "what": "User-friendly YAML parsing error messages",
+        "code_example": {
+          "try_block": "try: return yaml.safe_load(file)",
+          "except_block": "except yaml.YAMLError as e: raise SpecLoadError(f'Invalid YAML syntax in {path}: {e}')"
+        }
+      }
+    },
+
+    "quality_requirements": {
+      "completeness": {
+        "all_deliverables": "Template Engine enhanced, Spec Loader created, Validator enhanced, Integration complete",
+        "no_todos": "No TODO comments, no placeholder implementations",
+        "all_tests_written": "Unit tests for each component, integration tests for workflow"
+      },
+
+      "specificity": {
+        "layer_boundaries": "Processing layer does not import from UI, follows five-layer architecture",
+        "security": "SandboxedEnvironment used, no FileSystemLoader, no unsafe eval/exec",
+        "type_safety": "All public APIs fully type-annotated, mypy --strict compliance"
+      },
+
+      "clarity": {
+        "docstrings": "Every public class/method has docstring with parameters, returns, raises",
+        "error_messages": "Specific error messages (not generic 'Error occurred')",
+        "self_documenting": "Variable/function names clearly describe purpose"
+      }
+    },
+
+    "success_verification": {
+      "before_completion_message": [
+        "✓ spec_loader.py created with SpecLoader class (load_spec, load_metadata, caching)",
+        "✓ renderer.py enhanced with SandboxedEnvironment and custom filters",
+        "✓ validator.py enhanced with template syntax validation",
+        "✓ ThinkingToolsManager integrated with new components",
+        "✓ pytest tests/ shows 100% pass rate (all tests passing, 0 failures)",
+        "✓ mypy --strict src/ shows 0 errors",
+        "✓ ruff check src/ tests/ shows 0 violations",
+        "✓ pytest --cov shows ≥80% coverage for processing layer",
+        "✓ All 14 example tools from Priority 3 still work (no regressions)",
+        "✓ git status shows clean working tree (all work committed)",
+        "✓ git push succeeded (remote repository updated)"
+      ]
+    }
+  },
+
+  "quality_gates": {
+    "pytest": "100% pass rate (all tests passing, 0 failures)",
+    "mypy": "0 errors with --strict",
+    "ruff": "0 violations",
+    "coverage": "≥80% for src/cogito/processing",
+    "regressions": "All 14 example tools from Priority 3 still work",
+    "git": "All work committed and pushed"
+  },
+
+  "estimated_effort": "2-3 hours (spec loader creation, enhancements, integration, comprehensive testing)",
+
+  "coordinator_notes": {
+    "foundation_validated": "Priorities 1-3 complete, all foundation components working end-to-end",
+    "token_efficiency_baseline": "Enhanced prompt in Priority 3 achieved 14 min session (40% improvement)",
+    "quality_standard": "100% means 100% (maintain precedent: reject < 100%)",
+    "prompt_engineering_applied": "Role definition, step-by-step execution, examples, patterns validated in Priority 3"
+  },
+
+  "read": false
+}

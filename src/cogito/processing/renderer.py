@@ -77,9 +77,59 @@ class TemplateRenderer:
         - Perform network operations
         """
         # Built-in Jinja2 filters are already available in SandboxedEnvironment
-        # Custom filters can be added here if needed
-        # Example: self._env.filters['custom_filter'] = safe_custom_filter
-        pass
+        # Add custom filters for thinking tools
+        self._env.filters["format_list"] = self._filter_format_list
+        self._env.filters["indent"] = self._filter_indent
+        self._env.filters["wrap_text"] = self._filter_wrap_text
+
+    @staticmethod
+    def _filter_format_list(items: list[str], separator: str = ", ") -> str:
+        """Format a list of strings with a custom separator.
+
+        Args:
+            items: List of strings to format
+            separator: Separator to join items (default: ", ")
+
+        Returns:
+            Joined string
+        """
+        if not isinstance(items, list):
+            return str(items)
+        return separator.join(str(item) for item in items)
+
+    @staticmethod
+    def _filter_indent(text: str, spaces: int = 2) -> str:
+        """Indent each line of text by a specified number of spaces.
+
+        Args:
+            text: Text to indent
+            spaces: Number of spaces to indent (default: 2)
+
+        Returns:
+            Indented text
+        """
+        if not isinstance(text, str):
+            return str(text)
+        indent_str = " " * spaces
+        lines = text.splitlines(keepends=True)
+        return "".join(indent_str + line for line in lines)
+
+    @staticmethod
+    def _filter_wrap_text(text: str, width: int = 80) -> str:
+        """Wrap text to a specified width.
+
+        Args:
+            text: Text to wrap
+            width: Maximum line width (default: 80)
+
+        Returns:
+            Wrapped text
+        """
+        import textwrap
+
+        if not isinstance(text, str):
+            return str(text)
+        return textwrap.fill(text, width=width)
 
     def render(self, tool_spec: dict[str, Any], parameters: dict[str, Any] | None = None) -> str:
         """Render thinking tool template with provided parameters.

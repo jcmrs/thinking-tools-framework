@@ -371,3 +371,211 @@ class TestTemplateRendererSyntaxValidation:
         result = renderer.validate_template_syntax(template_source)
 
         assert result is True
+
+
+class TestTemplateRendererCustomFilters:
+    """Test custom filters for thinking tools."""
+
+    def test_format_list_with_default_separator(self) -> None:
+        """Test format_list filter with default separator."""
+        renderer = TemplateRenderer()
+        tool_spec = {
+            "metadata": {"name": "format_list"},
+            "template": {"source": "{{ items|format_list }}"},
+        }
+        params = {"items": ["apple", "banana", "cherry"]}
+
+        result = renderer.render(tool_spec, params)
+
+        assert result == "apple, banana, cherry"
+
+    def test_format_list_with_custom_separator(self) -> None:
+        """Test format_list filter with custom separator."""
+        renderer = TemplateRenderer()
+        tool_spec = {
+            "metadata": {"name": "format_list"},
+            "template": {"source": "{{ items|format_list(' | ') }}"},
+        }
+        params = {"items": ["one", "two", "three"]}
+
+        result = renderer.render(tool_spec, params)
+
+        assert result == "one | two | three"
+
+    def test_format_list_empty_list(self) -> None:
+        """Test format_list filter with empty list."""
+        renderer = TemplateRenderer()
+        tool_spec = {
+            "metadata": {"name": "format_list"},
+            "template": {"source": "{{ items|format_list }}"},
+        }
+        params = {"items": []}
+
+        result = renderer.render(tool_spec, params)
+
+        assert result == ""
+
+    def test_format_list_single_item(self) -> None:
+        """Test format_list filter with single item."""
+        renderer = TemplateRenderer()
+        tool_spec = {
+            "metadata": {"name": "format_list"},
+            "template": {"source": "{{ items|format_list }}"},
+        }
+        params = {"items": ["only"]}
+
+        result = renderer.render(tool_spec, params)
+
+        assert result == "only"
+
+    def test_format_list_non_list_returns_string(self) -> None:
+        """Test format_list filter with non-list input returns string representation."""
+        renderer = TemplateRenderer()
+        tool_spec = {
+            "metadata": {"name": "format_list"},
+            "template": {"source": "{{ value|format_list }}"},
+        }
+        params = {"value": "not a list"}
+
+        result = renderer.render(tool_spec, params)
+
+        assert result == "not a list"
+
+    def test_indent_with_default_spaces(self) -> None:
+        """Test indent filter with default 2 spaces."""
+        renderer = TemplateRenderer()
+        tool_spec = {
+            "metadata": {"name": "indent"},
+            "template": {"source": "{{ text|indent }}"},
+        }
+        params = {"text": "line1\nline2\nline3"}
+
+        result = renderer.render(tool_spec, params)
+
+        assert result == "  line1\n  line2\n  line3"
+
+    def test_indent_with_custom_spaces(self) -> None:
+        """Test indent filter with custom number of spaces."""
+        renderer = TemplateRenderer()
+        tool_spec = {
+            "metadata": {"name": "indent"},
+            "template": {"source": "{{ text|indent(4) }}"},
+        }
+        params = {"text": "line1\nline2"}
+
+        result = renderer.render(tool_spec, params)
+
+        assert result == "    line1\n    line2"
+
+    def test_indent_single_line(self) -> None:
+        """Test indent filter with single line."""
+        renderer = TemplateRenderer()
+        tool_spec = {
+            "metadata": {"name": "indent"},
+            "template": {"source": "{{ text|indent }}"},
+        }
+        params = {"text": "single line"}
+
+        result = renderer.render(tool_spec, params)
+
+        assert result == "  single line"
+
+    def test_indent_empty_string(self) -> None:
+        """Test indent filter with empty string."""
+        renderer = TemplateRenderer()
+        tool_spec = {
+            "metadata": {"name": "indent"},
+            "template": {"source": "{{ text|indent }}"},
+        }
+        params = {"text": ""}
+
+        result = renderer.render(tool_spec, params)
+
+        assert result == ""
+
+    def test_indent_non_string_returns_string(self) -> None:
+        """Test indent filter with non-string input returns string representation."""
+        renderer = TemplateRenderer()
+        tool_spec = {
+            "metadata": {"name": "indent"},
+            "template": {"source": "{{ value|indent }}"},
+        }
+        params = {"value": 123}
+
+        result = renderer.render(tool_spec, params)
+
+        # Non-strings are converted to string without indentation
+        assert result == "123"
+
+    def test_wrap_text_with_default_width(self) -> None:
+        """Test wrap_text filter with default 80 character width."""
+        renderer = TemplateRenderer()
+        long_text = "This is a very long line of text " * 10
+        tool_spec = {
+            "metadata": {"name": "wrap"},
+            "template": {"source": "{{ text|wrap_text }}"},
+        }
+        params = {"text": long_text}
+
+        result = renderer.render(tool_spec, params)
+
+        lines = result.split("\n")
+        for line in lines:
+            assert len(line) <= 80
+
+    def test_wrap_text_with_custom_width(self) -> None:
+        """Test wrap_text filter with custom width."""
+        renderer = TemplateRenderer()
+        long_text = "This is a line of text that should be wrapped at forty characters."
+        tool_spec = {
+            "metadata": {"name": "wrap"},
+            "template": {"source": "{{ text|wrap_text(40) }}"},
+        }
+        params = {"text": long_text}
+
+        result = renderer.render(tool_spec, params)
+
+        lines = result.split("\n")
+        for line in lines:
+            assert len(line) <= 40
+
+    def test_wrap_text_short_text(self) -> None:
+        """Test wrap_text filter with text shorter than width."""
+        renderer = TemplateRenderer()
+        tool_spec = {
+            "metadata": {"name": "wrap"},
+            "template": {"source": "{{ text|wrap_text }}"},
+        }
+        params = {"text": "Short text"}
+
+        result = renderer.render(tool_spec, params)
+
+        assert result == "Short text"
+
+    def test_wrap_text_non_string_returns_string(self) -> None:
+        """Test wrap_text filter with non-string input returns string representation."""
+        renderer = TemplateRenderer()
+        tool_spec = {
+            "metadata": {"name": "wrap"},
+            "template": {"source": "{{ value|wrap_text }}"},
+        }
+        params = {"value": 456}
+
+        result = renderer.render(tool_spec, params)
+
+        assert result == "456"
+
+    def test_combined_filters(self) -> None:
+        """Test using multiple custom filters together."""
+        renderer = TemplateRenderer()
+        tool_spec = {
+            "metadata": {"name": "combined"},
+            "template": {
+                "source": "{{ items|format_list(' - ')|indent(4) }}"
+            },
+        }
+        params = {"items": ["first", "second", "third"]}
+
+        result = renderer.render(tool_spec, params)
+
+        assert result == "    first - second - third"
