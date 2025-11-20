@@ -6,17 +6,17 @@ from typing import Any
 
 import yaml
 
-from cogito.storage.process_memory import ProcessMemoryStore
+from cogito.contracts.layer_protocols import StorageProtocol
 
 
 class ProcessMemoryExporter:
     """Export process memory entries in various formats."""
 
-    def __init__(self, memory_store: ProcessMemoryStore) -> None:
+    def __init__(self, memory_store: StorageProtocol) -> None:
         """Initialize exporter with memory store.
 
         Args:
-            memory_store: ProcessMemoryStore instance to export from
+            memory_store: Storage layer instance implementing StorageProtocol
         """
         self.memory_store = memory_store
 

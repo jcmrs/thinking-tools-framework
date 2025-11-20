@@ -263,18 +263,24 @@ class ProcessMemoryStore:
 
         return related
 
-    def search_entries(self, keyword: str) -> list[dict[str, Any]]:
+    def search_entries(
+        self,
+        keyword: str | None = None,
+        category: str | None = None,
+        tags: list[str] | None = None,
+    ) -> list[dict[str, Any]]:
         """Search entries by keyword in title, summary, or tags.
 
         Args:
             keyword: Search keyword (case-insensitive)
+            category: Filter by category (exact match)
+            tags: Filter by tags (entry must have all specified tags)
 
         Returns:
             List of matching entries
         """
         self._ensure_cache_loaded()
 
-        keyword_lower = keyword.lower()
         results = []
 
         for entry in self._cache.values():
@@ -282,21 +288,38 @@ class ProcessMemoryStore:
             if entry.get("deprecated", False):
                 continue
 
-            # Search in title
-            if keyword_lower in entry.get("title", "").lower():
-                results.append(entry)
+            # Filter by category
+            if category and entry.get("type") != category:
                 continue
 
-            # Search in summary
-            if keyword_lower in entry.get("summary", "").lower():
-                results.append(entry)
-                continue
+            # Filter by tags
+            if tags:
+                entry_tags = entry.get("tags", [])
+                if not all(tag in entry_tags for tag in tags):
+                    continue
 
-            # Search in tags
-            tags = entry.get("tags", [])
-            if any(keyword_lower in tag.lower() for tag in tags):
+            # Search by keyword if provided
+            if keyword:
+                keyword_lower = keyword.lower()
+
+                # Search in title
+                if keyword_lower in entry.get("title", "").lower():
+                    results.append(entry)
+                    continue
+
+                # Search in summary
+                if keyword_lower in entry.get("summary", "").lower():
+                    results.append(entry)
+                    continue
+
+                # Search in tags
+                entry_tags_list = entry.get("tags", [])
+                if any(keyword_lower in tag.lower() for tag in entry_tags_list):
+                    results.append(entry)
+                    continue
+            else:
+                # If no keyword, include entry (already filtered by category/tags)
                 results.append(entry)
-                continue
 
         return results
 

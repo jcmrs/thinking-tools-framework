@@ -51,7 +51,12 @@
       "Bash(git push:*)",
       "Bash(git pull:*)",
       "Bash(git stash:*)",
-      "mcp__serena__insert_after_symbol"
+      "mcp__serena__insert_after_symbol",
+      "Bash(python append_pm_entries.py:*)",
+      "Bash(python test_graph_building.py:*)",
+      "Bash(python -X utf8:*)",
+      "mcp__serena__search_for_pattern",
+      "Bash(python -m rg:*)"
     ],
     "deny": [],
     "ask": []

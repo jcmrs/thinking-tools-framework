@@ -2,17 +2,17 @@
 
 from typing import Any
 
-from cogito.storage.process_memory import ProcessMemoryStore
+from cogito.contracts.layer_protocols import StorageProtocol
 
 
 class ContextGenerator:
     """Generate focused context snippets from process memory."""
 
-    def __init__(self, memory_store: ProcessMemoryStore) -> None:
+    def __init__(self, memory_store: StorageProtocol) -> None:
         """Initialize context generator.
 
         Args:
-            memory_store: ProcessMemoryStore instance
+            memory_store: Storage layer instance implementing StorageProtocol
         """
         self.memory_store = memory_store
 

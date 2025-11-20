@@ -8,9 +8,12 @@ from typing import Any
 import click
 
 from cogito import __version__
+from cogito.contracts.layer_protocols import (
+    StorageProtocol,
+    ToolRegistryProtocol,
+)
 from cogito.orchestration.executor import ToolExecutor
 from cogito.orchestration.registry import ToolRegistry
-from cogito.processing.validator import SchemaValidator
 from cogito.storage.process_memory import ProcessMemoryStore
 
 
@@ -225,15 +228,10 @@ def info(tool_name: str, output_format: str, tools_dir: Path | None) -> None:
 def validate(tool_file: Path) -> None:
     """Validate a thinking tool YAML specification."""
     try:
-        # Load YAML file
-        import yaml
-
-        with tool_file.open(encoding="utf-8") as f:
-            tool_spec = yaml.safe_load(f)
-
-        # Validate against schema
-        validator = SchemaValidator()
-        validator.validate_tool_spec(tool_spec)
+        # Use ToolRegistry to load and validate
+        # load_tool() performs schema validation internally
+        registry: ToolRegistryProtocol = ToolRegistry()
+        registry.load_tool(tool_file)
 
         click.echo(f"✓ {tool_file.name} is valid")
 
@@ -280,8 +278,8 @@ def memory(
         if not memory_file.exists():
             raise click.ClickException(f"Process memory file not found: {memory_file}")
 
-        # Initialize memory store
-        memory_store = ProcessMemoryStore(memory_file)
+        # Initialize memory store (using StorageProtocol interface)
+        memory_store: StorageProtocol = ProcessMemoryStore(memory_file)
 
         # Query based on parameters
         if entry_id:
@@ -355,8 +353,8 @@ def memory_export(
         if not memory_file.exists():
             raise click.ClickException(f"Process memory file not found: {memory_file}")
 
-        # Initialize exporter
-        memory_store = ProcessMemoryStore(memory_file)
+        # Initialize exporter (using StorageProtocol interface)
+        memory_store: StorageProtocol = ProcessMemoryStore(memory_file)
         exporter = ProcessMemoryExporter(memory_store)
 
         # Export in requested format
@@ -416,8 +414,8 @@ def memory_import(
         if memory_file is None:
             memory_file = Path(".bootstrap/process_memory.jsonl")
 
-        # Initialize importer
-        memory_store = ProcessMemoryStore(memory_file)
+        # Initialize importer (using StorageProtocol interface)
+        memory_store: StorageProtocol = ProcessMemoryStore(memory_file)
         importer = ProcessMemoryImporter(memory_store)
 
         # Auto-detect format if not specified
@@ -497,8 +495,8 @@ def memory_handover(
         if not memory_file.exists():
             raise click.ClickException(f"Process memory file not found: {memory_file}")
 
-        # Initialize handover generator
-        memory_store = ProcessMemoryStore(memory_file)
+        # Initialize handover generator (using StorageProtocol interface)
+        memory_store: StorageProtocol = ProcessMemoryStore(memory_file)
         generator = HandoverGenerator(memory_store)
 
         # Generate handover document
@@ -554,8 +552,8 @@ def memory_context(
         if not memory_file.exists():
             raise click.ClickException(f"Process memory file not found: {memory_file}")
 
-        # Initialize context generator
-        memory_store = ProcessMemoryStore(memory_file)
+        # Initialize context generator (using StorageProtocol interface)
+        memory_store: StorageProtocol = ProcessMemoryStore(memory_file)
         generator = ContextGenerator(memory_store)
 
         # Generate context

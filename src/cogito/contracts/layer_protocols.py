@@ -215,6 +215,24 @@ class StorageProtocol(Protocol):
         """
         ...
 
+    def list_entries(
+        self,
+        category: str | None = None,
+        tags: list[str] | None = None,
+        include_deprecated: bool = False,
+    ) -> list[dict[str, Any]]:
+        """List entries with optional filtering.
+
+        Args:
+            category: Filter by category (exact match)
+            tags: Filter by tags (entry must have all specified tags)
+            include_deprecated: Include deprecated entries
+
+        Returns:
+            List of matching entries
+        """
+        ...
+
     def search_entries(
         self,
         keyword: str | None = None,

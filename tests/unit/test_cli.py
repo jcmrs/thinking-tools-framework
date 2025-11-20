@@ -368,14 +368,10 @@ class TestCLIInfo:
 class TestCLIValidate:
     """Test 'cogito validate' command."""
 
-    @patch("cogito.ui.cli.SchemaValidator")
-    @patch("builtins.open", create=True)
-    @patch("yaml.safe_load")
+    @patch("cogito.ui.cli.ToolRegistry")
     def test_validate_success(
         self,
-        mock_yaml_load: MagicMock,
-        mock_open: MagicMock,
-        mock_validator_class: MagicMock,
+        mock_registry_class: MagicMock,
         cli_runner: CliRunner,
         tmp_path: Path,
     ) -> None:
@@ -383,22 +379,18 @@ class TestCLIValidate:
         test_file = tmp_path / "test_tool.yml"
         test_file.write_text("metadata:\n  name: test")
 
-        mock_yaml_load.return_value = {"metadata": {"name": "test"}}
-        mock_validator_class.return_value.validate_tool_spec.return_value = None
+        # Mock ToolRegistry.load_tool() to not raise an exception (valid tool)
+        mock_registry_class.return_value.load_tool.return_value = {"metadata": {"name": "test"}}
 
         result = cli_runner.invoke(cli, ["validate", str(test_file)])
 
         assert result.exit_code == 0
         assert "is valid" in result.output
 
-    @patch("cogito.ui.cli.SchemaValidator")
-    @patch("builtins.open", create=True)
-    @patch("yaml.safe_load")
+    @patch("cogito.ui.cli.ToolRegistry")
     def test_validate_failure(
         self,
-        mock_yaml_load: MagicMock,
-        mock_open: MagicMock,
-        mock_validator_class: MagicMock,
+        mock_registry_class: MagicMock,
         cli_runner: CliRunner,
         tmp_path: Path,
     ) -> None:
@@ -406,8 +398,8 @@ class TestCLIValidate:
         test_file = tmp_path / "invalid_tool.yml"
         test_file.write_text("invalid: yaml")
 
-        mock_yaml_load.return_value = {"invalid": "yaml"}
-        mock_validator_class.return_value.validate_tool_spec.side_effect = Exception(
+        # Mock ToolRegistry.load_tool() to raise an exception (invalid tool)
+        mock_registry_class.return_value.load_tool.side_effect = Exception(
             "Schema validation failed"
         )
 

@@ -5,7 +5,7 @@ from typing import Any
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-from cogito.storage.process_memory import ProcessMemoryStore
+from cogito.contracts.layer_protocols import StorageProtocol
 
 
 class HandoverGenerator:
@@ -13,13 +13,13 @@ class HandoverGenerator:
 
     def __init__(
         self,
-        memory_store: ProcessMemoryStore,
+        memory_store: StorageProtocol,
         templates_dir: Path | None = None,
     ) -> None:
         """Initialize handover generator.
 
         Args:
-            memory_store: ProcessMemoryStore instance
+            memory_store: Storage layer instance implementing StorageProtocol
             templates_dir: Optional path to templates directory.
                           If None, uses built-in templates.
         """
