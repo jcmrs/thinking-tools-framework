@@ -1,0 +1,176 @@
+{
+  "message_id": "msg-20251120-priority9-documentation-system",
+  "type": "directive",
+  "priority": "high",
+  "timestamp": "2025-11-20T11:00:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "Priority 9: Documentation System Completion - Reverse-Engineer Specs from Implementation",
+
+  "content": {
+    "role_definition": {
+      "your_role": "Technical Documentation Architect reverse-engineering comprehensive specifications from working implementation",
+      "execution_mode": "Autonomous execution: Analyze implementation → Extract specs → Generate ADRs → Validate cross-references → Report completion",
+      "reasoning_budget": [
+        "Use find_symbol to discover component interfaces and dependencies",
+        "Analyze protocols to extract interface contracts",
+        "Read process memory for decision context",
+        "Extract ADRs from git history and implementation patterns"
+      ],
+      "context_strategy": [
+        "Review Priority 7 validation report (current system state)",
+        "Read foundation docs (00-08) for high-level context",
+        "Analyze actual implementation files per component",
+        "Cross-reference with INDEX structure (aspirational template)"
+      ],
+      "autonomy": "Full autonomy on documentation methodology. Follow INDEX structure but document actual reality."
+    },
+
+    "task_specification": {
+      "task": "Generate 27 modular component specifications by reverse-engineering from working implementation (Priorities 1-7)",
+
+      "why_critical": "CRITICAL GAP violating Imperatives 1 (Holistic Thinking) and 4 (Quality Without Compromise). INDEX claims '27 of 27 ✅ (100%)' but 0/27 modular specs exist. Cannot trace decisions, validate architecture, or onboard AI sessions without component-level documentation.",
+
+      "imperatives_context": {
+        "imperative_1_holistic_thinking": "Missing decision points introduce uncertainties and assumptions (user quote). Need complete documentation trail for decision tracing.",
+        "imperative_4_quality_without_compromise": "INDEX claims 100% but reality is 0%. Must document actual state and close gap to meet quality standards."
+      },
+
+      "deliverables": {
+        "1_modular_specs_generation": {
+          "description": "Generate 27 modular specs in docs/specs/specs/ directory",
+          "method": "Reverse-engineer from implementation",
+          "approach": {
+            "step_1_create_directory": "Create docs/specs/specs/ directory structure",
+            "step_2_map_components": "For each spec (01-26), identify corresponding implementation files",
+            "step_3_extract_interfaces": "Extract actual protocols, dependencies, data models from code",
+            "step_4_document_behavior": "Document actual behavior from tests and implementation",
+            "step_5_cross_reference": "Link to foundation docs, protocols, and related specs"
+          },
+          "spec_list": [
+            "01-CLI-SPECIFICATION.md (from src/cogito/ui/cli.py)",
+            "02-MCP-SERVER-INTERFACE.md (from src/cogito/integration/mcp_server.py)",
+            "04-THINKING-TOOLS-MANAGER.md (from src/cogito/orchestration/registry.py)",
+            "05-PLUGIN-SYSTEM.md (aspirational - document planned interface)",
+            "07-SPEC-LOADER.md (from src/cogito/orchestration/registry.py)",
+            "08-VALIDATOR.md (from src/cogito/processing/validator.py)",
+            "10-TEMPLATE-ENGINE.md (from src/cogito/processing/renderer.py)",
+            "11-PROCESS-MEMORY.md (from src/cogito/storage/process_memory.py)",
+            "12-SPEC-STORAGE.md (from tools/ directory)",
+            "14-PROCESS-MEMORY-LOG.md (from data/process_memory.jsonl)",
+            "16-SERENA-INTEGRATION.md (aspirational - document planned)",
+            "19-SECURITY-SPECIFICATION.md (from sandboxing in renderer.py)",
+            "24-TESTING-STRATEGY.md (from tests/ structure)",
+            "And others as per INDEX structure"
+          ],
+          "spec_template": {
+            "header": "# Component Name",
+            "sections": [
+              "## Cornerstone Alignment (map to Five Cornerstones)",
+              "## AI-First Considerations",
+              "## Overview (what this component does)",
+              "## Interface Definition (actual Protocol from layer_protocols.py)",
+              "## Data Models (actual data structures)",
+              "## Implementation (reference to actual files)",
+              "## Dependencies (actual imports and protocols used)",
+              "## Configuration (actual config used)",
+              "## Testing (reference to actual test files)",
+              "## Process Memory Integration (what gets captured)",
+              "## Example Usage (from actual code)"
+            ]
+          }
+        },
+
+        "2_schemas_completion": {
+          "description": "Generate missing plugin-manifest-v1.0.schema.json",
+          "location": "Root directory (alongside existing schemas)",
+          "method": "Design schema for plugin metadata based on extensibility patterns"
+        },
+
+        "3_adr_extraction": {
+          "description": "Extract granular ADRs from implementation and git history",
+          "sources": [
+            "Process memory entries (Priorities 2-7 completion summaries)",
+            "Git commit messages and history",
+            "Code patterns and architectural decisions in implementation",
+            "Protocol definitions and interface choices"
+          ],
+          "format": "Standard ADR format (Context, Decision, Consequences)",
+          "location": "docs/specs/adrs/ directory",
+          "examples": [
+            "ADR-001: Five-Layer Architecture Choice",
+            "ADR-002: Protocol-Based Contracts Over ABC",
+            "ADR-003: JSONL for Process Memory Storage",
+            "ADR-004: Jinja2 Sandboxing for Template Security",
+            "ADR-005: YAML for Thinking Tool Specifications"
+          ]
+        },
+
+        "4_plan_files_documentation": {
+          "description": "Document priority planning and execution strategies",
+          "location": "docs/specs/plans/ directory",
+          "content": [
+            "How each Priority was planned",
+            "Directive engineering approach used",
+            "Execution strategy and reasoning budget allocation",
+            "Lessons learned per priority"
+          ]
+        },
+
+        "5_cross_reference_validation": {
+          "description": "Validate all cross-references between specs, implementation, and tests",
+          "validation_checks": [
+            "Each spec references actual implementation files",
+            "Protocol definitions match actual code",
+            "Dependencies documented match actual imports",
+            "Test coverage claimed matches actual tests",
+            "Foundation docs align with modular specs"
+          ],
+          "output": "Cross-reference validation report"
+        },
+
+        "6_index_reality_update": {
+          "description": "Update INDEX to reflect actual reality (not aspirational)",
+          "changes": [
+            "Update 'Specs Completed: 27 of 27 ✅' to actual count",
+            "Mark aspirational specs as 'Planned' vs 'Implemented'",
+            "Update 'Schemas Completed: 3 of 4' to 4 of 4 after plugin-manifest",
+            "Add 'ADRs Completed: X of X' section",
+            "Add 'Plans Completed: X of X' section"
+          ]
+        }
+      },
+
+      "constraints": {
+        "document_reality": "Document what actually exists, not what was planned. If implementation differs from INDEX, document actual implementation.",
+        "no_code_changes": "This is documentation only - do not modify implementation code",
+        "evidence_based": "Every spec claim must be backed by actual code, tests, or implementation artifacts",
+        "maintain_structure": "Follow INDEX structure for consistency, but mark aspirational items clearly",
+        "quality_gates": "All existing tests must still pass after documentation (no implementation changes)"
+      }
+    },
+
+    "execution_guidance": "Ten-step process: (1) Create directory structure (2) Map components to implementation (3) Generate Layer 1 specs (CLI, MCP) (4) Generate Layer 2-4 specs (5) Generate cross-cutting specs (6) Extract ADRs (7) Document plans (8) Generate plugin-manifest schema (9) Validate cross-references (10) Update INDEX and file completion report",
+
+    "quality_requirements": {
+      "completeness": "All 27 specs generated, all ADRs extracted, all cross-references validated, INDEX updated",
+      "specificity": "Each spec references actual files with line numbers, protocols match code exactly",
+      "clarity": "Specs readable by both AI and humans, clear separation of implemented vs aspirational",
+      "traceability": "Can trace from spec → implementation → tests → ADR → plan"
+    }
+  },
+
+  "quality_gates": {
+    "specs": "27 modular specs in docs/specs/specs/",
+    "schemas": "4 of 4 schemas exist",
+    "adrs": "Granular ADRs extracted and documented",
+    "plans": "Priority planning documented",
+    "cross_references": "Validation report shows all links valid",
+    "index": "INDEX reflects actual reality",
+    "pytest": "493+ passed (no regression)",
+    "git": "All documentation committed and pushed"
+  },
+
+  "estimated_effort": "8-12 hours (comprehensive reverse-engineering)",
+  "read": false
+}
