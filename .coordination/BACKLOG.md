@@ -1,28 +1,11 @@
 # Thinking Tools Framework - Project Backlog
 
-**Last Updated**: 2025-11-19
+**Last Updated**: 2025-11-20
 **Maintained By**: Coordinator
 
 ---
 
 ## Active Priorities (In Progress)
-
-### Priority 7: CLI Layer Boundary Refactoring 📋
-**Status**: Ready to start (Priority 6 complete)
-**Estimated Effort**: 2-3 hours
-**Context**: Gap 3 from holistic analysis - CLI directly imports from all layers
-
-**Deliverables**:
-1. Refactor cli.py to use OrchestrationProtocol only
-2. Remove direct imports from processing/storage layers
-3. Fix layer boundary violations
-4. All tests still pass (486+)
-
-**Dependencies**: Priority 5 (Contracts - completed), Priority 6 (Process Memory)
-
-**Why Critical**: Enforces five-layer architecture boundaries, prevents architectural drift
-
----
 
 ### Priority 8: User Documentation 📝
 **Status**: Deferred (Low priority)
@@ -126,6 +109,21 @@ Add as **Priority 9** or later, after core functionality is complete and stable.
 - PROCESS-MEMORY-USAGE.md documentation (~4000 words)
 **Quality**: All gates passed (pytest 493/494, mypy 0 errors, ruff 0 violations, 83% coverage)
 **Key Achievement**: PM system transitioned from "built but unused" to "actively used with real data"
+
+### Priority 7: CLI Layer Boundary Refactoring ✅
+**Completed**: 2025-11-20
+**Duration**: ~45 minutes (exceptionally fast execution)
+**Deliverables**:
+- Removed SchemaValidator import from cli.py (Processing layer violation)
+- Added StorageProtocol type hints for 5 ProcessMemoryStore instances
+- Extended StorageProtocol with list_entries() method
+- Updated 4 provisioning classes to use StorageProtocol
+- Refactored validation to delegate to ToolRegistry.load_tool()
+- Updated CLI tests to reflect new architecture
+**Quality**: All gates passed (pytest 493/493, mypy 0 errors, ruff 0 violations, 82% coverage)
+**Key Achievement**: CLI now follows five-layer boundaries, no upward dependencies
+**Architectural Impact**: Gap 3 resolved - proper layer isolation enforced through protocol contracts
+**Commit**: 26a12f8
 
 ---
 
