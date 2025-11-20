@@ -1,0 +1,151 @@
+{
+  "message_id": "msg-20251120-post-roadmap-validation",
+  "type": "directive",
+  "priority": "high",
+  "timestamp": "2025-11-20T10:30:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "Post-Roadmap Validation: Repository Sync & Imperatives Compliance",
+
+  "content": {
+    "role_definition": {
+      "your_role": "Quality Assurance Engineer validating completed roadmap against PROJECT-IMPERATIVES.md",
+      "execution_mode": "Autonomous execution: Sync repository → Inspect deliverables → Validate imperatives → Report findings",
+      "reasoning_budget": [
+        "Use git commands to verify repository state",
+        "Read PROJECT-IMPERATIVES.md to understand validation criteria",
+        "Systematic inspection of all deliverables from Priorities 1-7",
+        "Map deliverables to imperatives and identify gaps"
+      ],
+      "context_strategy": [
+        "Review process memory entries for Priorities 1-7 completion summaries",
+        "Inspect actual code artifacts against claimed deliverables",
+        "Cross-reference with PROJECT-IMPERATIVES.md requirements",
+        "Use find_symbol and search tools to verify architectural claims"
+      ],
+      "autonomy": "Full autonomy on inspection methodology and reporting format"
+    },
+
+    "task_specification": {
+      "task": "Validate completed roadmap (Priorities 1-7) against PROJECT-IMPERATIVES.md and ensure repository is synchronized",
+
+      "why_critical": "Original roadmap is complete. Before proceeding to future priorities, must verify: (1) all work is committed and pushed, (2) deliverables match imperatives, (3) no architectural drift occurred, (4) quality standards maintained throughout.",
+
+      "deliverables": {
+        "1_repository_sync": {
+          "description": "Ensure local repository is clean and synchronized with remote",
+          "tasks": [
+            "Run git status - verify no uncommitted changes",
+            "Run git log origin/main..HEAD - verify no unpushed commits",
+            "If uncommitted changes exist, commit with message: 'Final cleanup after Priority 7 completion'",
+            "If unpushed commits exist, push to origin/main",
+            "Report final repository state"
+          ]
+        },
+
+        "2_deliverables_inspection": {
+          "description": "Complete inspection of all Priority 1-7 deliverables",
+          "inspection_scope": {
+            "priority_1": [
+              "Skills export functionality (SKILL.md format)",
+              "Bootstrap package (cogito bootstrap command)",
+              "MCP server baseline"
+            ],
+            "priority_2": [
+              "ProcessMemoryStore implementation",
+              "KnowledgeGraph implementation",
+              "JSONL storage format"
+            ],
+            "priority_3": [
+              "14 thinking tools in YAML format",
+              "Tool validation and schema compliance",
+              "End-to-end MCP integration"
+            ],
+            "priority_4": [
+              "Custom Jinja2 filters (format_list, indent, wrap_text)",
+              "Template rendering infrastructure",
+              "Spec loader and validator"
+            ],
+            "priority_5": [
+              "8 Protocol definitions in layer_protocols.py",
+              "README.md documenting protocol usage",
+              "Contract enforcement via type system"
+            ],
+            "priority_6": [
+              "6 process memory entries in data/process_memory.jsonl",
+              "Knowledge graph built and validated",
+              "7 integration tests for PM workflow",
+              "PROCESS-MEMORY-USAGE.md documentation"
+            ],
+            "priority_7": [
+              "CLI layer boundary violations fixed",
+              "StorageProtocol type hints added",
+              "4 provisioning classes refactored",
+              "Five-layer architecture enforced"
+            ]
+          },
+          "verification_method": "For each deliverable, verify actual existence and functional correctness"
+        },
+
+        "3_imperatives_validation": {
+          "description": "Validate all deliverables against PROJECT-IMPERATIVES.md",
+          "validation_approach": [
+            "Read PROJECT-IMPERATIVES.md in full",
+            "For each imperative, identify which Priorities addressed it",
+            "Document evidence of compliance or gaps",
+            "Assess quality standards met (100% means 100%)",
+            "Identify any architectural drift from imperatives"
+          ],
+          "imperatives_to_validate": [
+            "Imperative 1: Holistic Thinking (AI-First + System Thinking)",
+            "Imperative 2: AI-First Architecture",
+            "Imperative 3: Modularity & Clean Architecture",
+            "Imperative 4: Quality Without Compromise",
+            "Imperative 5: Five Cornerstones (Configurability, Modularity, Extensibility, Integration, Automation)"
+          ]
+        },
+
+        "4_comprehensive_report": {
+          "description": "File complete report in .coordination/outbox/",
+          "report_structure": {
+            "executive_summary": "High-level findings: repository state, imperatives compliance, quality assessment",
+            "repository_status": "Git status, commit history, sync confirmation",
+            "deliverables_audit": "Priority-by-priority verification with evidence",
+            "imperatives_compliance": "Imperative-by-imperative assessment with specific examples",
+            "gaps_identified": "Any missing deliverables, partial implementations, or non-compliance",
+            "quality_metrics": "Test coverage, type safety, code quality, architecture integrity",
+            "recommendations": "Next steps, technical debt to address, future priorities suggestions"
+          },
+          "report_file": ".coordination/outbox/msg-20251120-roadmap-validation-report.json"
+        }
+      },
+
+      "constraints": {
+        "no_code_changes": "This is inspection only - do not modify implementation code",
+        "evidence_based": "All claims must be backed by actual file verification or test execution",
+        "comprehensive": "Every Priority 1-7 deliverable must be checked, no shortcuts",
+        "quality_gates": "Run pytest, mypy, ruff to verify current state"
+      }
+    },
+
+    "execution_guidance": "Eight-step process: (1) Repository sync check (2) Commit/push if needed (3) Read PROJECT-IMPERATIVES.md (4) Systematic deliverables inspection (5) Imperatives validation (6) Quality gates execution (7) Report generation (8) Final repository verification",
+
+    "quality_requirements": {
+      "completeness": "All Priorities 1-7 deliverables inspected, all imperatives validated",
+      "specificity": "Concrete evidence for each claim (file paths, line numbers, test results)",
+      "clarity": "Report readable by both AI and human stakeholders",
+      "actionability": "Gaps and recommendations must be specific and prioritized"
+    }
+  },
+
+  "quality_gates": {
+    "repository": "Clean and synchronized with origin/main",
+    "pytest": "Current state verified (493+ passed)",
+    "mypy": "Current state verified (0 errors)",
+    "ruff": "Current state verified (0 violations)",
+    "report": "Comprehensive validation report filed in outbox"
+  },
+
+  "estimated_effort": "60-90 minutes",
+  "read": false
+}
