@@ -1,0 +1,66 @@
+{
+  "message_id": "msg-20251120-priority7-cli-refactoring",
+  "type": "directive",
+  "priority": "high",
+  "timestamp": "2025-11-20T02:40:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "Priority 7: CLI Layer Boundary Refactoring",
+
+  "content": {
+    "role_definition": {
+      "your_role": "System Architect enforcing five-layer architecture boundaries in CLI layer",
+      "execution_mode": "Autonomous execution: Analyze violations → Refactor → Validate → Report",
+      "reasoning_budget": [
+        "Use find_symbol to locate CLI imports and dependencies",
+        "Analyze OrchestrationProtocol to understand proper interface",
+        "Progressive refactoring: One layer violation at a time"
+      ],
+      "context_strategy": [
+        "Review Priority 5 completion: OrchestrationProtocol definition",
+        "Read cli.py to identify direct imports from processing/storage layers",
+        "Use process memory for architectural context (paradigm, contracts)"
+      ],
+      "autonomy": "Full autonomy on refactoring approach. Follow architecture principles from Priority 5."
+    },
+
+    "task_specification": {
+      "task": "Refactor cli.py to use OrchestrationProtocol only, removing direct imports from processing and storage layers",
+
+      "why_critical": "Gap 3 from holistic analysis: CLI directly imports from all layers, violating five-layer architecture. This creates tight coupling and prevents layer isolation. Contracts from Priority 5 enable proper layer boundaries.",
+
+      "deliverables": {
+        "1_analyze_violations": "Find all layer boundary violations in cli.py - document imports from processing/storage layers",
+        "2_refactor_cli": "Refactor cli.py to use OrchestrationProtocol only - all operations through proper interfaces",
+        "3_update_imports": "Remove direct imports from lower layers - CLI only imports contracts and orchestration",
+        "4_maintain_functionality": "Ensure all CLI commands work - 493+ tests passing",
+        "5_quality_gates": "Pass all gates: pytest 493+, mypy 0 errors, ruff 0 violations"
+      },
+
+      "constraints": {
+        "no_breaking_changes": "All 493+ existing tests must pass",
+        "architecture_compliance": "CLI must only depend on UI layer and contracts",
+        "quality_gates": "pytest 100%, mypy 0 errors, ruff 0 violations"
+      }
+    },
+
+    "execution_guidance": "Nine-step process: (1) Analyze violations (2) Understand OrchestrationProtocol (3) Refactor imports (4) Refactor direct calls (5) Run tests (6) Quality gates (7) Validate architecture (8) Commit and push (9) Write completion message",
+
+    "quality_requirements": {
+      "completeness": "All violations fixed, all operations refactored, tests passing, architecture validated",
+      "specificity": "Document violations fixed, detail changes made, explain architectural improvement",
+      "clarity": "Clear completion message, readable code, enforced boundaries"
+    }
+  },
+
+  "quality_gates": {
+    "pytest": "493+ passed",
+    "mypy": "0 errors with --strict",
+    "ruff": "0 violations",
+    "architecture": "CLI follows five-layer boundaries",
+    "git": "Committed and pushed"
+  },
+
+  "estimated_effort": "2-3 hours",
+  "read": false
+}

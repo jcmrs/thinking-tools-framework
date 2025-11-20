@@ -1,0 +1,331 @@
+{
+  "message_id": "msg-20251119-220000-priority6-process-memory",
+  "type": "directive",
+  "priority": "high",
+  "timestamp": "2025-11-19T22:00:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "Priority 6: Process Memory Activation - Populate Knowledge Graph",
+
+  "content": {
+    "role_definition": {
+      "your_role": "System Owner activating process memory system and validating Information-Memory-Graph paradigm",
+      "execution_mode": "Autonomous execution: Create entries → Build graph → Validate → Report. No user checkpoints between steps.",
+      "reasoning_budget": [
+        "Read existing PM entries to understand schema",
+        "Use find_symbol to verify KnowledgeGraph implementation",
+        "Progressive: Overview first, detailed reads only when needed"
+      ],
+      "context_strategy": [
+        "Review Priorities 1-5 completion messages for entry content",
+        "Read paradigm documentation: docs/PARADIGM-INFORMATION-MEMORY-GRAPH.md",
+        "Use existing PM entry as template: paradigm-information-memory-graph-2025-11-19"
+      ],
+      "autonomy": "Full autonomy on entry content and graph links. Follow PM schema and paradigm principles."
+    },
+
+    "task_specification": {
+      "task": "Populate process memory with entries for Priorities 1-5, build knowledge graph, and validate the Information-Memory-Graph paradigm with real data",
+
+      "why_critical": "Gap 2 from holistic analysis: Process memory exists but unused in practice. Violates Imperative 2 (AI-First) - future AI sessions lack development context. Validating user's paradigm: 'Everything is information → memory → graph'.",
+
+      "deliverables": {
+        "1_process_memory_entries": {
+          "scope": "Create PM entries for all completed priorities",
+          "entries_to_create": [
+            "priority1-foundation-completion: Skills + Bootstrap + MCP Server baseline",
+            "priority15-skills-export-completion: SKILL.md format and examples",
+            "priority19-bootstrap-package-completion: Project generation with examples",
+            "priority2-process-memory-completion: PM system implementation",
+            "priority3-thinking-tools-completion: 14 tools created and validated",
+            "priority4-core-components-completion: Custom Jinja2 filters",
+            "priority5-contracts-protocols-completion: 8 Protocol definitions"
+          ],
+          "schema": {
+            "required_fields": ["id", "timestamp", "type", "category", "title", "summary", "links", "tags"],
+            "links_critical": "Each entry must link to related entries (validates graph paradigm)",
+            "example": "See existing entry: paradigm-information-memory-graph-2025-11-19"
+          },
+          "validation": "All entries conform to schema, links create connected graph"
+        },
+
+        "2_knowledge_graph_population": {
+          "action": "Build knowledge graph from PM entries",
+          "tool": "KnowledgeGraph.build_graph() (src/cogito/storage/knowledge_graph.py)",
+          "validation": "Graph constructed with forward and reverse links",
+          "test": "Verify graph traversal works: get_related() returns connected entries"
+        },
+
+        "3_paradigm_validation": {
+          "purpose": "Validate user's paradigm with real data",
+          "paradigm": "Everything is information → memory → graph",
+          "validation_queries": [
+            "get_related('priority5-contracts-protocols-completion') → Returns priority4, paradigm discovery",
+            "get_related('paradigm-information-memory-graph-2025-11-19') → Returns priority5 (where AI discovered it)",
+            "get_related('priority3-thinking-tools-completion', depth=2) → Returns priorities 1, 2 (foundation)"
+          ],
+          "expected": "Graph traversal shows relationships between priorities, validates paradigm"
+        },
+
+        "4_workflow_integration_tests": {
+          "file": "tests/integration/test_process_memory_workflow.py (NEW)",
+          "purpose": "Validate PM + graph workflow end-to-end",
+          "test_cases": [
+            "test_append_entry_and_query: Append entry → Query by ID → Verify retrieved",
+            "test_search_by_category: Search by type='completion' → Returns all priority entries",
+            "test_search_by_tags: Search by tags=['foundation'] → Returns priorities 1, 1.5, 1.9, 2",
+            "test_graph_traversal: Build graph → get_related() → Verify connected entries",
+            "test_reverse_links: get_related(include_reverse=True) → Verify bidirectional traversal"
+          ],
+          "coverage": "Integration tests for PM + graph workflow"
+        },
+
+        "5_documentation_update": {
+          "file": "docs/PROCESS-MEMORY-USAGE.md (NEW)",
+          "purpose": "Document how to use PM system in practice",
+          "sections": [
+            "What is Process Memory? (Reference paradigm doc)",
+            "When to Create Entries (decision points, completions, learnings)",
+            "Entry Schema and Examples",
+            "Knowledge Graph Traversal",
+            "Integration with MCP Server",
+            "Best Practices"
+          ],
+          "examples": "Concrete examples from actual PM entries created"
+        }
+      },
+
+      "constraints": {
+        "no_breaking_changes": "All 486 existing tests must pass",
+        "schema_compliance": "All PM entries must conform to existing schema",
+        "quality_gates": "pytest 100%, mypy 0 errors, ruff 0 violations",
+        "paradigm_validation": "Graph traversal must demonstrate relationships",
+        "real_data": "Use actual completion messages, not placeholder content"
+      }
+    },
+
+    "execution_guidance": {
+      "step_1_understand_pm_schema": {
+        "action": "Read existing PM entry to understand schema",
+        "tool": "Bash command='tail -1 data/process_memory.jsonl | python -m json.tool'",
+        "validation": "Schema fields identified: id, timestamp, type, category, title, summary, links, tags, metadata",
+        "expected": "JSON schema with all required fields",
+        "next": "Proceed to step 2"
+      },
+
+      "step_2_read_completion_messages": {
+        "action": "Read Priority 1-5 completion messages for entry content",
+        "tools": [
+          "Read file_path='.coordination/outbox/msg-20251119-priority3-ACCEPTED.json'",
+          "Read file_path='.coordination/outbox/msg-20251119-priority4-ACCEPTED.json'",
+          "Read file_path='.coordination/outbox/msg-20251119-priority5-ACCEPTED.json'"
+        ],
+        "validation": "Completion summaries extracted for PM entries",
+        "expected": "Key details: deliverables, quality gates, architectural impact",
+        "next": "Proceed to step 3"
+      },
+
+      "step_3_create_pm_entries": {
+        "action": "Create PM entries for each priority",
+        "pattern": {
+          "id": "priority{N}-{name}-completion",
+          "timestamp": "2025-11-19T{completion_time}Z",
+          "type": "completion",
+          "category": "priority-milestone",
+          "title": "Priority {N}: {Name} - ACCEPTED",
+          "summary": "Brief summary from acceptance message",
+          "links": ["previous-priority", "related-concepts", "foundation-elements"],
+          "tags": ["priority{N}", "completion", "architecture", etc],
+          "metadata": {"quality_gates": "100%", "impact": "description"}
+        },
+        "tool": "Bash command='python -c \"import json; ...\" >> data/process_memory.jsonl'",
+        "validation": "7 entries created (priorities 1, 1.5, 1.9, 2, 3, 4, 5)",
+        "expected": "Each entry has meaningful links to related entries",
+        "next": "Proceed to step 4"
+      },
+
+      "step_4_build_knowledge_graph": {
+        "action": "Build knowledge graph from PM entries",
+        "tool": "Write Python script to test graph building",
+        "code_pattern": "from cogito.storage.knowledge_graph import KnowledgeGraph\nfrom cogito.storage.process_memory import ProcessMemoryStore\n\nstore = ProcessMemoryStore('data/process_memory.jsonl')\ngraph = KnowledgeGraph(store)\ngraph.build_graph()",
+        "validation": "Graph built successfully with forward/reverse links",
+        "expected": "No errors, graph structure populated",
+        "next": "Proceed to step 5"
+      },
+
+      "step_5_validate_paradigm_with_queries": {
+        "action": "Run graph traversal queries to validate paradigm",
+        "queries": [
+          "graph.get_related('priority5-contracts-protocols-completion')",
+          "graph.get_related('paradigm-information-memory-graph-2025-11-19')",
+          "graph.get_related('priority3-thinking-tools-completion', depth=2)"
+        ],
+        "validation": "Graph returns connected entries (validates relationships)",
+        "expected": "Each query returns related PM entries showing dependencies",
+        "next": "Proceed to step 6"
+      },
+
+      "step_6_create_integration_tests": {
+        "action": "Create integration tests for PM + graph workflow",
+        "file": "tests/integration/test_process_memory_workflow.py",
+        "pattern": {
+          "imports": "from cogito.storage import ProcessMemoryStore, KnowledgeGraph",
+          "test_structure": "def test_workflow(): append → search → build_graph → get_related",
+          "assertions": "Assert entries retrieved, graph traversal works"
+        },
+        "validation": "Integration tests cover append, search, graph traversal",
+        "expected": "pytest tests/integration/test_process_memory_workflow.py passes",
+        "next": "Proceed to step 7"
+      },
+
+      "step_7_create_usage_documentation": {
+        "action": "Create docs/PROCESS-MEMORY-USAGE.md",
+        "structure": {
+          "intro": "Reference paradigm doc (Everything is information → memory → graph)",
+          "when_to_use": "Decision points, completions, learnings, architectural changes",
+          "schema_guide": "Required fields, optional fields, best practices",
+          "examples": "Concrete examples from actual PM entries",
+          "graph_usage": "How to query graph, traverse relationships",
+          "integration": "How MCP server uses PM + graph"
+        },
+        "validation": "Documentation complete with real examples",
+        "expected": "~1000 words with code examples",
+        "next": "Proceed to step 8"
+      },
+
+      "step_8_run_quality_gates": {
+        "action": "Run full quality gate suite",
+        "checks": [
+          "pytest tests/ -v (486+ tests passing, new integration tests added)",
+          "mypy --strict src/ (0 errors)",
+          "ruff check src/ tests/ (0 violations)",
+          "pytest --cov=src/cogito/storage --cov-report=term (coverage maintained/improved)"
+        ],
+        "validation": "All quality gates pass",
+        "expected": "pytest: 486+ passed, mypy: 0 errors, ruff: 0 violations",
+        "next": "Proceed to step 9"
+      },
+
+      "step_9_git_commit_and_push": {
+        "action": "Commit all work to git",
+        "pattern": "git add data/process_memory.jsonl tests/integration/ docs/PROCESS-MEMORY-USAGE.md && git commit -m 'Implement Priority 6: Process Memory Activation' && git push",
+        "validation": "All changes committed and pushed",
+        "expected": "git status shows clean working tree, remote updated",
+        "next": "Proceed to step 10"
+      },
+
+      "step_10_write_completion_message": {
+        "action": "Create completion message in .coordination/outbox/",
+        "file": "msg-20251119-priority6-completion.json",
+        "format": {
+          "status": "COMPLETE",
+          "deliverables_completed": "List PM entries created, graph built, tests added, docs created",
+          "paradigm_validation": "Graph queries demonstrate relationships (quote results)",
+          "quality_verification": "pytest: X passed, mypy: 0 errors, ruff: 0 violations",
+          "architectural_impact": "PM system now used in practice, paradigm validated with real data",
+          "next_steps": "Priority 7: CLI refactoring can use PM for context"
+        },
+        "validation": "Completion message written with all details",
+        "expected": "Coordinator can verify deliverables from message",
+        "next": "Task complete"
+      }
+    },
+
+    "examples": {
+      "process_memory_entry_pattern": {
+        "what": "Structure for priority completion entries",
+        "example": {
+          "id": "priority5-contracts-protocols-completion",
+          "timestamp": "2025-11-19T22:30:00Z",
+          "type": "completion",
+          "category": "priority-milestone",
+          "title": "Priority 5: Python Contracts/Protocols - ACCEPTED",
+          "summary": "Defined 8 Protocol definitions for five-layer architecture. Enforces layer boundaries via type system. All quality gates passed (486 tests, mypy 0 errors, ruff 0 violations).",
+          "details": {
+            "deliverables": ["layer_protocols.py (8 protocols)", "README.md", "test_contracts.py (35 tests)"],
+            "quality_gates": "100%",
+            "ai_discovery": "Instance autonomously added KnowledgeGraphProtocol (not in directive)"
+          },
+          "links": [
+            "priority4-core-components-completion",
+            "paradigm-information-memory-graph-2025-11-19",
+            "knowledge-graph-protocol",
+            "imperative-3-modularity"
+          ],
+          "tags": ["priority5", "completion", "contracts", "protocols", "architecture", "type-safety"],
+          "metadata": {
+            "quality_gates": "100%",
+            "session_duration": "210 minutes",
+            "impact": "Layer boundaries now enforceable by type system"
+          }
+        },
+        "notes": "Links must create graph connections (validates paradigm)"
+      },
+
+      "knowledge_graph_query_pattern": {
+        "what": "How to validate paradigm with graph queries",
+        "code": "from cogito.storage.knowledge_graph import KnowledgeGraph\nfrom cogito.storage.process_memory import ProcessMemoryStore\n\nstore = ProcessMemoryStore('data/process_memory.jsonl')\ngraph = KnowledgeGraph(store)\ngraph.build_graph()\n\n# Query: What led to Priority 5?\nrelated = graph.get_related('priority5-contracts-protocols-completion')\nprint(related)  # Should show priority4, paradigm discovery, etc\n\n# Query: What references the paradigm?\nreferences = graph.get_related('paradigm-information-memory-graph-2025-11-19', include_reverse=True)\nprint(references)  # Should show priority5 (where AI discovered it)",
+        "expected_output": "Graph returns connected entries showing relationships"
+      }
+    },
+
+    "quality_requirements": {
+      "completeness": {
+        "all_priorities_documented": "7 PM entries minimum (priorities 1, 1.5, 1.9, 2, 3, 4, 5)",
+        "graph_populated": "Knowledge graph built with links between entries",
+        "paradigm_validated": "Graph queries demonstrate relationships",
+        "tests_created": "Integration tests for PM + graph workflow",
+        "documentation_complete": "PROCESS-MEMORY-USAGE.md with real examples"
+      },
+
+      "specificity": {
+        "real_content": "PM entries use actual completion data (not placeholders)",
+        "meaningful_links": "Links create semantic relationships (not random)",
+        "graph_validation": "Concrete query results showing paradigm in action",
+        "test_coverage": "Integration tests cover append, search, graph traversal"
+      },
+
+      "clarity": {
+        "entry_summaries": "Clear, concise summaries of each priority",
+        "documentation": "Usage guide explains when/how to use PM system",
+        "examples": "Concrete examples from actual PM entries",
+        "validation_results": "Graph query results included in completion message"
+      }
+    },
+
+    "success_verification": {
+      "before_completion_message": [
+        "✓ 7 PM entries created in data/process_memory.jsonl",
+        "✓ Knowledge graph built successfully",
+        "✓ Graph queries return connected entries (paradigm validated)",
+        "✓ Integration tests created and passing",
+        "✓ PROCESS-MEMORY-USAGE.md created with examples",
+        "✓ pytest shows 486+ passed (integration tests added)",
+        "✓ mypy --strict shows 0 errors",
+        "✓ ruff check shows 0 violations",
+        "✓ git status shows clean working tree (all committed and pushed)"
+      ]
+    }
+  },
+
+  "quality_gates": {
+    "pytest": "486+ passed (integration tests added, no regressions)",
+    "mypy": "0 errors with --strict",
+    "ruff": "0 violations",
+    "coverage": "Storage layer coverage maintained/improved",
+    "git": "All work committed and pushed",
+    "paradigm": "Graph queries validate Information-Memory-Graph paradigm"
+  },
+
+  "estimated_effort": "3-4 hours (PM entry creation, graph population, integration tests, documentation)",
+
+  "coordinator_notes": {
+    "criticality": "HIGH - Validates Imperative 2 (AI-First) and user's paradigm",
+    "gap_addressed": "Gap 2 from holistic analysis (PM unused in practice)",
+    "paradigm_validation": "Real data validates 'Everything is information → memory → graph'",
+    "foundation_for_future": "PM populated → Ready for Priority 7 (CLI) and AI context queries",
+    "quality_standard": "100% means 100% (same as all priorities)"
+  },
+
+  "read": false
+}

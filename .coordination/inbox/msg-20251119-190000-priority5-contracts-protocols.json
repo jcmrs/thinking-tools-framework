@@ -1,0 +1,326 @@
+{
+  "message_id": "msg-20251119-190000-priority5-contracts-protocols",
+  "type": "directive",
+  "priority": "critical",
+  "timestamp": "2025-11-19T19:00:00Z",
+  "from": "coordinator",
+  "to": "in-project-claude",
+  "subject": "Priority 5: Python Contracts/Protocols - CRITICAL Architecture Foundation",
+
+  "content": {
+    "role_definition": {
+      "your_role": "System Owner implementing critical architecture foundation autonomously",
+      "execution_mode": "Execution agent: Design → Implement → Validate → Report. Minimal reasoning commentary.",
+      "reasoning_budget": [
+        "Use find_symbol to understand existing layer interfaces (executor, registry, renderer, etc.)",
+        "Progressive: get_symbols_overview → find_symbol depth=1 → targeted reads",
+        "Reference existing: Check how layers currently expose methods (public APIs)"
+      ],
+      "context_strategy": [
+        "Architecture: Review src/cogito/ structure to understand layer responsibilities",
+        "Read holistic analysis: PM reference thinking-tools-holistic-analysis-priorities1-4.md",
+        "Python Protocols: Use typing.Protocol for interface definitions"
+      ],
+      "autonomy": "Full autonomy on interface design. Follow Python Protocol best practices and mypy --strict requirements."
+    },
+
+    "task_specification": {
+      "task": "Define Python Protocols for all five layers to enforce architectural boundaries and enable compile-time interface validation",
+
+      "why_critical": "Gap 1 from holistic analysis: Contracts directory empty, layer boundaries not enforced by type system. Violates Imperative 3.2 (Modularity). Without protocols, layer violations can't be caught by mypy --strict, making architecture drift inevitable.",
+
+      "deliverables": {
+        "1_layer_protocols": {
+          "file": "src/cogito/contracts/layer_protocols.py (NEW)",
+          "purpose": "Define formal interfaces (Protocols) for each of the five layers",
+          "protocols_to_define": [
+            "UIProtocol: Command-line interface contract",
+            "OrchestrationProtocol: Tool execution and registry contract",
+            "ProcessingProtocol: Rendering and validation contract",
+            "StorageProtocol: Process memory and knowledge graph contract",
+            "IntegrationProtocol: MCP server contract"
+          ],
+          "pattern": "Use typing.Protocol with @runtime_checkable decorator",
+          "validation": "All protocols must be usable with isinstance() checks and mypy --strict"
+        },
+
+        "2_protocol_documentation": {
+          "file": "src/cogito/contracts/README.md (NEW)",
+          "purpose": "Explain contract layer, protocol usage, and architectural boundaries",
+          "sections": [
+            "What are Protocols? (Python typing.Protocol explanation)",
+            "Five-Layer Architecture Contracts (one section per layer)",
+            "How to Use Protocols (isinstance checks, type hints)",
+            "Architectural Boundaries Enforced (what violations protocols prevent)",
+            "Examples (concrete usage in existing code)"
+          ]
+        },
+
+        "3_apply_protocols_to_existing_code": {
+          "scope": "Add Protocol type hints to existing layer implementations",
+          "files_to_update": [
+            "src/cogito/ui/cli.py: Use OrchestrationProtocol type hints (not direct imports)",
+            "src/cogito/orchestration/executor.py: Implement OrchestrationProtocol",
+            "src/cogito/orchestration/registry.py: Implement OrchestrationProtocol",
+            "src/cogito/processing/renderer.py: Implement ProcessingProtocol",
+            "src/cogito/processing/validator.py: Implement ProcessingProtocol"
+          ],
+          "approach": "Add Protocol conformance without breaking existing functionality",
+          "validation": "All existing tests (451 passed) must still pass after Protocol application"
+        },
+
+        "4_protocol_validation_tests": {
+          "file": "tests/unit/test_contracts.py (NEW)",
+          "purpose": "Verify all implementations conform to their declared protocols",
+          "test_cases": [
+            "test_executor_conforms_to_orchestration_protocol",
+            "test_registry_conforms_to_orchestration_protocol",
+            "test_renderer_conforms_to_processing_protocol",
+            "test_validator_conforms_to_processing_protocol",
+            "test_cli_uses_protocol_types (not concrete implementations)"
+          ],
+          "pattern": "Use isinstance(obj, ProtocolClass) to verify runtime conformance"
+        },
+
+        "5_mypy_strict_validation": {
+          "verification": "mypy --strict must pass with Protocol type hints",
+          "files_checked": "All files using Protocol type hints (cli.py, executor.py, etc.)",
+          "expected": "0 errors (Protocol types must be compatible with existing code)"
+        }
+      },
+
+      "constraints": {
+        "no_breaking_changes": "All 451 existing tests must pass (Protocols add type safety, not new behavior)",
+        "mypy_strict_compliance": "All Protocol definitions and usages must pass mypy --strict",
+        "runtime_checkable": "All Protocols must use @runtime_checkable for isinstance() support",
+        "layer_boundaries": "Protocols must encode architectural constraints (e.g., UI can't import Processing directly)",
+        "single_responsibility": "Each Protocol defines one layer's interface, not multiple concerns"
+      }
+    },
+
+    "execution_guidance": {
+      "step_1_understand_layer_interfaces": {
+        "action": "Read existing layer implementations to understand their public APIs",
+        "tools": [
+          "get_symbols_overview file_path='src/cogito/orchestration/executor.py'",
+          "get_symbols_overview file_path='src/cogito/orchestration/registry.py'",
+          "get_symbols_overview file_path='src/cogito/processing/renderer.py'",
+          "get_symbols_overview file_path='src/cogito/processing/validator.py'"
+        ],
+        "validation": "Can you list the public methods each layer exposes?",
+        "next": "Proceed to step 2 once you understand existing interfaces"
+      },
+
+      "step_2_design_orchestration_protocol": {
+        "action": "Create OrchestrationProtocol based on executor.py and registry.py public APIs",
+        "file": "src/cogito/contracts/layer_protocols.py",
+        "pattern": {
+          "imports": "from typing import Protocol, runtime_checkable, List, Dict, Any",
+          "decorator": "@runtime_checkable",
+          "example": "class OrchestrationProtocol(Protocol):\n    def execute_tool(self, tool_name: str, parameters: Dict[str, Any]) -> str: ...\n    def list_tools(self) -> List[str]: ..."
+        },
+        "validation": "Does protocol capture essential methods from executor.py and registry.py?",
+        "next": "Proceed to step 3"
+      },
+
+      "step_3_design_processing_protocol": {
+        "action": "Create ProcessingProtocol based on renderer.py and validator.py public APIs",
+        "pattern": "Same as step 2, but for Processing layer",
+        "methods_to_include": [
+          "render_template(template: str, parameters: Dict[str, Any]) -> str",
+          "validate_template_syntax(template: str) -> ValidationResult",
+          "validate_spec(spec: ThinkingToolSpec) -> ValidationResult"
+        ],
+        "validation": "Does protocol capture rendering and validation interfaces?",
+        "next": "Proceed to step 4"
+      },
+
+      "step_4_design_storage_protocol": {
+        "action": "Create StorageProtocol based on process_memory.py and knowledge_graph.py",
+        "pattern": "Same as previous steps",
+        "methods_to_include": [
+          "export_memory() -> str",
+          "import_memory(data: str) -> None",
+          "query_memory(query: str) -> List[Dict]",
+          "add_node(node: Dict) -> None",
+          "get_related(node_id: str) -> List[Dict]"
+        ],
+        "validation": "Does protocol capture storage interfaces?",
+        "next": "Proceed to step 5"
+      },
+
+      "step_5_design_ui_and_integration_protocols": {
+        "action": "Create UIProtocol and IntegrationProtocol",
+        "ui_protocol": "Command execution interface (execute_command, parse_args, etc.)",
+        "integration_protocol": "MCP server interface (discover, execute, etc.)",
+        "validation": "All five layers now have Protocol definitions?",
+        "next": "Proceed to step 6"
+      },
+
+      "step_6_write_readme": {
+        "action": "Create src/cogito/contracts/README.md explaining protocols",
+        "structure": {
+          "intro": "What are Python Protocols and why we use them",
+          "five_layers": "One section per layer explaining its protocol",
+          "boundaries": "What architectural violations protocols prevent",
+          "usage": "How to use protocols in type hints and isinstance checks",
+          "examples": "Concrete examples from existing code"
+        },
+        "validation": "README explains protocols clearly for future AI sessions?",
+        "next": "Proceed to step 7"
+      },
+
+      "step_7_apply_to_cli": {
+        "action": "Update cli.py to use Protocol type hints instead of concrete imports",
+        "current_problem": "cli.py imports from all layers (violates boundaries)",
+        "pattern": {
+          "before": "from cogito.orchestration import executor\ndef run(executor: executor.Executor):",
+          "after": "from cogito.contracts.layer_protocols import OrchestrationProtocol\ndef run(orchestrator: OrchestrationProtocol):"
+        },
+        "benefit": "CLI depends on interface, not implementation (loose coupling)",
+        "validation": "mypy --strict passes, all 451 tests still pass",
+        "next": "Proceed to step 8"
+      },
+
+      "step_8_create_validation_tests": {
+        "action": "Create tests/unit/test_contracts.py with protocol conformance tests",
+        "pattern": {
+          "test_example": "def test_executor_conforms():\n    from cogito.orchestration.executor import Executor\n    from cogito.contracts.layer_protocols import OrchestrationProtocol\n    assert isinstance(Executor(), OrchestrationProtocol)"
+        },
+        "test_count": "At least 5 tests (one per major component)",
+        "validation": "pytest tests/unit/test_contracts.py -v (all pass)",
+        "next": "Proceed to step 9"
+      },
+
+      "step_9_quality_gates": {
+        "action": "Run full quality gate suite",
+        "checks": [
+          "pytest tests/ -v (451+ tests passing, no failures)",
+          "mypy --strict src/ (0 errors, Protocol types valid)",
+          "ruff check src/ tests/ (0 violations)",
+          "pytest --cov=src/cogito/contracts --cov-report=term (100% coverage for contracts)"
+        ],
+        "validation": "All quality gates MUST pass",
+        "next": "If all pass, write completion message. If failures, fix and re-run."
+      },
+
+      "step_10_completion": {
+        "action": "Write completion message to .coordination/outbox/",
+        "format": {
+          "status": "COMPLETE (all quality gates passed)",
+          "deliverables_completed": "List each Protocol defined, files created/updated",
+          "quality_verification": "pytest: X passed, mypy: 0 errors, ruff: 0 violations",
+          "architectural_impact": "Layer boundaries now enforced by type system"
+        },
+        "git": "Commit all work: git add . && git commit -m 'Implement Priority 5: Python Contracts/Protocols' && git push"
+      }
+    },
+
+    "examples": {
+      "python_protocol_pattern": {
+        "what": "Modern Python Protocol with runtime checking",
+        "code_example": {
+          "imports": "from typing import Protocol, runtime_checkable, Dict, Any",
+          "definition": "@runtime_checkable\nclass ToolExecutor(Protocol):\n    def execute(self, name: str, params: Dict[str, Any]) -> str:\n        \"\"\"Execute a tool with given parameters.\"\"\"\n        ...",
+          "usage_typing": "def run_tool(executor: ToolExecutor, name: str) -> str:\n    return executor.execute(name, {})",
+          "usage_runtime": "if isinstance(obj, ToolExecutor):\n    result = obj.execute('my-tool', {})"
+        },
+        "benefits": [
+          "Type safety: mypy validates protocol conformance",
+          "Runtime checking: isinstance() works with @runtime_checkable",
+          "Loose coupling: Depend on interface, not implementation",
+          "Documentation: Protocol serves as interface contract"
+        ]
+      },
+
+      "layer_boundary_enforcement": {
+        "what": "How protocols prevent architectural violations",
+        "before_protocols": {
+          "problem": "cli.py imports executor directly: from cogito.orchestration import executor",
+          "issue": "Tight coupling, layer violation not caught by type checker"
+        },
+        "after_protocols": {
+          "solution": "cli.py uses protocol: from cogito.contracts.layer_protocols import OrchestrationProtocol",
+          "benefit": "Loose coupling, mypy enforces interface conformance, layer violations visible"
+        }
+      },
+
+      "protocol_vs_abstract_base_class": {
+        "what": "Why Protocol, not ABC?",
+        "protocol_advantage": "Structural typing (duck typing with types)",
+        "abc_disadvantage": "Nominal typing (requires explicit inheritance)",
+        "reason": "Existing code doesn't inherit from ABC, retrofitting is non-breaking with Protocol"
+      },
+
+      "reference_implementation_typing": {
+        "what": "Python typing best practices (PEP 544)",
+        "lessons": [
+          "Use Protocol for interface definitions",
+          "Use @runtime_checkable for isinstance() support",
+          "Keep protocols minimal (essential methods only)",
+          "Document protocol purpose and usage",
+          "Validate with mypy --strict"
+        ]
+      }
+    },
+
+    "quality_requirements": {
+      "completeness": {
+        "all_layers_have_protocols": "UIProtocol, OrchestrationProtocol, ProcessingProtocol, StorageProtocol, IntegrationProtocol",
+        "all_protocols_documented": "README.md explains each protocol with examples",
+        "protocols_applied_to_code": "At least cli.py updated to use Protocol type hints",
+        "validation_tests_created": "test_contracts.py with conformance tests"
+      },
+
+      "specificity": {
+        "mypy_strict_compliant": "All Protocol definitions pass mypy --strict",
+        "runtime_checkable": "All Protocols use @runtime_checkable decorator",
+        "architectural_boundaries": "Protocols encode layer constraints (what can import what)",
+        "minimal_interfaces": "Protocols define essential methods only (not implementation details)"
+      },
+
+      "clarity": {
+        "docstrings": "Every Protocol and method has docstring",
+        "readme_comprehensive": "README explains protocols for future AI sessions",
+        "examples_concrete": "README includes actual code examples from project",
+        "self_documenting": "Protocol names clearly indicate layer and purpose"
+      }
+    },
+
+    "success_verification": {
+      "before_completion_message": [
+        "✓ src/cogito/contracts/layer_protocols.py created with 5 Protocol definitions",
+        "✓ src/cogito/contracts/README.md created explaining protocols",
+        "✓ cli.py updated to use OrchestrationProtocol type hints",
+        "✓ tests/unit/test_contracts.py created with protocol conformance tests",
+        "✓ pytest tests/ shows 451+ passed (no regressions)",
+        "✓ mypy --strict src/ shows 0 errors (Protocol types valid)",
+        "✓ ruff check src/ tests/ shows 0 violations",
+        "✓ pytest --cov=src/cogito/contracts shows 100% coverage",
+        "✓ git status shows clean working tree (all work committed)",
+        "✓ git push succeeded (remote repository updated)"
+      ]
+    }
+  },
+
+  "quality_gates": {
+    "pytest": "451+ passed (no regressions, new contract tests added)",
+    "mypy": "0 errors with --strict (Protocol types valid)",
+    "ruff": "0 violations",
+    "coverage": "100% for src/cogito/contracts (new code)",
+    "git": "All work committed and pushed",
+    "architectural": "Layer boundaries documented and enforceable via protocols"
+  },
+
+  "estimated_effort": "2-3 hours (protocol design, implementation, validation, testing)",
+
+  "coordinator_notes": {
+    "criticality": "CRITICAL - Enforces Imperative 3.2 (Modularity) and prevents architectural drift",
+    "gap_addressed": "Gap 1 from holistic analysis (contracts directory empty)",
+    "architectural_impact": "Enables type system to enforce five-layer architecture boundaries",
+    "foundation_for_future": "Protocols required before Priority 7 (CLI refactoring)",
+    "quality_standard": "100% means 100% (no regressions, full test coverage)"
+  },
+
+  "read": false
+}
